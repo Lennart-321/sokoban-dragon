@@ -16,6 +16,19 @@ export function Cell({ state }: ICellProps): JSX.Element {
     case 0:
       className = "empty";
       break;
+
+    case 2:
+      className = "box";
+      break;
+    case 4:
+      className = "target";
+      break;
+    case 6:
+      className = "box-on-target";
+      break;
+    case 5:
+      className = "player-on-target";
+      break;
   }
   return (
     <>

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { GameState } from "../classes/GameState";
 import "../css/gameBoard.css";
 import { Cell } from "./Cell";
@@ -8,11 +7,10 @@ interface IGameBoardProps {
 }
 
 export function GameBoard({ gameBoard }: IGameBoardProps): JSX.Element {
-  const [drawnGameBoard, setDrawnGameBoard] = useState<GameState>(gameBoard);
   const jsxElement: JSX.Element[] = [];
-  for (let i = 0; i < drawnGameBoard.board.length; i++) {
-    for (let j = 0; j < drawnGameBoard.board[i].length; j++) {
-      jsxElement.push(<Cell state={drawnGameBoard.board[i][j]} />);
+  for (let i = 0; i < gameBoard.board.length; i++) {
+    for (let j = 0; j < gameBoard.board[i].length; j++) {
+      jsxElement.push(<Cell state={gameBoard.board[i][j]} />);
     }
   }
 
@@ -21,8 +19,8 @@ export function GameBoard({ gameBoard }: IGameBoardProps): JSX.Element {
       <div
         className="game-board"
         style={{
-          gridTemplateColumns: `repeat(${drawnGameBoard.width}, 1fr)`,
-          gridTemplateRows: `repeat(${drawnGameBoard.height}, 1fr)`,
+          gridTemplateColumns: `repeat(${gameBoard.width}, 1fr)`,
+          gridTemplateRows: `repeat(${gameBoard.height}, 1fr)`,
         }}
       >
         {jsxElement}

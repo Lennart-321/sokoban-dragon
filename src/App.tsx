@@ -13,7 +13,14 @@ function App() {
   let gameEngine = new GameEngine(level);
 
   const handleKeyDown = (key: string) => {
-    setLevel(gameEngine.movePlayer(key));
+    if (
+      key === "ArrowDown" ||
+      key === "ArrowRight" ||
+      key === "ArrowLeft" ||
+      key === "ArrowUp"
+    ) {
+      setLevel(gameEngine.movePlayer(key));
+    }
   };
 
   useEffect(() => {

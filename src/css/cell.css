@@ -9,3 +9,27 @@
   height: 100px;
   background-color: red;
 }
+
+.box {
+  width: 100px;
+  height: 100px;
+  background-color: green;
+}
+
+.target {
+  width: 100px;
+  height: 100px;
+  background-color: blue;
+}
+
+.box-on-target {
+  width: 100px;
+  height: 100px;
+  background-color: purple;
+}
+
+.player-on-target {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+}
