@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { GameState } from "./classes/GameState";
-import { Levels } from "./classes/Levels";
 import { GameBoard } from "./components/GameBoard";
 import { GameEngine } from "./classes/GameEngine";
+import { Menu } from "./components/Menu";
+
+const dummyGameState = new GameState([[1]]);
 
 function App() {
-  const [level, setLevel] = useState<GameState>(Levels.getGameState(0));
+  const [level, setLevel] = useState<GameState>(dummyGameState);
+
   let gameEngine = new GameEngine(level);
 
   const handleKeyDown = (key: string) => {
-    console.log("key down", key);
     setLevel(gameEngine.movePlayer(key));
   };
 
@@ -28,6 +30,7 @@ function App() {
 
   return (
     <>
+      <Menu setLevel={setLevel} />
       <GameBoard gameBoard={level} />
     </>
   );

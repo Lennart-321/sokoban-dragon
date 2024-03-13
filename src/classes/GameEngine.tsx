@@ -17,7 +17,7 @@ export class GameEngine {
         this.gameState.board[playerY - 1][playerX] = 1;
 
         console.log("Successful move", this.gameState.board);
-        return this.gameState;
+        return new GameState(this.gameState.board);
       }
     } else if (direction === "ArrowDown") {
       if (this.gameState.board[playerY + 1][playerX] === 0) {
@@ -25,7 +25,7 @@ export class GameEngine {
         this.gameState.board[playerY + 1][playerX] = 1;
 
         console.log("Successful move", this.gameState.board);
-        return this.gameState;
+        return new GameState(this.gameState.board);
       }
     } else if (direction === "ArrowRight") {
       if (this.gameState.board[playerY][playerX + 1] === 0) {
@@ -33,7 +33,7 @@ export class GameEngine {
         this.gameState.board[playerY][playerX + 1] = 1;
 
         console.log("Successful move", this.gameState.board);
-        return this.gameState;
+        return new GameState(this.gameState.board);
       }
     } else if (direction === "ArrowLeft") {
       if (this.gameState.board[playerY][playerX] === 0) {
@@ -41,7 +41,7 @@ export class GameEngine {
         this.gameState.board[playerY][playerX - 1] = 1;
 
         console.log("Successful move", this.gameState.board);
-        return this.gameState;
+        return new GameState(this.gameState.board);
       }
     }
     return this.gameState;
