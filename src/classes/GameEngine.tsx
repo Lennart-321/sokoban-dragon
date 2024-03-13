@@ -36,7 +36,7 @@ export class GameEngine {
       currentBoard[playerY][playerX - 1] += 1;
       currentBoard[playerY][playerX] -= 1;
       return new GameState(currentBoard);
-    } else if (moveToIndex === 2 || moveToIndex === 4) {
+    } else if (moveToIndex === 2 || moveToIndex === 6) {
       if (this.moveBox(playerY, playerX - 1, "left")) {
         currentBoard[playerY][playerX - 1] += 1;
         currentBoard[playerY][playerX] -= 1;
