@@ -1,15 +1,20 @@
+import { useState } from "react";
 import "./App.css";
 import { GameState } from "./classes/GameState";
-import { Levels } from "./classes/Levels";
 import { GameBoard } from "./components/GameBoard";
+import { Menu } from "./components/Menu";
+
+const dummyGameState = new GameState([[1]]);
 
 function App() {
-  let level = Levels.getGameState(0);
-  return (
-    <>
-      <GameBoard gameBoard={level} />
-    </>
-  );
+    const [level, setLevel] = useState<GameState>(dummyGameState);
+
+    return (
+        <>
+            <Menu setLevel={setLevel} />
+            <GameBoard gameBoard={level} />
+        </>
+    );
 }
 
 export default App;
