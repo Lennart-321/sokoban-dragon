@@ -9,6 +9,7 @@ function App() {
   const [levelNbr, setLevelNbr] = useState(0);
   const [moves, setMoves] = useState(0);
   const [pushes, setPushes] = useState(0);
+  const [running, setRunning] = useState(false);
 
   let level = Levels.getGameState(0);
  
@@ -16,6 +17,7 @@ function App() {
     setLevelNbr(levelNbr);
     setMoves(0);
     setPushes(0);
+    setRunning(true);
   }
 
   useEffect(() => {
@@ -24,8 +26,9 @@ function App() {
 
   return (
     <>
-      <Information levelNbr={levelNbr} moves={moves} pushes={pushes}/>
+      <Information levelNbr={levelNbr} moves={moves} pushes={pushes} running={running}/>
       <GameBoard gameBoard={level} />
+      lab
     </>
   );
 }

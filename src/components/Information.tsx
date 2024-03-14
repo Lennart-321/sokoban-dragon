@@ -5,11 +5,10 @@ export interface IInformationProps {
     levelNbr: number;
     moves: number;
     pushes: number;
+    running: boolean;
 }
 
-export function Information({levelNbr: levelNbr, moves, pushes}: IInformationProps):JSX.Element {
-    // console.log('level: ' + level);
-    const [running, setRunning] = useState(true);  // DUMMY - level not finished
+export function Information({levelNbr, moves, pushes, running}: IInformationProps):JSX.Element {
     const [seconds, setSeconds] = useState(0);  // Seconds elapsed
 
     useEffect(() => {
@@ -21,7 +20,6 @@ export function Information({levelNbr: levelNbr, moves, pushes}: IInformationPro
     });
 
     const printTimeElapsed = () => {
-        // console.log('sec: ' + seconds);
         let hours = Math.floor(seconds / 3600);
         let minutes = Math.floor((seconds - (hours * 3600)) / 60);
         let sec_nbr = seconds - (hours * 3600) - (minutes * 60);
@@ -34,15 +32,12 @@ export function Information({levelNbr: levelNbr, moves, pushes}: IInformationPro
     }
 
     return (
-    <>
-        {/* DUMMY button */}
-        <button onClick={() => setRunning(!running)} style={{marginBottom: "20px"}}>{running ? "Paus" : "Resume"} running</button>
-
-        <section className="info">
-            <div>Level: {levelNbr}</div>
-            <div>Time: {printTimeElapsed()}</div>   
-            <div>Moves: {moves}</div>
-            <div>Pushes: {pushes}</div>
-        </section>
-    </>)
+        <>
+            <section className="info">
+                <div>Nivå: {levelNbr}</div>
+                <div>Tid: {printTimeElapsed()}</div>   
+                <div>Steg: {moves}</div>
+                <div>Flyttar: {pushes}</div>
+            </section>
+        </>)
 }
