@@ -7,18 +7,23 @@ export class GameEngine {
   }
 
   public movePlayer(direction: string) {
+    const root = document.documentElement;
     let playerX = this.gameState.playerX;
     let playerY = this.gameState.playerY;
     let currentBoard = this.gameState.board;
 
     switch (direction) {
       case "ArrowLeft":
+        root.style.setProperty('--playerImg', 'url("src/img/spr_player_left.png")');
         return this.movePlayerLeft(playerY, playerX, currentBoard);
       case "ArrowRight":
+        root.style.setProperty('--playerImg', 'url("src/img/spr_player_right.png")');
         return this.movePlayerRight(playerY, playerX, currentBoard);
       case "ArrowUp":
+        root.style.setProperty('--playerImg', 'url("src/img/spr_player_up.png")');
         return this.movePlayerUp(playerY, playerX, currentBoard);
       case "ArrowDown":
+        root.style.setProperty('--playerImg', 'url("src/img/spr_player_down.png")');
         return this.movePlayerDown(playerY, playerX, currentBoard);
       default:
         return this.gameState;
