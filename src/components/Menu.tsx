@@ -1,18 +1,17 @@
-import { Dispatch, SetStateAction } from "react";
-import { GameState } from "../classes/GameState";
-import { Levels } from "../classes/Levels";
 import "../css/menu.css";
 
 export interface IMenuProps {
-    setLevel: Dispatch<SetStateAction<GameState>>;
+    numberOfLevels: number;
+    setLevel: (index: number) => void;
     setShowTutorial: Dispatch<SetStateAction<boolean>>;
 }
 
-export function Menu({ setLevel, setShowTutorial }: IMenuProps): JSX.Element {
+export function Menu({ setLevel, numberOfLevels, setShowTutorial }: IMenuProps): JSX.Element {
+  
     const gameButtons: JSX.Element[] = [];
-    for (let i = 0; i < Levels.levels.length; i++) {
+    for (let i = 0; i < numberOfLevels; i++) {
         gameButtons.push(
-            <button key={i} className="menu-game-button" onClick={() => handleGameSelection(i)}>
+            <button key={i} className="menu-game-button" onClick={() => setLevel(i)}>
                 Spel {i + 1}
             </button>
         );
@@ -32,8 +31,4 @@ export function Menu({ setLevel, setShowTutorial }: IMenuProps): JSX.Element {
             </button>
         </nav>
     );
-
-    function handleGameSelection(index: number): void {
-        setLevel(Levels.getGameState(index));
-    }
 }

@@ -19,6 +19,8 @@ export function GameBoard({ gameBoard }: IGameBoardProps): JSX.Element {
       <div
         className="game-board"
         style={{
+          width:`${gameBoard.width * 64}px`,
+          height: `${gameBoard.height * 64}px`,
           gridTemplateColumns: `repeat(${gameBoard.width}, 1fr)`,
           gridTemplateRows: `repeat(${gameBoard.height}, 1fr)`,
         }}
