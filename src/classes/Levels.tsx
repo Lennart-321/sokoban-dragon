@@ -3,11 +3,13 @@ import { GameState } from "./GameState";
 export class Levels {
   static levels: number[][][] = [
     [
-      [8, 8, 8, 8],
-      [8, 0, 0, 8],
-      [8, 1, 0, 8],
-      [8, 0, 0, 8],
-      [8, 8, 8, 8],
+      [8, 8, 8, 8, 8, 8],
+      [8, 4, 0, 0, 0, 8],
+      [8, 2, 0, 4, 0, 8],
+      [8, 1, 0, 6, 0, 8],
+      [8, 0, 0, 4, 0, 8],
+      [8, 0, 0, 0, 0, 8],
+      [8, 8, 8, 8, 8, 8],
     ],
   ];
   public static getGameState(index: number) {
