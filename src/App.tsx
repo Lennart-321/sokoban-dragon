@@ -5,6 +5,7 @@ import { GameBoard } from "./components/GameBoard";
 import { GameEngine } from "./classes/GameEngine";
 import { Information } from "./components/Information";
 import { Menu } from "./components/Menu";
+import { Tutorial } from "./components/Tutorial";
 import { Levels } from "./classes/Levels";
 
 const dummyGameState = new GameState([[1]]);
@@ -15,6 +16,7 @@ function App() {
   const [moves, setMoves] = useState(0);
   const [pushes, setPushes] = useState(0);
   const [running, setRunning] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
 
   function setLevelIndex(index: number) {
     setGame(Levels.getGameState(index));
@@ -58,6 +60,7 @@ function App() {
         pushes={pushes}
         running={running}
       />
+      <Tutorial showTutorial={showTutorial} setShowTutorial={setShowTutorial} />
       <GameBoard gameBoard={game} />
     </>
   );
