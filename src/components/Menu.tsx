@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import "../css/menu.css";
 
 export interface IMenuProps {
@@ -7,7 +8,6 @@ export interface IMenuProps {
 }
 
 export function Menu({ setLevel, numberOfLevels, setShowTutorial }: IMenuProps): JSX.Element {
-  
     const gameButtons: JSX.Element[] = [];
     for (let i = 0; i < numberOfLevels; i++) {
         gameButtons.push(
