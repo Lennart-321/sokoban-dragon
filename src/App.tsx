@@ -28,7 +28,6 @@ function App() {
     <>
       <Information levelNbr={levelNbr} moves={moves} pushes={pushes} running={running}/>
       <GameBoard gameBoard={level} />
-      lab
     </>
   );
 }
