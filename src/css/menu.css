@@ -1,0 +1,20 @@
+#the-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 100%;
+    background-color: #ddd;
+}
+#the-menu .menu-info {
+    display: inline;
+    font-size: larger;
+}
+
+#the-menu button {
+    height: 20px;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 0 4px #777;
+    margin-inline: 10px;
+}
