@@ -15,7 +15,6 @@ export class GameState {
       this.playerX = playerX;
       this.playerY = playerY;
     }
-    console.log(board);
   }
 
   private findPlayerPosition() {

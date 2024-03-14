@@ -3,14 +3,28 @@ import "./App.css";
 import { GameState } from "./classes/GameState";
 import { GameBoard } from "./components/GameBoard";
 import { GameEngine } from "./classes/GameEngine";
+import { Information } from "./components/Information";
 import { Menu } from "./components/Menu";
+import { Levels } from "./classes/Levels";
 
 const dummyGameState = new GameState([[1]]);
 
 function App() {
-  const [level, setLevel] = useState<GameState>(dummyGameState);
+  const [game, setGame] = useState<GameState>(dummyGameState);
+  const [levelNbr, setLevelNbr] = useState(0);
+  const [moves, setMoves] = useState(0);
+  const [pushes, setPushes] = useState(0);
+  const [running, setRunning] = useState(false);
 
-  let gameEngine = new GameEngine(level);
+  function setLevelIndex(index: number) {
+    setGame(Levels.getGameState(index));
+    setLevelNbr(index + 1);
+    setMoves(0);
+    setPushes(0);
+    setRunning(true);
+  }
+
+  let gameEngine = new GameEngine(game);
 
   const handleKeyDown = (key: string) => {
     if (
@@ -19,7 +33,7 @@ function App() {
       key === "ArrowLeft" ||
       key === "ArrowUp"
     ) {
-      setLevel(gameEngine.movePlayer(key));
+      setGame(gameEngine.movePlayer(key));
     }
   };
 
@@ -37,8 +51,14 @@ function App() {
 
   return (
     <>
-      <Menu setLevel={setLevel} />
-      <GameBoard gameBoard={level} />
+      <Menu setLevel={setLevelIndex} numberOfLevels={Levels.levels.length} />
+      <Information
+        levelNbr={levelNbr}
+        moves={moves}
+        pushes={pushes}
+        running={running}
+      />
+      <GameBoard gameBoard={game} />
     </>
   );
 }
