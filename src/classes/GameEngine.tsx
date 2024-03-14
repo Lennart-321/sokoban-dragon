@@ -116,36 +116,65 @@ export class GameEngine {
   private moveBox(boxY: number, boxX: number, direction: string) {
     if (direction === "right") {
       let moveToIndex = this.gameState.board[boxY][boxX + 1];
-      if (moveToIndex === 0 || moveToIndex === 4) {
-        this.gameState.board[boxY][boxX] -= 2;
-        this.gameState.board[boxY][boxX + 1] += 2;
-        return true;
-      }
-      return false;
+      return this.moveBoxRight(moveToIndex, boxY, boxX);
     } else if (direction === "down") {
       let moveToIndex = this.gameState.board[boxY + 1][boxX];
-      if (moveToIndex === 0 || moveToIndex === 4) {
-        this.gameState.board[boxY][boxX] -= 2;
-        this.gameState.board[boxY + 1][boxX] += 2;
-        return true;
-      }
+      return this.moveBoxDown(moveToIndex, boxY, boxX);
     } else if (direction === "up") {
       let moveToIndex = this.gameState.board[boxY - 1][boxX];
-      if (moveToIndex === 0 || moveToIndex === 4) {
-        this.gameState.board[boxY][boxX] -= 2;
-        this.gameState.board[boxY - 1][boxX] += 2;
-        return true;
-      }
+      return this.moveBoxUp(moveToIndex, boxY, boxX);
     } else if (direction === "left") {
       let moveToIndex = this.gameState.board[boxY][boxX - 1];
-      if (moveToIndex === 0 || moveToIndex === 4) {
-        this.gameState.board[boxY][boxX] -= 2;
-        this.gameState.board[boxY][boxX - 1] += 2;
-        return true;
-      } else {
-        return false;
-      }
+      return this.moveBoxLeft(moveToIndex, boxY, boxX);
     }
+  }
+
+  private moveBoxDown(
+    moveToIndex: number,
+    boxY: number,
+    boxX: number
+  ): boolean {
+    if (moveToIndex === 0 || moveToIndex === 4) {
+      this.gameState.board[boxY][boxX] -= 2;
+      this.gameState.board[boxY + 1][boxX] += 2;
+      return true;
+    }
+    return false;
+  }
+
+  private moveBoxUp(moveToIndex: number, boxY: number, boxX: number): boolean {
+    if (moveToIndex === 0 || moveToIndex === 4) {
+      this.gameState.board[boxY][boxX] -= 2;
+      this.gameState.board[boxY - 1][boxX] += 2;
+      return true;
+    }
+    return false;
+  }
+
+  private moveBoxLeft(
+    moveToIndex: number,
+    boxY: number,
+    boxX: number
+  ): boolean {
+    if (moveToIndex === 0 || moveToIndex === 4) {
+      this.gameState.board[boxY][boxX] -= 2;
+      this.gameState.board[boxY][boxX - 1] += 2;
+      return true;
+    }
+    return false;
+  }
+
+  private moveBoxRight(
+    moveToIndex: number,
+    boxY: number,
+    boxX: number
+  ): boolean {
+    if (moveToIndex === 0 || moveToIndex === 4) {
+      this.gameState.board[boxY][boxX] -= 2;
+      this.gameState.board[boxY][boxX + 1] += 2;
+      return true;
+    }
+    return false;
   }
 
   public getCurrentBoard(): GameState {
