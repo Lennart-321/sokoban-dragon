@@ -1,13 +1,13 @@
-import { Levels } from "../classes/Levels";
 import "../css/menu.css";
 
 export interface IMenuProps {
+    numberOfLevels: number;
     setLevel: (index: number) => void;
 }
 
-export function Menu({ setLevel }: IMenuProps): JSX.Element {
+export function Menu({ setLevel, numberOfLevels }: IMenuProps): JSX.Element {
     const gameButtons: JSX.Element[] = [];
-    for (let i = 0; i < Levels.levels.length; i++) {
+    for (let i = 0; i < numberOfLevels; i++) {
         gameButtons.push(
             <button className="menu-game-button" onClick={() => setLevel(i)}>
                 Spel {i + 1}

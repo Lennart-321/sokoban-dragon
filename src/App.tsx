@@ -16,7 +16,7 @@ function App() {
 
     return (
         <>
-            <Menu setLevel={setLevelIndex} />
+            <Menu setLevel={setLevelIndex} numberOfLevels={Levels.levels.length} />
             <GameBoard gameBoard={game} />
         </>
     );
