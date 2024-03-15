@@ -6,6 +6,7 @@ import { GameEngine } from "./classes/GameEngine";
 import { Information } from "./components/Information";
 import { Menu } from "./components/Menu";
 import { Levels } from "./classes/Levels";
+import Header from "./components/Header";
 
 const dummyGameState = new GameState([[1]]);
 
@@ -51,6 +52,7 @@ function App() {
 
   return (
     <>
+      <Header />
       <Menu setLevel={setLevelIndex} numberOfLevels={Levels.levels.length} />
       <Information
         levelNbr={levelNbr}
@@ -58,7 +60,9 @@ function App() {
         pushes={pushes}
         running={running}
       />
-      <GameBoard gameBoard={game} />
+      <div className="board-container">
+        <GameBoard gameBoard={game} />
+      </div>
     </>
   );
 }

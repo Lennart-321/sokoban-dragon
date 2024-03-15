@@ -38,7 +38,7 @@ export function Cell({ state }: ICellProps): JSX.Element {
       break;
     case 9:
       className = "black";
-      bgClassName = "empty";
+      bgClassName = "black";
   }
 
   return (
