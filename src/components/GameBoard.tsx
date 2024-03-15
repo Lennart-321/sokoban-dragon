@@ -4,13 +4,15 @@ import { Cell } from "./Cell";
 
 interface IGameBoardProps {
   gameBoard: GameState;
+  board: number[][];
 }
 
-export function GameBoard({ gameBoard }: IGameBoardProps): JSX.Element {
+export function GameBoard({ gameBoard, board }: IGameBoardProps): JSX.Element {
   const jsxElement: JSX.Element[] = [];
-  for (let i = 0; i < gameBoard.board.length; i++) {
-    for (let j = 0; j < gameBoard.board[i].length; j++) {
-      jsxElement.push(<Cell state={gameBoard.board[i][j]} />);
+  console.log(board);
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board[i].length; j++) {
+      jsxElement.push(<Cell state={board[i][j]} />);
     }
   }
 
