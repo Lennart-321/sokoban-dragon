@@ -29,7 +29,13 @@ function App() {
     let gameEngine = new GameEngine(game);
 
     const handleKeyDown = (key: string) => {
-        if (key === "ArrowDown" || key === "ArrowRight" || key === "ArrowLeft" || key === "ArrowUp") {
+        if (
+            key === "ArrowDown" ||
+            key === "ArrowRight" ||
+            key === "ArrowLeft" ||
+            key === "ArrowUp" ||
+            key === "Backspace"
+        ) {
             setGame(gameEngine.movePlayer(key));
         }
     };
