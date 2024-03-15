@@ -12,12 +12,11 @@ export function Information({levelNbr, moves, pushes, running}: IInformationProp
     const [seconds, setSeconds] = useState(0);  // Seconds elapsed
 
     useEffect(() => {
-        if (running) {  // Adding elapsed seconds
-            setTimeout(() => {
-                setSeconds((s) => s + 1);
-            }, 1000);
-        }
-    });
+        const interval = setInterval(() => {
+          setSeconds(seconds => seconds + 1);
+        }, 1000);
+        return () => clearInterval(interval);
+      }, []);
 
     const printTimeElapsed = () => {
         let hours = Math.floor(seconds / 3600);
