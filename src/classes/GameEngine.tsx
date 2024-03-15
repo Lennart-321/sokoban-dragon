@@ -2,6 +2,8 @@ import { GameState } from "./GameState";
 
 export class GameEngine {
   gameState: GameState;
+  boxMoves: number = 0;
+  steps: number = 0;
   constructor(gameState: GameState) {
     this.gameState = gameState;
   }
@@ -21,7 +23,7 @@ export class GameEngine {
       case "ArrowDown":
         return this.movePlayerDown(playerY, playerX, currentBoard);
       default:
-        return this.gameState;
+        return currentBoard;
     }
   }
 
@@ -35,16 +37,21 @@ export class GameEngine {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY][playerX - 1] += 1;
       currentBoard[playerY][playerX] -= 1;
-      return new GameState(currentBoard);
+      this.steps += 1;
+      console.log("board sent back from move function: \n", currentBoard);
+      return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
       if (this.moveBox(playerY, playerX - 1, "left")) {
         currentBoard[playerY][playerX - 1] += 1;
         currentBoard[playerY][playerX] -= 1;
-        return new GameState(currentBoard);
+        this.boxMoves += 1;
+        this.steps += 1;
+        console.log("board sent back from move function: \n", currentBoard);
+        return currentBoard;
       }
     }
 
-    return this.gameState;
+    return currentBoard;
   }
 
   private movePlayerRight(
@@ -57,16 +64,21 @@ export class GameEngine {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY][playerX + 1] += 1;
       currentBoard[playerY][playerX] -= 1;
-      return new GameState(currentBoard);
+      this.steps += 1;
+      console.log("board sent back from move function: \n", currentBoard);
+      return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
       if (this.moveBox(playerY, playerX + 1, "right")) {
         currentBoard[playerY][playerX + 1] += 1;
         currentBoard[playerY][playerX] -= 1;
-        return new GameState(currentBoard);
+        this.boxMoves += 1;
+        this.steps += 1;
+        console.log("board sent back from move function: \n", currentBoard);
+        return currentBoard;
       }
     }
 
-    return this.gameState;
+    return currentBoard;
   }
 
   private movePlayerUp(
@@ -79,16 +91,20 @@ export class GameEngine {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY - 1][playerX] += 1;
       currentBoard[playerY][playerX] -= 1;
-      return new GameState(currentBoard);
+      this.steps += 1;
+      console.log("board sent back from move function: \n", currentBoard);
+      return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
       if (this.moveBox(playerY - 1, playerX, "up")) {
         currentBoard[playerY - 1][playerX] += 1;
         currentBoard[playerY][playerX] -= 1;
-        return new GameState(currentBoard);
+        this.boxMoves += 1;
+        this.steps += 1;
+        console.log("board sent back from move function: \n", currentBoard);
+        return currentBoard;
       }
-
-      return this.gameState;
     }
+    return currentBoard;
   }
 
   private movePlayerDown(
@@ -101,16 +117,21 @@ export class GameEngine {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY + 1][playerX] += 1;
       currentBoard[playerY][playerX] -= 1;
-      return new GameState(currentBoard);
+      this.steps += 1;
+      console.log("board sent back from move function: \n", currentBoard);
+      return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
       if (this.moveBox(playerY + 1, playerX, "down")) {
         currentBoard[playerY + 1][playerX] += 1;
         currentBoard[playerY][playerX] -= 1;
-        return new GameState(currentBoard);
+        this.boxMoves += 1;
+        this.steps += 1;
+        console.log("board sent back from move function: \n", currentBoard);
+        return currentBoard;
       }
     }
 
-    return this.gameState;
+    return currentBoard;
   }
 
   private moveBox(boxY: number, boxX: number, direction: string) {

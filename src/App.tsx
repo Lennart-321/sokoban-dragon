@@ -11,6 +11,7 @@ const dummyGameState = new GameState([[1]]);
 
 function App() {
   const [game, setGame] = useState<GameState>(dummyGameState);
+  const [map, setMap] = useState<number[][]>(game.board);
   const [levelNbr, setLevelNbr] = useState(0);
   const [moves, setMoves] = useState(0);
   const [pushes, setPushes] = useState(0);
@@ -18,6 +19,7 @@ function App() {
 
   function setLevelIndex(index: number) {
     setGame(Levels.getGameState(index));
+    setMap(game.board);
     setLevelNbr(index + 1);
     setMoves(0);
     setPushes(0);
@@ -33,7 +35,11 @@ function App() {
       key === "ArrowLeft" ||
       key === "ArrowUp"
     ) {
-      setGame(gameEngine.movePlayer(key));
+      let newMap = gameEngine.movePlayer(key);
+      setMap(newMap);
+      setMoves(gameEngine.steps);
+      setPushes(gameEngine.boxMoves);
+      console.log("actual map: \n", newMap);
     }
   };
 
@@ -47,7 +53,7 @@ function App() {
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
-  });
+  }, [gameEngine]);
 
   return (
     <>
@@ -58,7 +64,7 @@ function App() {
         pushes={pushes}
         running={running}
       />
-      <GameBoard gameBoard={game} />
+      <GameBoard board={map} game={game} />
     </>
   );
 }
