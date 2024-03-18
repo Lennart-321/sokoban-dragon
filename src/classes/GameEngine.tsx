@@ -12,29 +12,35 @@ export class GameEngine {
     let playerY = this.gameState.playerY;
     let currentBoard = this.gameState.board;
 
+    let result = this.gameState;
     switch (direction) {
       case "ArrowLeft":
-        root.style.setProperty('--playerImg', 'url("src/img/spr_player_left.png")');
-        return this.movePlayerLeft(playerY, playerX, currentBoard);
+        root.style.setProperty("--playerImg", 'url("src/img/spr_player_left.png")');
+        result = this.movePlayerLeft(playerY, playerX, currentBoard);
+        break;
       case "ArrowRight":
-        root.style.setProperty('--playerImg', 'url("src/img/spr_player_right.png")');
-        return this.movePlayerRight(playerY, playerX, currentBoard);
+        root.style.setProperty("--playerImg", 'url("src/img/spr_player_right.png")');
+        result = this.movePlayerRight(playerY, playerX, currentBoard);
+        break;
       case "ArrowUp":
-        root.style.setProperty('--playerImg', 'url("src/img/spr_player_up.png")');
-        return this.movePlayerUp(playerY, playerX, currentBoard);
+        root.style.setProperty("--playerImg", 'url("src/img/spr_player_up.png")');
+        result = this.movePlayerUp(playerY, playerX, currentBoard);
+        break;
       case "ArrowDown":
-        root.style.setProperty('--playerImg', 'url("src/img/spr_player_down.png")');
-        return this.movePlayerDown(playerY, playerX, currentBoard);
-      default:
-        return this.gameState;
+        root.style.setProperty("--playerImg", 'url("src/img/spr_player_down.png")');
+        result = this.movePlayerDown(playerY, playerX, currentBoard);
+        break;
+      //   default:
+      //     return this.gameState;
     }
+
+    if (result !== this.gameState) {
+      result.nrMoves = this.gameState.nrMoves + 1;
+    }
+    return result;
   }
 
-  private movePlayerLeft(
-    playerY: number,
-    playerX: number,
-    currentBoard: number[][]
-  ) {
+  private movePlayerLeft(playerY: number, playerX: number, currentBoard: number[][]) {
     let moveToIndex = currentBoard[playerY][playerX - 1];
 
     if (moveToIndex === 0 || moveToIndex === 4) {
@@ -45,18 +51,14 @@ export class GameEngine {
       if (this.moveBox(playerY, playerX - 1, "left")) {
         currentBoard[playerY][playerX - 1] += 1;
         currentBoard[playerY][playerX] -= 1;
-        return new GameState(currentBoard);
+        return new GameState(currentBoard, true);
       }
     }
 
     return this.gameState;
   }
 
-  private movePlayerRight(
-    playerY: number,
-    playerX: number,
-    currentBoard: number[][]
-  ) {
+  private movePlayerRight(playerY: number, playerX: number, currentBoard: number[][]) {
     let moveToIndex = currentBoard[playerY][playerX + 1];
 
     if (moveToIndex === 0 || moveToIndex === 4) {
@@ -67,18 +69,14 @@ export class GameEngine {
       if (this.moveBox(playerY, playerX + 1, "right")) {
         currentBoard[playerY][playerX + 1] += 1;
         currentBoard[playerY][playerX] -= 1;
-        return new GameState(currentBoard);
+        return new GameState(currentBoard, true);
       }
     }
 
     return this.gameState;
   }
 
-  private movePlayerUp(
-    playerY: number,
-    playerX: number,
-    currentBoard: number[][]
-  ) {
+  private movePlayerUp(playerY: number, playerX: number, currentBoard: number[][]) {
     let moveToIndex = currentBoard[playerY - 1][playerX];
 
     if (moveToIndex === 0 || moveToIndex === 4) {
@@ -89,17 +87,13 @@ export class GameEngine {
       if (this.moveBox(playerY - 1, playerX, "up")) {
         currentBoard[playerY - 1][playerX] += 1;
         currentBoard[playerY][playerX] -= 1;
-        return new GameState(currentBoard);
+        return new GameState(currentBoard, true);
       }
     }
     return this.gameState;
   }
 
-  private movePlayerDown(
-    playerY: number,
-    playerX: number,
-    currentBoard: number[][]
-  ) {
+  private movePlayerDown(playerY: number, playerX: number, currentBoard: number[][]) {
     let moveToIndex = currentBoard[playerY + 1][playerX];
 
     if (moveToIndex === 0 || moveToIndex === 4) {
@@ -110,7 +104,7 @@ export class GameEngine {
       if (this.moveBox(playerY + 1, playerX, "down")) {
         currentBoard[playerY + 1][playerX] += 1;
         currentBoard[playerY][playerX] -= 1;
-        return new GameState(currentBoard);
+        return new GameState(currentBoard, true);
       }
     }
 
@@ -133,11 +127,7 @@ export class GameEngine {
     }
   }
 
-  private moveBoxDown(
-    moveToIndex: number,
-    boxY: number,
-    boxX: number
-  ): boolean {
+  private moveBoxDown(moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
       this.gameState.board[boxY][boxX] -= 2;
       this.gameState.board[boxY + 1][boxX] += 2;
@@ -155,11 +145,7 @@ export class GameEngine {
     return false;
   }
 
-  private moveBoxLeft(
-    moveToIndex: number,
-    boxY: number,
-    boxX: number
-  ): boolean {
+  private moveBoxLeft(moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
       this.gameState.board[boxY][boxX] -= 2;
       this.gameState.board[boxY][boxX - 1] += 2;
@@ -168,11 +154,7 @@ export class GameEngine {
     return false;
   }
 
-  private moveBoxRight(
-    moveToIndex: number,
-    boxY: number,
-    boxX: number
-  ): boolean {
+  private moveBoxRight(moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
       this.gameState.board[boxY][boxX] -= 2;
       this.gameState.board[boxY][boxX + 1] += 2;
