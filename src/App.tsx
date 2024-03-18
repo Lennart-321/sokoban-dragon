@@ -7,6 +7,7 @@ import { Information } from "./components/Information";
 import { Menu } from "./components/Menu";
 import { Tutorial } from "./components/Tutorial";
 import { Levels } from "./classes/Levels";
+import Header from "./components/Header";
 
 const dummyGameState = new GameState([[1]]);
 
@@ -34,6 +35,7 @@ function App() {
         }
     };
 
+
     useEffect(() => {
         const handleKeyPress = (e: KeyboardEvent) => {
             handleKeyDown(e.key);
@@ -48,6 +50,7 @@ function App() {
 
     return (
         <>
+            <Header />  
             <Menu setLevel={setLevelIndex} numberOfLevels={Levels.levels.length} setShowTutorial={setShowTutorial} />
             <Information levelNbr={levelNbr} moves={moves} pushes={pushes} running={running} />
             <Tutorial showTutorial={showTutorial} setShowTutorial={setShowTutorial} />

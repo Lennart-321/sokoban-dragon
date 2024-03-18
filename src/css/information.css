@@ -1,4 +1,6 @@
 .info {
+    font-family: 'RetroGame';
+    font-size: 1.5rem;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: 1fr;

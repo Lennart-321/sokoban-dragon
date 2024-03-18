@@ -21,7 +21,7 @@ export function Cell({ state }: ICellProps): JSX.Element {
       bgClassName = "target";
       break;
     case 5:
-      className = "player-target";
+      className = "player";
       bgClassName = "target";
       break;
     case 6:
@@ -38,7 +38,7 @@ export function Cell({ state }: ICellProps): JSX.Element {
       break;
     case 9:
       className = "black";
-      bgClassName = "empty";
+      bgClassName = "black";
   }
 
   return (
