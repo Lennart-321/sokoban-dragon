@@ -18,6 +18,7 @@ function App() {
   const [pushes, setPushes] = useState(0);
   const [running, setRunning] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
+  const [refreshCount, setRefreshCount] = useState(0);
 
   function setLevelIndex(index: number) {
     setGame(Levels.getGameState(index));
@@ -38,8 +39,8 @@ function App() {
       console.log(game.playerX, game.playerY);
       game.board = GameEngine.movePlayer(key, game, setMoves, setPushes);
       game.findPlayer();
-      const newArr = game.board;
-      setMap([...newArr]);
+      setMap(game.board);
+      setRefreshCount((c) => c + 1);
       console.log(game.playerX, game.playerY);
     }
   };
