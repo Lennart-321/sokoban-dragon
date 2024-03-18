@@ -22,7 +22,7 @@ function App() {
 
   function setLevelIndex(index: number) {
     setGame(Levels.getGameState(index));
-    setMap(game.board);
+    setMap(Levels.getGameState(index).board);
     setLevelNbr(index + 1);
     setMoves(0);
     setPushes(0);
