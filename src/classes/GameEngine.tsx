@@ -1,20 +1,50 @@
+import { Dispatch, SetStateAction } from "react";
 import { GameState } from "./GameState";
 
 export class GameEngine {
-  public static movePlayer(direction: string, game: GameState) {
+  public static movePlayer(
+    direction: string,
+    game: GameState,
+    setMoves: Dispatch<SetStateAction<number>>,
+    setPushes: Dispatch<SetStateAction<number>>
+  ) {
     let playerX = game.playerX;
     let playerY = game.playerY;
     let currentBoard = game.board;
 
     switch (direction) {
       case "ArrowLeft":
-        return this.movePlayerLeft(playerY, playerX, currentBoard);
+        return this.movePlayerLeft(
+          playerY,
+          playerX,
+          currentBoard,
+          setMoves,
+          setPushes
+        );
       case "ArrowRight":
-        return this.movePlayerRight(playerY, playerX, currentBoard);
+        return this.movePlayerRight(
+          playerY,
+          playerX,
+          currentBoard,
+          setMoves,
+          setPushes
+        );
       case "ArrowUp":
-        return this.movePlayerUp(playerY, playerX, currentBoard);
+        return this.movePlayerUp(
+          playerY,
+          playerX,
+          currentBoard,
+          setMoves,
+          setPushes
+        );
       case "ArrowDown":
-        return this.movePlayerDown(playerY, playerX, currentBoard);
+        return this.movePlayerDown(
+          playerY,
+          playerX,
+          currentBoard,
+          setMoves,
+          setPushes
+        );
       default:
         return currentBoard;
     }
@@ -23,18 +53,23 @@ export class GameEngine {
   private static movePlayerLeft(
     playerY: number,
     playerX: number,
-    currentBoard: number[][]
+    currentBoard: number[][],
+    setMoves: Dispatch<SetStateAction<number>>,
+    setPushes: Dispatch<SetStateAction<number>>
   ) {
     let moveToIndex = currentBoard[playerY][playerX - 1];
 
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY][playerX - 1] += 1;
       currentBoard[playerY][playerX] -= 1;
+      setMoves((val) => val + 1);
       return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
       if (this.moveBox(currentBoard, playerY, playerX - 1, "left")) {
         currentBoard[playerY][playerX - 1] += 1;
         currentBoard[playerY][playerX] -= 1;
+        setMoves((val) => val + 1);
+        setPushes((val) => val + 1);
         return currentBoard;
       }
     }
@@ -45,18 +80,23 @@ export class GameEngine {
   private static movePlayerRight(
     playerY: number,
     playerX: number,
-    currentBoard: number[][]
+    currentBoard: number[][],
+    setMoves: Dispatch<SetStateAction<number>>,
+    setPushes: Dispatch<SetStateAction<number>>
   ) {
     let moveToIndex = currentBoard[playerY][playerX + 1];
 
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY][playerX + 1] += 1;
       currentBoard[playerY][playerX] -= 1;
+      setMoves((val) => val + 1);
       return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
       if (this.moveBox(currentBoard, playerY, playerX + 1, "right")) {
         currentBoard[playerY][playerX + 1] += 1;
         currentBoard[playerY][playerX] -= 1;
+        setMoves((val) => val + 1);
+        setPushes((val) => val + 1);
         return currentBoard;
       }
     }
@@ -67,18 +107,24 @@ export class GameEngine {
   private static movePlayerUp(
     playerY: number,
     playerX: number,
-    currentBoard: number[][]
+    currentBoard: number[][],
+    setMoves: Dispatch<SetStateAction<number>>,
+    setPushes: Dispatch<SetStateAction<number>>
   ) {
     let moveToIndex = currentBoard[playerY - 1][playerX];
 
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY - 1][playerX] += 1;
       currentBoard[playerY][playerX] -= 1;
+      setMoves((val) => val + 1);
+
       return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
       if (this.moveBox(currentBoard, playerY - 1, playerX, "up")) {
         currentBoard[playerY - 1][playerX] += 1;
         currentBoard[playerY][playerX] -= 1;
+        setMoves((val) => val + 1);
+        setPushes((val) => val + 1);
         return currentBoard;
       }
     }
@@ -88,18 +134,25 @@ export class GameEngine {
   private static movePlayerDown(
     playerY: number,
     playerX: number,
-    currentBoard: number[][]
+    currentBoard: number[][],
+    setMoves: Dispatch<SetStateAction<number>>,
+    setPushes: Dispatch<SetStateAction<number>>
   ) {
     let moveToIndex = currentBoard[playerY + 1][playerX];
 
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY + 1][playerX] += 1;
       currentBoard[playerY][playerX] -= 1;
+      setMoves((val) => val + 1);
+
       return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
       if (this.moveBox(currentBoard, playerY + 1, playerX, "down")) {
         currentBoard[playerY + 1][playerX] += 1;
         currentBoard[playerY][playerX] -= 1;
+
+        setMoves((val) => val + 1);
+        setPushes((val) => val + 1);
         return currentBoard;
       }
     }

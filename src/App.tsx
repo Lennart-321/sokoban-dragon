@@ -36,7 +36,7 @@ function App() {
       key === "ArrowUp"
     ) {
       console.log(game.playerX, game.playerY);
-      game.board = GameEngine.movePlayer(key, game);
+      game.board = GameEngine.movePlayer(key, game, setMoves, setPushes);
       game.findPlayer();
       const newArr = game.board;
       setMap([...newArr]);
