@@ -10,7 +10,7 @@ export function GameBoard({ gameBoard }: IGameBoardProps): JSX.Element {
   const jsxElement: JSX.Element[] = [];
   for (let i = 0; i < gameBoard.board.length; i++) {
     for (let j = 0; j < gameBoard.board[i].length; j++) {
-      jsxElement.push(<Cell state={gameBoard.board[i][j]} />);
+      jsxElement.push(<Cell key={ i * gameBoard.width + j} state={gameBoard.board[i][j]} />);
     }
   }
 
@@ -19,7 +19,7 @@ export function GameBoard({ gameBoard }: IGameBoardProps): JSX.Element {
       <div
         className="game-board"
         style={{
-          width:`${gameBoard.width * 64}px`,
+          width: `${gameBoard.width * 64}px`,
           height: `${gameBoard.height * 64}px`,
           gridTemplateColumns: `repeat(${gameBoard.width}, 1fr)`,
           gridTemplateRows: `repeat(${gameBoard.height}, 1fr)`,

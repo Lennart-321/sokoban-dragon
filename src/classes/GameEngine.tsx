@@ -91,9 +91,8 @@ export class GameEngine {
         currentBoard[playerY][playerX] -= 1;
         return new GameState(currentBoard);
       }
-
-      return this.gameState;
     }
+    return this.gameState;
   }
 
   private movePlayerDown(
