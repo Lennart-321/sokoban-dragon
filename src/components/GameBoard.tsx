@@ -44,7 +44,7 @@ export function GameBoard({
   const jsxElement: JSX.Element[] = [];
   for (let i = 0; i < game.board.length; i++) {
     for (let j = 0; j < game.board[i].length; j++) {
-      jsxElement.push(<Cell state={game.board[i][j]} />);
+      jsxElement.push(<Cell key={ i * game.width + j} state={game.board[i][j]} />);
     }
   }
 

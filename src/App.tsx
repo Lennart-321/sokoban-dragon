@@ -6,6 +6,7 @@ import { Information } from "./components/Information";
 import { Menu } from "./components/Menu";
 import { Tutorial } from "./components/Tutorial";
 import { Levels } from "./classes/Levels";
+import Header from "./components/Header";
 
 const dummyGameState = new GameState([[1]]);
 
@@ -27,6 +28,7 @@ function App() {
 
   return (
     <>
+      <Header />  
       <Menu
         setLevel={setLevelIndex}
         numberOfLevels={Levels.levels.length}

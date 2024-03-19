@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../css/information.css'
 
 export interface IInformationProps {
@@ -8,16 +8,33 @@ export interface IInformationProps {
     running: boolean;
 }
 
-export function Information({levelNbr, moves, pushes, running}: IInformationProps):JSX.Element {
-    const [seconds, setSeconds] = useState(0);  // Seconds elapsed
+    // BUG - Information.tsx can't restart the same index again without gameover before!
+    // And it can't handle click on 'Help' button!
 
+export function Information({levelNbr, moves, pushes, running}: IInformationProps):JSX.Element {
+    const [intervalId, setIntervalId] = useState(0);  // Set interval id
+    const [seconds, setSeconds] = useState(0);  // Seconds elapsed
+    const previousLevel = useRef(levelNbr);   // Storage of runlevel to capture changes
+        
     useEffect(() => {
-        if (running) {  // Adding elapsed seconds
-            setTimeout(() => {
-                setSeconds((s) => s + 1);
-            }, 1000);
+        if (levelNbr !== previousLevel.current) {
+            setSeconds(s => s - seconds);  // Set seconds to '0' without rerendering
+            previousLevel.current = levelNbr;  // Update level storage
+            clearInterval(intervalId);
         }
-    });
+
+        if (!running) {  // No game started or game over
+            clearInterval(intervalId);
+            previousLevel.current = 0;
+            return;
+        }
+
+        const newIntervalId = setInterval(() => {
+            setSeconds(s => s + 1);
+        }, 1000);
+
+        setIntervalId(newIntervalId);
+    }, [running, levelNbr]);
 
     const printTimeElapsed = () => {
         let hours = Math.floor(seconds / 3600);
