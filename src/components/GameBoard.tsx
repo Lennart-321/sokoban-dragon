@@ -8,20 +8,13 @@ interface IGameBoardProps {
 }
 
 export function GameBoard({ gameBoard }: IGameBoardProps): JSX.Element {
-  let nrOfMoves = useRef(gameBoard.nrMoves);
   let stepAudio: any = useRef();
   let boxAudio: any = useRef();
 
-  if (nrOfMoves.current !== gameBoard.nrMoves) {
-    nrOfMoves.current = gameBoard.nrMoves;
+  useEffect(() => {
     if (gameBoard.boxJustMoved) boxAudio.current.play();
     else stepAudio.current.play();
-  }
-  // nrOfMoves.current = gameBoard.nrMoves;
-  // useEffect(() => {
-  //   if (gameBoard.boxJustMoved) boxAudio.current.play();
-  //   else stepAudio.current.play();
-  // }, [nrOfMoves.current]);
+  }, [gameBoard.nrMoves]);
 
   const jsxElement: JSX.Element[] = [];
   for (let i = 0; i < gameBoard.board.length; i++) {
