@@ -1,169 +1,196 @@
+import { Dispatch, SetStateAction } from "react";
 import { GameState } from "./GameState";
 
 export class GameEngine {
-  gameState: GameState;
-  constructor(gameState: GameState) {
-    this.gameState = gameState;
-  }
+  public static movePlayer(
+    direction: string,
+    game: GameState,
+    setMoves: Dispatch<SetStateAction<number>>,
+    setPushes: Dispatch<SetStateAction<number>>
+  ) {
+    let playerX = game.playerX;
+    let playerY = game.playerY;
+    let currentBoard = game.board;
 
-  public movePlayer(direction: string) {
-    const root = document.documentElement;
-    let playerX = this.gameState.playerX;
-    let playerY = this.gameState.playerY;
-    let currentBoard = this.gameState.board;
-
-    let result = this.gameState;
+    //let result = game;
     switch (direction) {
       case "ArrowLeft":
-        root.style.setProperty("--playerImg", 'url("src/img/spr_player_left.png")');
-        result = this.movePlayerLeft(playerY, playerX, currentBoard);
-        break;
+        return this.movePlayerLeft(playerY, playerX, currentBoard, setMoves, setPushes);
       case "ArrowRight":
-        root.style.setProperty("--playerImg", 'url("src/img/spr_player_right.png")');
-        result = this.movePlayerRight(playerY, playerX, currentBoard);
-        break;
+        return this.movePlayerRight(playerY, playerX, currentBoard, setMoves, setPushes);
       case "ArrowUp":
-        root.style.setProperty("--playerImg", 'url("src/img/spr_player_up.png")');
-        result = this.movePlayerUp(playerY, playerX, currentBoard);
-        break;
+        return this.movePlayerUp(playerY, playerX, currentBoard, setMoves, setPushes);
       case "ArrowDown":
-        root.style.setProperty("--playerImg", 'url("src/img/spr_player_down.png")');
-        result = this.movePlayerDown(playerY, playerX, currentBoard);
-        break;
-      //   default:
-      //     return this.gameState;
+        return this.movePlayerDown(playerY, playerX, currentBoard, setMoves, setPushes);
+      default:
+        return currentBoard;
     }
 
-    if (result !== this.gameState) {
-      result.nrMoves = this.gameState.nrMoves + 1;
-    }
-    return result;
+    // if (result !== game) {
+    //   result.nrMoves = game.nrMoves + 1;
+    // }
+    // return result;
   }
 
-  private movePlayerLeft(playerY: number, playerX: number, currentBoard: number[][]) {
+  private static movePlayerLeft(
+    playerY: number,
+    playerX: number,
+    currentBoard: number[][],
+    setMoves: Dispatch<SetStateAction<number>>,
+    setPushes: Dispatch<SetStateAction<number>>
+  ) {
     let moveToIndex = currentBoard[playerY][playerX - 1];
 
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY][playerX - 1] += 1;
       currentBoard[playerY][playerX] -= 1;
-      return new GameState(currentBoard);
+      setMoves(val => val + 1);
+      return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
-      if (this.moveBox(playerY, playerX - 1, "left")) {
+      if (this.moveBox(currentBoard, playerY, playerX - 1, "left")) {
         currentBoard[playerY][playerX - 1] += 1;
         currentBoard[playerY][playerX] -= 1;
-        return new GameState(currentBoard, true);
+        setMoves(val => val + 1);
+        setPushes(val => val + 1);
+        return currentBoard;
       }
     }
 
-    return this.gameState;
+    return currentBoard;
   }
 
-  private movePlayerRight(playerY: number, playerX: number, currentBoard: number[][]) {
+  private static movePlayerRight(
+    playerY: number,
+    playerX: number,
+    currentBoard: number[][],
+    setMoves: Dispatch<SetStateAction<number>>,
+    setPushes: Dispatch<SetStateAction<number>>
+  ) {
     let moveToIndex = currentBoard[playerY][playerX + 1];
 
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY][playerX + 1] += 1;
       currentBoard[playerY][playerX] -= 1;
-      return new GameState(currentBoard);
+      setMoves(val => val + 1);
+      return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
-      if (this.moveBox(playerY, playerX + 1, "right")) {
+      if (this.moveBox(currentBoard, playerY, playerX + 1, "right")) {
         currentBoard[playerY][playerX + 1] += 1;
         currentBoard[playerY][playerX] -= 1;
-        return new GameState(currentBoard, true);
+        setMoves(val => val + 1);
+        setPushes(val => val + 1);
+        return currentBoard;
       }
     }
 
-    return this.gameState;
+    return currentBoard;
   }
 
-  private movePlayerUp(playerY: number, playerX: number, currentBoard: number[][]) {
+  private static movePlayerUp(
+    playerY: number,
+    playerX: number,
+    currentBoard: number[][],
+    setMoves: Dispatch<SetStateAction<number>>,
+    setPushes: Dispatch<SetStateAction<number>>
+  ) {
     let moveToIndex = currentBoard[playerY - 1][playerX];
 
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY - 1][playerX] += 1;
       currentBoard[playerY][playerX] -= 1;
-      return new GameState(currentBoard);
+      setMoves(val => val + 1);
+
+      return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
-      if (this.moveBox(playerY - 1, playerX, "up")) {
+      if (this.moveBox(currentBoard, playerY - 1, playerX, "up")) {
         currentBoard[playerY - 1][playerX] += 1;
         currentBoard[playerY][playerX] -= 1;
-        return new GameState(currentBoard, true);
+        setMoves(val => val + 1);
+        setPushes(val => val + 1);
+        return currentBoard;
       }
     }
-    return this.gameState;
+    return currentBoard;
   }
 
-  private movePlayerDown(playerY: number, playerX: number, currentBoard: number[][]) {
+  private static movePlayerDown(
+    playerY: number,
+    playerX: number,
+    currentBoard: number[][],
+    setMoves: Dispatch<SetStateAction<number>>,
+    setPushes: Dispatch<SetStateAction<number>>
+  ) {
     let moveToIndex = currentBoard[playerY + 1][playerX];
 
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY + 1][playerX] += 1;
       currentBoard[playerY][playerX] -= 1;
-      return new GameState(currentBoard);
+      setMoves(val => val + 1);
+
+      return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
-      if (this.moveBox(playerY + 1, playerX, "down")) {
+      if (this.moveBox(currentBoard, playerY + 1, playerX, "down")) {
         currentBoard[playerY + 1][playerX] += 1;
         currentBoard[playerY][playerX] -= 1;
-        return new GameState(currentBoard, true);
+
+        setMoves(val => val + 1);
+        setPushes(val => val + 1);
+        return currentBoard;
       }
     }
 
-    return this.gameState;
+    return currentBoard;
   }
 
-  private moveBox(boxY: number, boxX: number, direction: string) {
+  private static moveBox(currentBoard: number[][], boxY: number, boxX: number, direction: string) {
     if (direction === "right") {
-      let moveToIndex = this.gameState.board[boxY][boxX + 1];
-      return this.moveBoxRight(moveToIndex, boxY, boxX);
+      let moveToIndex = currentBoard[boxY][boxX + 1];
+      return this.moveBoxRight(currentBoard, moveToIndex, boxY, boxX);
     } else if (direction === "down") {
-      let moveToIndex = this.gameState.board[boxY + 1][boxX];
-      return this.moveBoxDown(moveToIndex, boxY, boxX);
+      let moveToIndex = currentBoard[boxY + 1][boxX];
+      return this.moveBoxDown(currentBoard, moveToIndex, boxY, boxX);
     } else if (direction === "up") {
-      let moveToIndex = this.gameState.board[boxY - 1][boxX];
-      return this.moveBoxUp(moveToIndex, boxY, boxX);
+      let moveToIndex = currentBoard[boxY - 1][boxX];
+      return this.moveBoxUp(currentBoard, moveToIndex, boxY, boxX);
     } else if (direction === "left") {
-      let moveToIndex = this.gameState.board[boxY][boxX - 1];
-      return this.moveBoxLeft(moveToIndex, boxY, boxX);
+      let moveToIndex = currentBoard[boxY][boxX - 1];
+      return this.moveBoxLeft(currentBoard, moveToIndex, boxY, boxX);
     }
   }
 
-  private moveBoxDown(moveToIndex: number, boxY: number, boxX: number): boolean {
+  private static moveBoxDown(currentBoard: number[][], moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
-      this.gameState.board[boxY][boxX] -= 2;
-      this.gameState.board[boxY + 1][boxX] += 2;
+      currentBoard[boxY][boxX] -= 2;
+      currentBoard[boxY + 1][boxX] += 2;
       return true;
     }
     return false;
   }
 
-  private moveBoxUp(moveToIndex: number, boxY: number, boxX: number): boolean {
+  private static moveBoxUp(currentBoard: number[][], moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
-      this.gameState.board[boxY][boxX] -= 2;
-      this.gameState.board[boxY - 1][boxX] += 2;
+      currentBoard[boxY][boxX] -= 2;
+      currentBoard[boxY - 1][boxX] += 2;
       return true;
     }
     return false;
   }
 
-  private moveBoxLeft(moveToIndex: number, boxY: number, boxX: number): boolean {
+  private static moveBoxLeft(currentBoard: number[][], moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
-      this.gameState.board[boxY][boxX] -= 2;
-      this.gameState.board[boxY][boxX - 1] += 2;
+      currentBoard[boxY][boxX] -= 2;
+      currentBoard[boxY][boxX - 1] += 2;
       return true;
     }
     return false;
   }
 
-  private moveBoxRight(moveToIndex: number, boxY: number, boxX: number): boolean {
+  private static moveBoxRight(currentBoard: number[][], moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
-      this.gameState.board[boxY][boxX] -= 2;
-      this.gameState.board[boxY][boxX + 1] += 2;
+      currentBoard[boxY][boxX] -= 2;
+      currentBoard[boxY][boxX + 1] += 2;
       return true;
     }
     return false;
-  }
-
-  public getCurrentBoard(): GameState {
-    return this.gameState;
   }
 }

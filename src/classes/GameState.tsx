@@ -34,4 +34,8 @@ export class GameState {
       })
     );
   }
+
+  public findPlayer() {
+    this.findPlayerPosition();
+  }
 }
