@@ -28,18 +28,9 @@ function App() {
 
   return (
     <>
-      <Header />  
-      <Menu
-        setLevel={setLevelIndex}
-        numberOfLevels={Levels.levels.length}
-        setShowTutorial={setShowTutorial}
-      />
-      <Information
-        levelNbr={levelNbr}
-        moves={moves}
-        pushes={pushes}
-        running={running}
-      />
+      <Header />
+      <Menu setLevel={setLevelIndex} numberOfLevels={Levels.levels.length} setShowTutorial={setShowTutorial} />
+      <Information levelNbr={levelNbr} moves={moves} pushes={pushes} running={running} />
       <Tutorial showTutorial={showTutorial} setShowTutorial={setShowTutorial} />
       <GameBoard game={game} setMoves={setMoves} setPushes={setPushes} />
     </>

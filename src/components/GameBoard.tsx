@@ -10,21 +10,24 @@ interface IGameBoardProps {
   setPushes: Dispatch<SetStateAction<number>>;
 }
 
+let currentGame: GameState | undefined;
+
 export function GameBoard({ game, setMoves, setPushes }: IGameBoardProps): JSX.Element {
   let stepAudio: any = useRef();
   let boxAudio: any = useRef();
+  currentGame = game;
 
   const [refresh, setRefresh] = useState(0);
 
-  const handleKeyDown = (key: string) => {
-    if (key === "ArrowDown" || key === "ArrowRight" || key === "ArrowLeft" || key === "ArrowUp") {
-      game.board = GameEngine.movePlayer(key, game, setMoves, setPushes);
-      game.findPlayer();
-      setRefresh(c => c + 1);
-    }
-  };
-
   useEffect(() => {
+    const handleKeyDown = (key: string) => {
+      if (key === "ArrowDown" || key === "ArrowRight" || key === "ArrowLeft" || key === "ArrowUp") {
+        if (GameEngine.movePlayer(key, currentGame!, setMoves, setPushes)) {
+          setRefresh(c => c + 1);
+        }
+      }
+    };
+
     const handleKeyPress = (e: KeyboardEvent) => {
       handleKeyDown(e.key);
     };
@@ -34,7 +37,7 @@ export function GameBoard({ game, setMoves, setPushes }: IGameBoardProps): JSX.E
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
-  });
+  }, []);
 
   useEffect(() => {
     if (game.boxJustMoved) boxAudio.current.play();
