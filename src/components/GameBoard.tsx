@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { GameState } from "../classes/GameState";
 import "../css/gameBoard.css";
 import { Cell } from "./Cell";
@@ -6,14 +6,14 @@ import { GameEngine } from "../classes/GameEngine";
 
 interface IGameBoardProps {
   game: GameState;
-  handlePush: () => void;
-  handleMove: () => void;
+  setMoves: Dispatch<SetStateAction<number>>;
+  setPushes: Dispatch<SetStateAction<number>>;
 }
 
 export function GameBoard({
   game,
-  handleMove,
-  handlePush,
+  setMoves,
+  setPushes,
 }: IGameBoardProps): JSX.Element {
   const [refresh, setRefresh] = useState(0);
 
@@ -24,7 +24,7 @@ export function GameBoard({
       key === "ArrowLeft" ||
       key === "ArrowUp"
     ) {
-      game.board = GameEngine.movePlayer(key, game, handleMove, handlePush);
+      game.board = GameEngine.movePlayer(key, game, setMoves, setPushes);
       game.findPlayer();
       setRefresh((c) => c + 1);
     }
@@ -42,7 +42,6 @@ export function GameBoard({
     };
   });
   const jsxElement: JSX.Element[] = [];
-  console.log(game.board);
   for (let i = 0; i < game.board.length; i++) {
     for (let j = 0; j < game.board[i].length; j++) {
       jsxElement.push(<Cell state={game.board[i][j]} />);

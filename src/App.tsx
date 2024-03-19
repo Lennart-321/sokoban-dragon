@@ -25,14 +25,6 @@ function App() {
     setRunning(true);
   }
 
-  const handlePush = () => {
-    setPushes((c) => c + 1);
-  };
-
-  const handleMove = () => {
-    setMoves((c) => c + 1);
-  };
-
   return (
     <>
       <Menu
@@ -47,7 +39,7 @@ function App() {
         running={running}
       />
       <Tutorial showTutorial={showTutorial} setShowTutorial={setShowTutorial} />
-      <GameBoard game={game} handleMove={handleMove} handlePush={handlePush} />
+      <GameBoard game={game} setMoves={setMoves} setPushes={setPushes} />
     </>
   );
 }
