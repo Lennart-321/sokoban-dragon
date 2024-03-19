@@ -2,6 +2,19 @@
   --playerImg: url("src/img/spr_player_right.png");
 }
 
+.cell-outer {
+  position: relative;
+}
+.cell-inner {
+  position: absolute;
+  left: 0;
+  transition-duration: 200ms;
+}
+.cell-inner-start {
+  position: absolute;
+  left: -64px;
+}
+
 .empty {
   width: 64px;
   height: 64px;
@@ -9,43 +22,43 @@
 }
 
 .target {
-  width: 100%;
-  height: 100%;
+  width: 64px;
+  height: 64px;
   background-image: url("src/img/place.gif");
 }
 
 .player {
-  width: 100%;
-  height: 100%;
+  width: 64px;
+  height: 64px;
   background-image: var(--playerImg); /*url("src/img/spr_player.png");*/
 }
 
 .player-target {
-  width: 100%;
-  height: 100%;
+  width: 64px;
+  height: 64px;
   background-image: var(--playerImg); /*url("src/img/spr_player_target.png");*/
 }
 
 .box {
-  width: 100%;
-  height: 100%;
+  width: 64px;
+  height: 64px;
   background-image: url("src/img/spr_box.png");
 }
 
 .box-ok {
-  width: 100%;
-  height: 100%;
+  width: 64px;
+  height: 64px;
   background-image: url("src/img/spr_box_placed.png");
 }
 
 .wall {
-  width: 100%;
-  height: 100%;
+  width: 64px;
+  height: 64px;
   background-image: url("src/img/spr_wall.png");
 }
 
 .black {
-  width: 100%;
-  height: 100%;
+  width: 64px;
+  height: 64px;
   background-color: black;
 }

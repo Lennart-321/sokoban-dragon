@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import "../css/cell.css";
 
 interface ICellProps {
@@ -5,12 +6,16 @@ interface ICellProps {
 }
 
 export function Cell({ state }: ICellProps): JSX.Element {
+  const innerCellDiv: any = useRef();
+
   let bgClassName: string = "";
   let className: string = "";
+  let showAnimation = false;
   switch (state) {
     case 1:
-      className = "player";
-      bgClassName = "empty";
+      showAnimation = !!innerCellDiv.current; // true;
+      className = "player cell-inner" + (showAnimation ? "-start" : "");
+      bgClassName = "empty  cell-outer";
       break;
     case 2:
       className = "box";
@@ -18,11 +23,12 @@ export function Cell({ state }: ICellProps): JSX.Element {
       break;
     case 4:
       className = "target";
-      bgClassName = "target";
+      bgClassName = "empty";
       break;
     case 5:
-      className = "player";
-      bgClassName = "target";
+      showAnimation = !!innerCellDiv.current; // true;
+      className = "player cell-inner" + (showAnimation ? "-start" : "");
+      bgClassName = "target cell-outer";
       break;
     case 6:
       className = "box-ok";
@@ -33,18 +39,25 @@ export function Cell({ state }: ICellProps): JSX.Element {
       bgClassName = "empty";
       break;
     case 0:
-      className = "empty";
-      bgClassName = "empty";
+      className = "empty"; // emptyBkgCls;
+      bgClassName = ""; //"empty"; // emptyBkgCls;
       break;
     case 9:
       className = "black";
       bgClassName = "black";
   }
 
+  if (showAnimation) {
+    setTimeout(() => {
+      innerCellDiv.current.classList.remove("cell-inner-start");
+      innerCellDiv.current.classList.add("cell-inner");
+    }, 0);
+  }
+
   return (
     <>
       <div className={bgClassName}>
-        <div className={className}></div>
+        <div ref={innerCellDiv} className={className}></div>
       </div>
     </>
   );
