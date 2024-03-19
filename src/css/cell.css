@@ -2,17 +2,30 @@
   --playerImg: url("src/img/spr_player_right.png");
 }
 
-.cell-outer {
+.cell-animation-outer {
   position: relative;
 }
 .cell-inner {
   position: absolute;
-  left: 0;
+  right: 0;
+  bottom: 0;
   transition-duration: 200ms;
 }
-.cell-inner-start {
+.cell-inner-start-10 {
   position: absolute;
-  left: -64px;
+  right: 64px;
+}
+.cell-inner-start--10 {
+  position: absolute;
+  right: -64px;
+}
+.cell-inner-start-01 {
+  position: absolute;
+  bottom: 64px;
+}
+.cell-inner-start-0-1 {
+  position: absolute;
+  bottom: -64px;
 }
 
 .empty {

@@ -3,9 +3,10 @@ import "../css/cell.css";
 
 interface ICellProps {
   state: number;
+  step: number[];
 }
 
-export function Cell({ state }: ICellProps): JSX.Element {
+export function Cell({ state, step }: ICellProps): JSX.Element {
   const innerCellDiv: any = useRef();
 
   let bgClassName: string = "";
@@ -14,8 +15,8 @@ export function Cell({ state }: ICellProps): JSX.Element {
   switch (state) {
     case 1:
       showAnimation = !!innerCellDiv.current; // true;
-      className = "player cell-inner" + (showAnimation ? "-start" : "");
-      bgClassName = "empty  cell-outer";
+      className = "player"; //"player cell-inner" + (showAnimation ? "-start" : "");
+      bgClassName = "empty cell-animation-outer";
       break;
     case 2:
       className = "box";
@@ -27,8 +28,8 @@ export function Cell({ state }: ICellProps): JSX.Element {
       break;
     case 5:
       showAnimation = !!innerCellDiv.current; // true;
-      className = "player cell-inner" + (showAnimation ? "-start" : "");
-      bgClassName = "target cell-outer";
+      className = "player"; //"player cell-inner" + (showAnimation ? "-start" : "");
+      bgClassName = "target cell-animation-outer";
       break;
     case 6:
       className = "box-ok";
@@ -47,11 +48,21 @@ export function Cell({ state }: ICellProps): JSX.Element {
       bgClassName = "black";
   }
 
+  let style = {};
   if (showAnimation) {
+    let innerClass = "cell-inner-start-" + step[0] + step[1];
+    className += " " + innerClass;
+    bgClassName += " cell-animation-outer";
+    console.log("Last step ", step, " Class: ", className);
+
+    //style = { position: "absolute", right: step[0] * 64 + "px", bottom: step[1] * 64 + "px" };
+
     setTimeout(() => {
-      innerCellDiv.current.classList.remove("cell-inner-start");
+      // innerCellDiv.current.style = { position: "absolute", right: 0, bottom: 0, transitionDuration: "200ms" };
+      innerCellDiv.current.classList.remove(innerClass);
       innerCellDiv.current.classList.add("cell-inner");
     }, 0);
+    console.log(style);
   }
 
   return (

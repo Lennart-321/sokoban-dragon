@@ -47,9 +47,13 @@ export function GameBoard({ game, setMoves, setPushes }: IGameBoardProps): JSX.E
   const jsxElement: JSX.Element[] = [];
   for (let i = 0; i < game.board.length; i++) {
     for (let j = 0; j < game.board[i].length; j++) {
-      jsxElement.push(<Cell key={i * game.width + j} state={game.board[i][j]} />);
+      jsxElement.push(<Cell key={i * game.width + j} state={game.board[i][j]} step={game.lastStep} />);
     }
   }
+
+  const playerImage =
+    game.lastStep[0] !== 0 ? (game.lastStep[0] > 0 ? "right" : "left") : game.lastStep[1] > 0 ? "down" : "up";
+  document.documentElement.style.setProperty("--playerImg", `url("src/img/spr_player_${playerImage}.png")`);
 
   return (
     <>

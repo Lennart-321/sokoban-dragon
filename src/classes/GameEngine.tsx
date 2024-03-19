@@ -38,6 +38,7 @@ export class GameEngine {
       game.playerY += step[1];
       game.nrMoves++;
       game.boxJustMoved = boxMoved;
+      game.lastStep = step;
       setMoves(val => val + 1);
       if (boxMoved) setPushes(val => val + 1);
     }
