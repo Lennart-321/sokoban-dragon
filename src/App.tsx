@@ -8,6 +8,7 @@ import { Menu } from "./components/Menu";
 import { Tutorial } from "./components/Tutorial";
 import { Levels } from "./classes/Levels";
 import Header from "./components/Header";
+import StartScreen from "./components/StartScreen";
 
 const dummyGameState = new GameState([[1]]);
 
@@ -55,6 +56,7 @@ function App() {
             <Information levelNbr={levelNbr} moves={moves} pushes={pushes} running={running} />
             <Tutorial showTutorial={showTutorial} setShowTutorial={setShowTutorial} />
             <GameBoard gameBoard={game} />
+            <StartScreen />
         </>
     );
 }
