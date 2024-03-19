@@ -22,7 +22,8 @@ export function GameBoard({
       key === "ArrowDown" ||
       key === "ArrowRight" ||
       key === "ArrowLeft" ||
-      key === "ArrowUp"
+      key === "ArrowUp" ||
+      key === "Backspace"
     ) {
       game.board = GameEngine.movePlayer(key, game, setMoves, setPushes);
       game.findPlayer();
