@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState, useRef } from "react";
 import { GameState } from "../classes/GameState";
 import "../css/gameBoard.css";
 import { Cell } from "./Cell";
@@ -12,6 +12,8 @@ interface IGameBoardProps {
 
 export function GameBoard({ game, setMoves, setPushes }: IGameBoardProps): JSX.Element {
   const [refresh, setRefresh] = useState(0);
+  const stepAudio: any = useRef();
+  const boxAudio: any = useRef();
 
   const handleKeyDown = (key: string) => {
     if (
@@ -38,6 +40,12 @@ export function GameBoard({ game, setMoves, setPushes }: IGameBoardProps): JSX.E
       document.removeEventListener("keydown", handleKeyPress);
     };
   });
+
+  useEffect(() => {
+    if (game.boxJustMoved) boxAudio.current.play();
+    else stepAudio.current.play();
+  }, [game.nrOfMoves()]);
+
   const jsxElement: JSX.Element[] = [];
   for (let i = 0; i < game.board.length; i++) {
     for (let j = 0; j < game.board[i].length; j++) {
@@ -52,6 +60,8 @@ export function GameBoard({ game, setMoves, setPushes }: IGameBoardProps): JSX.E
 
   return (
     <>
+      <audio ref={stepAudio} src={"./src/assets/step.wav"}></audio>
+      <audio ref={boxAudio} src={"./src/assets/pushbox.wav"}></audio>
       <div
         className="game-board"
         style={{

@@ -13,27 +13,27 @@ export class GameEngine {
     let currentBoard = game.board;
     const nextPlayerPos = { x: playerX, y: playerY };
     let modifiedBoard: number[][] = [[]];
-    let boxMoved: boolean = false;
+    game.boxJustMoved = false;
 
     switch (direction) {
       case "ArrowLeft":
         nextPlayerPos.x--;
-        boxMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
+        game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
         modifiedBoard = this.movePlayerLeft(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "ArrowRight":
         nextPlayerPos.x++;
-        boxMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
+        game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
         modifiedBoard = this.movePlayerRight(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "ArrowUp":
         nextPlayerPos.y--;
-        boxMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
+        game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
         modifiedBoard = this.movePlayerUp(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "ArrowDown":
         nextPlayerPos.y++;
-        boxMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
+        game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
         modifiedBoard = this.movePlayerDown(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "Backspace":
@@ -54,7 +54,7 @@ export class GameEngine {
       let newPlayerX: number = playerPos[1];
       let newPlayerY: number = playerPos[0];
       //let boxMoved = (this.gameState.board[newState.playerY][newState.playerX] & 2) != 0;
-      if (boxMoved) {
+      if (game.boxJustMoved) {
         newBoxPosition.x = playerX !== newPlayerX ? (playerX < newPlayerX ? newPlayerX + 1 : newPlayerX - 1) : playerX;
         newBoxPosition.y = playerY !== newPlayerY ? (playerY < newPlayerY ? newPlayerY + 1 : newPlayerY - 1) : playerY;
       }
