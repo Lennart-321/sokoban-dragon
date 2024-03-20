@@ -3,6 +3,7 @@ export class GameState {
   height: number;
   playerX: number;
   playerY: number;
+  boxJustMoved: boolean;
   board: number[][]; //0=empty, 1=player, 2=box, 4=target, 5=man+target, 6=box+target, 8=wall
   backTrace: number[][];
   constructor(board: number[][], playerX?: number, playerY?: number) {
@@ -16,6 +17,7 @@ export class GameState {
       this.playerX = playerX;
       this.playerY = playerY;
     }
+    this.boxJustMoved = false;
     this.backTrace = [];
   }
 
@@ -35,5 +37,8 @@ export class GameState {
 
   public findPlayer() {
     this.findPlayerPosition();
+  }
+  public nrOfMoves() {
+    return this.backTrace.length;
   }
 }

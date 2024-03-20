@@ -13,52 +13,28 @@ export class GameEngine {
     let currentBoard = game.board;
     const nextPlayerPos = { x: playerX, y: playerY };
     let modifiedBoard: number[][] = [[]];
-    let boxMoved: boolean = false;
+    game.boxJustMoved = false;
 
     switch (direction) {
       case "ArrowLeft":
         nextPlayerPos.x--;
-        boxMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
-        modifiedBoard = this.movePlayerLeft(
-          playerY,
-          playerX,
-          currentBoard,
-          setMoves,
-          setPushes
-        );
+        game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
+        modifiedBoard = this.movePlayerLeft(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "ArrowRight":
         nextPlayerPos.x++;
-        boxMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
-        modifiedBoard = this.movePlayerRight(
-          playerY,
-          playerX,
-          currentBoard,
-          setMoves,
-          setPushes
-        );
+        game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
+        modifiedBoard = this.movePlayerRight(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "ArrowUp":
         nextPlayerPos.y--;
-        boxMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
-        modifiedBoard = this.movePlayerUp(
-          playerY,
-          playerX,
-          currentBoard,
-          setMoves,
-          setPushes
-        );
+        game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
+        modifiedBoard = this.movePlayerUp(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "ArrowDown":
         nextPlayerPos.y++;
-        boxMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
-        modifiedBoard = this.movePlayerDown(
-          playerY,
-          playerX,
-          currentBoard,
-          setMoves,
-          setPushes
-        );
+        game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
+        modifiedBoard = this.movePlayerDown(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "Backspace":
         if (game.backTrace.length === 0) return currentBoard;
@@ -78,28 +54,11 @@ export class GameEngine {
       let newPlayerX: number = playerPos[1];
       let newPlayerY: number = playerPos[0];
       //let boxMoved = (this.gameState.board[newState.playerY][newState.playerX] & 2) != 0;
-      if (boxMoved) {
-        newBoxPosition.x =
-          playerX !== newPlayerX
-            ? playerX < newPlayerX
-              ? newPlayerX + 1
-              : newPlayerX - 1
-            : playerX;
-        newBoxPosition.y =
-          playerY !== newPlayerY
-            ? playerY < newPlayerY
-              ? newPlayerY + 1
-              : newPlayerY - 1
-            : playerY;
+      if (game.boxJustMoved) {
+        newBoxPosition.x = playerX !== newPlayerX ? (playerX < newPlayerX ? newPlayerX + 1 : newPlayerX - 1) : playerX;
+        newBoxPosition.y = playerY !== newPlayerY ? (playerY < newPlayerY ? newPlayerY + 1 : newPlayerY - 1) : playerY;
       }
-      game.backTrace.push([
-        playerX,
-        playerY,
-        newPlayerX,
-        newPlayerY,
-        newBoxPosition.x,
-        newBoxPosition.y,
-      ]);
+      game.backTrace.push([playerX, playerY, newPlayerX, newPlayerY, newBoxPosition.x, newBoxPosition.y]);
     }
 
     return currentBoard;
@@ -107,11 +66,7 @@ export class GameEngine {
 
   private static isBoxOnPos(board: number[][], pos: { x: number; y: number }) {
     return (
-      0 <= pos.x &&
-      pos.x < board[0].length &&
-      0 <= pos.y &&
-      pos.y < board.length &&
-      (board[pos.y][pos.x] & 2) != 0
+      0 <= pos.x && pos.x < board[0].length && 0 <= pos.y && pos.y < board.length && (board[pos.y][pos.x] & 2) != 0
     );
   }
 
@@ -127,14 +82,14 @@ export class GameEngine {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY][playerX - 1] += 1;
       currentBoard[playerY][playerX] -= 1;
-      setMoves((val) => val + 1);
+      setMoves(val => val + 1);
       return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
       if (this.moveBox(currentBoard, playerY, playerX - 1, "left")) {
         currentBoard[playerY][playerX - 1] += 1;
         currentBoard[playerY][playerX] -= 1;
-        setMoves((val) => val + 1);
-        setPushes((val) => val + 1);
+        setMoves(val => val + 1);
+        setPushes(val => val + 1);
         return currentBoard;
       }
     }
@@ -154,14 +109,14 @@ export class GameEngine {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY][playerX + 1] += 1;
       currentBoard[playerY][playerX] -= 1;
-      setMoves((val) => val + 1);
+      setMoves(val => val + 1);
       return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
       if (this.moveBox(currentBoard, playerY, playerX + 1, "right")) {
         currentBoard[playerY][playerX + 1] += 1;
         currentBoard[playerY][playerX] -= 1;
-        setMoves((val) => val + 1);
-        setPushes((val) => val + 1);
+        setMoves(val => val + 1);
+        setPushes(val => val + 1);
         return currentBoard;
       }
     }
@@ -181,15 +136,15 @@ export class GameEngine {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY - 1][playerX] += 1;
       currentBoard[playerY][playerX] -= 1;
-      setMoves((val) => val + 1);
+      setMoves(val => val + 1);
 
       return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
       if (this.moveBox(currentBoard, playerY - 1, playerX, "up")) {
         currentBoard[playerY - 1][playerX] += 1;
         currentBoard[playerY][playerX] -= 1;
-        setMoves((val) => val + 1);
-        setPushes((val) => val + 1);
+        setMoves(val => val + 1);
+        setPushes(val => val + 1);
         return currentBoard;
       }
     }
@@ -208,7 +163,7 @@ export class GameEngine {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY + 1][playerX] += 1;
       currentBoard[playerY][playerX] -= 1;
-      setMoves((val) => val + 1);
+      setMoves(val => val + 1);
 
       return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
@@ -216,8 +171,8 @@ export class GameEngine {
         currentBoard[playerY + 1][playerX] += 1;
         currentBoard[playerY][playerX] -= 1;
 
-        setMoves((val) => val + 1);
-        setPushes((val) => val + 1);
+        setMoves(val => val + 1);
+        setPushes(val => val + 1);
         return currentBoard;
       }
     }
@@ -225,12 +180,7 @@ export class GameEngine {
     return currentBoard;
   }
 
-  private static moveBox(
-    currentBoard: number[][],
-    boxY: number,
-    boxX: number,
-    direction: string
-  ) {
+  private static moveBox(currentBoard: number[][], boxY: number, boxX: number, direction: string) {
     if (direction === "right") {
       let moveToIndex = currentBoard[boxY][boxX + 1];
       return this.moveBoxRight(currentBoard, moveToIndex, boxY, boxX);
@@ -246,12 +196,7 @@ export class GameEngine {
     }
   }
 
-  private static moveBoxDown(
-    currentBoard: number[][],
-    moveToIndex: number,
-    boxY: number,
-    boxX: number
-  ): boolean {
+  private static moveBoxDown(currentBoard: number[][], moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[boxY][boxX] -= 2;
       currentBoard[boxY + 1][boxX] += 2;
@@ -260,12 +205,7 @@ export class GameEngine {
     return false;
   }
 
-  private static moveBoxUp(
-    currentBoard: number[][],
-    moveToIndex: number,
-    boxY: number,
-    boxX: number
-  ): boolean {
+  private static moveBoxUp(currentBoard: number[][], moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[boxY][boxX] -= 2;
       currentBoard[boxY - 1][boxX] += 2;
@@ -274,12 +214,7 @@ export class GameEngine {
     return false;
   }
 
-  private static moveBoxLeft(
-    currentBoard: number[][],
-    moveToIndex: number,
-    boxY: number,
-    boxX: number
-  ): boolean {
+  private static moveBoxLeft(currentBoard: number[][], moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[boxY][boxX] -= 2;
       currentBoard[boxY][boxX - 1] += 2;
@@ -288,12 +223,7 @@ export class GameEngine {
     return false;
   }
 
-  private static moveBoxRight(
-    currentBoard: number[][],
-    moveToIndex: number,
-    boxY: number,
-    boxX: number
-  ): boolean {
+  private static moveBoxRight(currentBoard: number[][], moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[boxY][boxX] -= 2;
       currentBoard[boxY][boxX + 1] += 2;
@@ -313,10 +243,7 @@ export class GameEngine {
     return [];
   }
 
-  private static compareMatrix(
-    matrix1: number[][],
-    matrix2: number[][]
-  ): boolean {
+  private static compareMatrix(matrix1: number[][], matrix2: number[][]): boolean {
     if (matrix1.length !== matrix2.length) return false;
     for (let i = 0; i < matrix1.length; i++) {
       for (let j = 0; j < matrix1[i].length; j++) {
