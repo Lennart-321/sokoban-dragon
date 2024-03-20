@@ -42,7 +42,7 @@ export function GameBoard({ game, setMoves, setPushes }: IGameBoardProps): JSX.E
   });
 
   useEffect(() => {
-    if (game.boxJustMoved()) boxAudio.current.play();
+    if (game.boxJustMoved) boxAudio.current.play();
     else stepAudio.current.play();
   }, [game.nrOfMoves()]);
 
