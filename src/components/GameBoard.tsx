@@ -10,11 +10,7 @@ interface IGameBoardProps {
   setPushes: Dispatch<SetStateAction<number>>;
 }
 
-export function GameBoard({
-  game,
-  setMoves,
-  setPushes,
-}: IGameBoardProps): JSX.Element {
+export function GameBoard({ game, setMoves, setPushes }: IGameBoardProps): JSX.Element {
   const [refresh, setRefresh] = useState(0);
 
   const handleKeyDown = (key: string) => {
@@ -27,7 +23,7 @@ export function GameBoard({
     ) {
       game.board = GameEngine.movePlayer(key, game, setMoves, setPushes);
       game.findPlayer();
-      setRefresh((c) => c + 1);
+      setRefresh(c => c + 1);
     }
   };
 
@@ -45,9 +41,14 @@ export function GameBoard({
   const jsxElement: JSX.Element[] = [];
   for (let i = 0; i < game.board.length; i++) {
     for (let j = 0; j < game.board[i].length; j++) {
-      jsxElement.push(<Cell key={ i * game.width + j} state={game.board[i][j]} />);
+      jsxElement.push(<Cell key={i * game.width + j} state={game.board[i][j]} />);
     }
   }
+
+  document.documentElement.style.setProperty(
+    "--playerImg",
+    `url("src/img/spr_player_${GameEngine.lastDirection(game)}.png")`
+  );
 
   return (
     <>
