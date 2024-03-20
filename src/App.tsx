@@ -41,14 +41,16 @@ function App() {
         running={running}
       />
       <Tutorial showTutorial={showTutorial} setShowTutorial={setShowTutorial} />
-      <GameBoard
-        game={game}
-        running={running}
-        setMoves={setMoves}
-        setPushes={setPushes}
-        setRunning={setRunning}
-      />
-      <GameOver running={running} levelNbr={levelNbr} />
+      <section className="playground">
+        <GameBoard
+          game={game}
+          running={running}
+          setMoves={setMoves}
+          setPushes={setPushes}
+          setRunning={setRunning}
+        />
+        <GameOver running={running} levelNbr={levelNbr} />
+      </section>
     </>
   );
 }

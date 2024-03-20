@@ -1,15 +1,17 @@
 .bg-game-over {
+    position: absolute;
+    top: 0;
+    bottom: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
     width: 100%;
-    margin-top: 200px;
 }
 
 .game-over-msg {
-    color: #363636;
+    font-family: 'RetroGame';
+    color: yellow;
     font-size: 70px;
-    font-weight: bold;
-
+    /* font-weight: bold; */
+    text-shadow: 5px 5px 10px black;
 }

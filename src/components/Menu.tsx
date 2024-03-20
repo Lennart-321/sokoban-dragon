@@ -19,16 +19,18 @@ export function Menu({ setLevel, numberOfLevels, setShowTutorial }: IMenuProps):
 
     return (
         <nav id="the-menu">
-            <p className="menu-info">Välkommen att spela SOKOBAN! </p>
-            {gameButtons}
-            <button
-                className="menu-game-button"
-                onClick={() => {
-                    setShowTutorial(true);
-                }}
-            >
-                Hjälp
-            </button>
+            <div className="menu-info">Välkommen att spela SOKOBAN! </div>
+            <div className="btn-row">
+                {gameButtons}
+                <button
+                    className="menu-game-button btn-help"
+                    onClick={() => {
+                        setShowTutorial(true);
+                    }}
+                >
+                    Hjälp
+                </button>
+            </div>
         </nav>
     );
 }
