@@ -7,6 +7,7 @@ import { Menu } from "./components/Menu";
 import { Tutorial } from "./components/Tutorial";
 import { Levels } from "./classes/Levels";
 import Header from "./components/Header";
+import { GameOver } from "./components/GameOver";
 
 const dummyGameState = new GameState([[1]]);
 
@@ -33,6 +34,7 @@ function App() {
       <Information levelNbr={levelNbr} moves={moves} pushes={pushes} running={running} />
       <Tutorial showTutorial={showTutorial} setShowTutorial={setShowTutorial} />
       <GameBoard game={game} setMoves={setMoves} setPushes={setPushes} />
+      <GameOver running={running} levelNbr={levelNbr} />
     </>
   );
 }
