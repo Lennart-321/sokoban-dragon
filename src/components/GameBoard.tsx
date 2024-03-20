@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState, useRef } from "react";
 import { GameState } from "../classes/GameState";
 import "../css/gameBoard.css";
 import { Cell } from "./Cell";
@@ -19,7 +19,10 @@ export function GameBoard({
   setPushes,
   setRunning
 }: IGameBoardProps): JSX.Element {
+
   const [refresh, setRefresh] = useState(0);
+  const stepAudio: any = useRef();
+  const boxAudio: any = useRef();
 
   const handleKeyDown = (key: string) => {
     if (running && (
@@ -32,7 +35,7 @@ export function GameBoard({
     ) {
       game.board = GameEngine.movePlayer(key, game, setMoves, setPushes, setRunning);
       game.findPlayer();
-      setRefresh((c) => c + 1);
+      setRefresh(c => c + 1);
     }
   };
 
@@ -47,15 +50,28 @@ export function GameBoard({
       document.removeEventListener("keydown", handleKeyPress);
     };
   });
+
+  useEffect(() => {
+    if (game.boxJustMoved) boxAudio.current.play();
+    else stepAudio.current.play();
+  }, [game.nrOfMoves()]);
+
   const jsxElement: JSX.Element[] = [];
   for (let i = 0; i < game.board.length; i++) {
     for (let j = 0; j < game.board[i].length; j++) {
-      jsxElement.push(<Cell key={ i * game.width + j} state={game.board[i][j]} />);
+      jsxElement.push(<Cell key={i * game.width + j} state={game.board[i][j]} />);
     }
   }
 
+  document.documentElement.style.setProperty(
+    "--playerImg",
+    `url("src/img/spr_player_${GameEngine.lastDirection(game)}.png")`
+  );
+
   return (
     <>
+      <audio ref={stepAudio} src={"./src/assets/step.wav"}></audio>
+      <audio ref={boxAudio} src={"./src/assets/pushbox.wav"}></audio>
       <div
         className="game-board"
         style={{
