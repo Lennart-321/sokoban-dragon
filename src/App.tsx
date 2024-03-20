@@ -7,11 +7,14 @@ import { Menu } from "./components/Menu";
 import { Tutorial } from "./components/Tutorial";
 import { Levels } from "./classes/Levels";
 import Header from "./components/Header";
+import StartScreen from "./components/StartScreen";
 import { GameOver } from "./components/GameOver";
+
 
 const dummyGameState = new GameState([[1]]);
 
 function App() {
+
   const [game, setGame] = useState<GameState>(dummyGameState);
   const [levelNbr, setLevelNbr] = useState(0);
   const [moves, setMoves] = useState(0);
@@ -35,6 +38,7 @@ function App() {
       <Tutorial showTutorial={showTutorial} setShowTutorial={setShowTutorial} />
       <GameBoard game={game} running={running} setMoves={setMoves} setPushes={setPushes} setRunning={setRunning} />
       <GameOver running={running} levelNbr={levelNbr} />
+      <StartScreen />
     </>
   );
 }
