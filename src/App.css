@@ -1,8 +1,13 @@
 #root {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     max-width: 1280px;
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
+    
 }
 
 .board-container {
