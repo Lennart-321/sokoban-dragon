@@ -53,6 +53,11 @@ export function GameBoard({ game, setMoves, setPushes }: IGameBoardProps): JSX.E
     }
   }
 
+  document.documentElement.style.setProperty(
+    "--playerImg",
+    `url("src/img/spr_player_${GameEngine.lastDirection(game)}.png")`
+  );
+
   return (
     <>
       <audio ref={stepAudio} src={"./src/assets/step.wav"}></audio>

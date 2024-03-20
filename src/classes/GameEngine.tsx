@@ -253,4 +253,13 @@ export class GameEngine {
 
     return true;
   }
+
+  public static lastDirection(game: GameState): "left" | "right" | "up" | "down" {
+    let dir: "left" | "right" | "up" | "down" = "right"; //default;
+    if (game?.backTrace.length) {
+      const s = game.backTrace[game.backTrace.length - 1];
+      dir = s[0] !== s[2] ? (s[0] > s[2] ? "left" : "right") : s[1] > s[3] ? "up" : "down";
+    }
+    return dir;
+  }
 }
