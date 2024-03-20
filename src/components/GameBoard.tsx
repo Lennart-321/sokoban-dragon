@@ -6,26 +6,31 @@ import { GameEngine } from "../classes/GameEngine";
 
 interface IGameBoardProps {
   game: GameState;
+  running: boolean;
   setMoves: Dispatch<SetStateAction<number>>;
   setPushes: Dispatch<SetStateAction<number>>;
+  setRunning: Dispatch<SetStateAction<boolean>>;
 }
 
 export function GameBoard({
   game,
+  running,
   setMoves,
   setPushes,
+  setRunning
 }: IGameBoardProps): JSX.Element {
   const [refresh, setRefresh] = useState(0);
 
   const handleKeyDown = (key: string) => {
-    if (
-      key === "ArrowDown" ||
-      key === "ArrowRight" ||
-      key === "ArrowLeft" ||
-      key === "ArrowUp" ||
-      key === "Backspace"
+    if (running && (
+        key === "ArrowDown" ||
+        key === "ArrowRight" ||
+        key === "ArrowLeft" ||
+        key === "ArrowUp" ||
+        key === "Backspace"
+      )
     ) {
-      game.board = GameEngine.movePlayer(key, game, setMoves, setPushes);
+      game.board = GameEngine.movePlayer(key, game, setMoves, setPushes, setRunning);
       game.findPlayer();
       setRefresh((c) => c + 1);
     }

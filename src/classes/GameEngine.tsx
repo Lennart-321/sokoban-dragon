@@ -6,7 +6,8 @@ export class GameEngine {
     direction: string,
     game: GameState,
     setMoves: Dispatch<SetStateAction<number>>,
-    setPushes: Dispatch<SetStateAction<number>>
+    setPushes: Dispatch<SetStateAction<number>>,
+    setRunning: Dispatch<SetStateAction<boolean>>
   ) {
     let playerX = game.playerX;
     let playerY = game.playerY;
@@ -72,6 +73,7 @@ export class GameEngine {
         }
         return currentBoard;
     }
+
     if (this.compareMatrix(modifiedBoard, game.board)) {
       let newBoxPosition = { x: -1, y: -1 };
       let playerPos: number[] = this.findPlayer(modifiedBoard);
@@ -102,7 +104,30 @@ export class GameEngine {
       ]);
     }
 
+    this.gameOver(currentBoard, setRunning);  // Check for game over
+
     return currentBoard;
+  }
+
+  private static gameOver(board: number[][], setRunning: Dispatch<SetStateAction<boolean>>) {
+    // console.log('> game: ', board);
+
+    let targetFound = false;
+
+    for (let y = 0; y < board.length; y++) {
+      for (let x = 0; x < board[y].length; x++) {
+        // 4=target, 5=man+target
+        if (board[y][x] === 4 || board[y][x] === 5) {
+          // console.log('Found empty target:' + board[y][x]);
+          targetFound = true;
+          break;
+        }        
+      }
+    }
+
+    if (!targetFound) {
+      setRunning(false);
+    }
   }
 
   private static isBoxOnPos(board: number[][], pos: { x: number; y: number }) {

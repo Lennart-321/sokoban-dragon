@@ -13,7 +13,7 @@ export function GameOver({running, levelNbr}: IGameOverProps) {
         <>
             <section className="bg-game-over">
                 <div className='game-over-msg'>
-                    Du löste nivån!
+                    Du löste nivå {levelNbr}!
                 </div>
             </section>
         </>
