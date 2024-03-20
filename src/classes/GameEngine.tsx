@@ -61,7 +61,6 @@ export class GameEngine {
         );
         break;
       case "Backspace":
-        console.log("back", game.backTrace.length);
         if (game.backTrace.length === 0) return currentBoard;
         let preStateInfo: number[] = game.backTrace.pop()!;
         currentBoard[preStateInfo[1]][preStateInfo[0]] += 1;
@@ -73,13 +72,9 @@ export class GameEngine {
         }
         return currentBoard;
     }
-    console.log(this.compareMatrix(modifiedBoard, game.board));
-    console.log("modified board:", modifiedBoard);
-    console.log("game board:", game.board);
     if (this.compareMatrix(modifiedBoard, game.board)) {
       let newBoxPosition = { x: -1, y: -1 };
       let playerPos: number[] = this.findPlayer(modifiedBoard);
-      console.log(playerPos);
       let newPlayerX: number = playerPos[1];
       let newPlayerY: number = playerPos[0];
       //let boxMoved = (this.gameState.board[newState.playerY][newState.playerX] & 2) != 0;
@@ -97,14 +92,6 @@ export class GameEngine {
               : newPlayerY - 1
             : playerY;
       }
-      console.log(
-        boxMoved,
-        newBoxPosition.x,
-        newBoxPosition.y,
-        newPlayerX,
-        newPlayerY,
-        game.board[newPlayerY][newPlayerX]
-      );
       game.backTrace.push([
         playerX,
         playerY,
