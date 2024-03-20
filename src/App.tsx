@@ -10,12 +10,8 @@ import Header from "./components/Header";
 import StartScreen from "./components/StartScreen";
 import { GameOver } from "./components/GameOver";
 
-
-const dummyGameState = new GameState([[1]]);
-
 function App() {
-
-  const [game, setGame] = useState<GameState>(dummyGameState);
+  const [game, setGame] = useState<GameState | null>(null);
   const [levelNbr, setLevelNbr] = useState(0);
   const [moves, setMoves] = useState(0);
   const [pushes, setPushes] = useState(0);
@@ -33,12 +29,26 @@ function App() {
   return (
     <>
       <Header />
-      <Menu setLevel={setLevelIndex} numberOfLevels={Levels.levels.length} setShowTutorial={setShowTutorial} />
-      <Information levelNbr={levelNbr} moves={moves} pushes={pushes} running={running} />
+      <Menu
+        setLevel={setLevelIndex}
+        numberOfLevels={Levels.levels.length}
+        setShowTutorial={setShowTutorial}
+      />
+      <Information
+        levelNbr={levelNbr}
+        moves={moves}
+        pushes={pushes}
+        running={running}
+      />
       <Tutorial showTutorial={showTutorial} setShowTutorial={setShowTutorial} />
-      <GameBoard game={game} running={running} setMoves={setMoves} setPushes={setPushes} setRunning={setRunning} />
+      <GameBoard
+        game={game}
+        running={running}
+        setMoves={setMoves}
+        setPushes={setPushes}
+        setRunning={setRunning}
+      />
       <GameOver running={running} levelNbr={levelNbr} />
-      <StartScreen />
     </>
   );
 }
