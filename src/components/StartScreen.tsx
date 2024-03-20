@@ -10,9 +10,9 @@ function StartScreen(){
                     </div>
                     <div className="strip">
                         <img src="./src/img/spr_box.png" alt="" />
-                        <img src="./src/img/spr_arrow.png" alt="" />
+                        <img className='arrow' src="./src/img/spr_arrow.png" alt="" />
                         <img src="./src/img/spr_spot.png" alt="" />
-                        <img src="./src/img/spr_equals.png" alt="" />
+                        <img className='equals' src="./src/img/spr_equals.png" alt="" />
                         <img src="./src/img/spr_box_placed.png" alt="" />
 
                     </div>
@@ -24,7 +24,7 @@ function StartScreen(){
                     <div className="strip">
                         <img src="./src/img/spr_player_right.png" alt="" />
                         <img src="./src/img/spr_box.png" alt="" />
-                        <img src="./src/img/spr_arrow.png" alt="" />
+                        <img className='arrow' src="./src/img/spr_arrow.png" alt="" />
 
                     </div>
                 </div>
@@ -33,7 +33,7 @@ function StartScreen(){
                         Flytta lagerarbetaren med piltangenterna.
                     </div>
                     <div className="strip">
-                        <img src="./src/img/spr_arrow_keys.png" alt="" />
+                        <img className='arrow' src="./src/img/spr_arrow_keys.png" alt="" />
                         <img src="./src/img/spr_player_up.png" alt="" />
                         <img src="./src/img/spr_player_right.png" alt="" />
                         <img src="./src/img/spr_player_down.png" alt="" />
