@@ -110,22 +110,19 @@ export class GameEngine {
   }
 
   private static gameOver(board: number[][], setRunning: Dispatch<SetStateAction<boolean>>) {
-    // console.log('> game: ', board);
 
-    let targetFound = false;
+    let emptyTarget = false;
 
     for (let y = 0; y < board.length; y++) {
       for (let x = 0; x < board[y].length; x++) {
-        // 4=target, 5=man+target
-        if (board[y][x] === 4 || board[y][x] === 5) {
-          // console.log('Found empty target:' + board[y][x]);
-          targetFound = true;
+        if (board[y][x] === 4 || board[y][x] === 5) {  // 4=target, 5=man+target
+          emptyTarget = true;
           break;
         }        
       }
     }
 
-    if (!targetFound) {
+    if (!emptyTarget) {  // No empty target => game over
       setRunning(false);
     }
   }
