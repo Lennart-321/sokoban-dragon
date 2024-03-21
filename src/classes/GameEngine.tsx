@@ -46,42 +46,46 @@ export class GameEngine {
           //Resore box
           currentBoard[preStateInfo[3]][preStateInfo[2]] += 2;
           currentBoard[preStateInfo[5]][preStateInfo[4]] -= 2;
+          game.boxJustMoved = true;
         }
+        game.playerX = preStateInfo[0];
+        game.playerY = preStateInfo[1];
         return currentBoard;
     }
 
-    if (this.compareMatrix(modifiedBoard, game.board)) {
+    let [newPlayerY, newPlayerX] = this.findPlayer(modifiedBoard);
+    if (newPlayerX !== playerX || newPlayerY !== playerY) {
       let newBoxPosition = { x: -1, y: -1 };
-      let playerPos: number[] = this.findPlayer(modifiedBoard);
-      let newPlayerX: number = playerPos[1];
-      let newPlayerY: number = playerPos[0];
-      //let boxMoved = (this.gameState.board[newState.playerY][newState.playerX] & 2) != 0;
       if (game.boxJustMoved) {
         newBoxPosition.x = playerX !== newPlayerX ? (playerX < newPlayerX ? newPlayerX + 1 : newPlayerX - 1) : playerX;
         newBoxPosition.y = playerY !== newPlayerY ? (playerY < newPlayerY ? newPlayerY + 1 : newPlayerY - 1) : playerY;
       }
       game.backTrace.push([playerX, playerY, newPlayerX, newPlayerY, newBoxPosition.x, newBoxPosition.y]);
-    }
 
-    this.gameOver(currentBoard, setRunning);  // Check for game over
+      game.playerX = newPlayerX;
+      game.playerY = newPlayerY;
+
+      this.gameOver(currentBoard, setRunning); // Check for game over
+    }
 
     return currentBoard;
   }
 
   private static gameOver(board: number[][], setRunning: Dispatch<SetStateAction<boolean>>) {
-
     let emptyTarget = false;
 
     for (let y = 0; y < board.length; y++) {
       for (let x = 0; x < board[y].length; x++) {
-        if (board[y][x] === 4 || board[y][x] === 5) {  // 4=target, 5=man+target
+        if (board[y][x] === 4 || board[y][x] === 5) {
+          // 4=target, 5=man+target
           emptyTarget = true;
           break;
-        }        
+        }
       }
     }
 
-    if (!emptyTarget) {  // No empty target => game over
+    if (!emptyTarget) {
+      // No empty target => game over
       setRunning(false);
     }
   }
