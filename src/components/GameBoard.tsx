@@ -13,69 +13,55 @@ interface IGameBoardProps {
   setRunning: Dispatch<SetStateAction<boolean>>;
 }
 
-export function GameBoard({
-  game,
-  running,
-  setMoves,
-  setPushes,
-  setRunning,
-}: IGameBoardProps): JSX.Element {
-  if (game !== null) {
-    const [refresh, setRefresh] = useState(0);
-    const stepAudio: any = useRef();
-    const boxAudio: any = useRef();
+export function GameBoard({ game, running, setMoves, setPushes, setRunning }: IGameBoardProps): JSX.Element {
+  const [refresh, setRefresh] = useState(0);
+  const boxAudio: any = useRef();
+  const stepAudio: any = useRef();
 
-    const handleKeyDown = (key: string) => {
-      if (
-        running &&
-        (key === "ArrowDown" ||
-          key === "ArrowRight" ||
-          key === "ArrowLeft" ||
-          key === "ArrowUp" ||
-          key === "Backspace")
-      ) {
-        game.board = GameEngine.movePlayer(
-          key,
-          game,
-          setMoves,
-          setPushes,
-          setRunning
-        );
+  const handleKeyDown = (key: string) => {
+    if (
+      running &&
+      (key === "ArrowDown" || key === "ArrowRight" || key === "ArrowLeft" || key === "ArrowUp" || key === "Backspace")
+    ) {
+      if (game) {
+        game.board = GameEngine.movePlayer(key, game, setMoves, setPushes, setRunning);
         game.findPlayer();
-        setRefresh((c) => c + 1);
-      }
-    };
-
-    useEffect(() => {
-      const handleKeyPress = (e: KeyboardEvent) => {
-        handleKeyDown(e.key);
-      };
-
-      document.addEventListener("keydown", handleKeyPress);
-
-      return () => {
-        document.removeEventListener("keydown", handleKeyPress);
-      };
-    });
-
-    useEffect(() => {
-      if (game.boxJustMoved) boxAudio.current.play();
-      else stepAudio.current.play();
-    }, [game.nrOfMoves()]);
-
-    const jsxElement: JSX.Element[] = [];
-    for (let i = 0; i < game.board.length; i++) {
-      for (let j = 0; j < game.board[i].length; j++) {
-        jsxElement.push(
-          <Cell key={i * game.width + j} state={game.board[i][j]} />
-        );
+        setRefresh(c => c + 1);
       }
     }
+  };
 
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      handleKeyDown(e.key);
+    };
+
+    document.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  });
+
+  useEffect(() => {
+    if (game?.nrOfMoves()) {
+      if (game.boxJustMoved) boxAudio.current.play();
+      else stepAudio.current.play();
+    }
+  }, [game ? game.nrOfMoves() : 0]);
+
+  if (game !== null) {
     document.documentElement.style.setProperty(
       "--playerImg",
       `url("src/img/spr_player_${GameEngine.lastDirection(game)}.png")`
     );
+
+    const jsxElement: JSX.Element[] = [];
+    for (let i = 0; i < game.board.length; i++) {
+      for (let j = 0; j < game.board[i].length; j++) {
+        jsxElement.push(<Cell key={i * game.width + j} state={game.board[i][j]} />);
+      }
+    }
 
     return (
       <>
