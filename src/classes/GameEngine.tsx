@@ -46,7 +46,11 @@ export class GameEngine {
           //Resore box
           currentBoard[preStateInfo[3]][preStateInfo[2]] += 2;
           currentBoard[preStateInfo[5]][preStateInfo[4]] -= 2;
+          if (currentBoard[preStateInfo[5]][preStateInfo[4]] >= 16) {
+            currentBoard[preStateInfo[5]][preStateInfo[4]] -= 16;
+          }
           game.boxJustMoved = true;
+          this.boxTrapCalc(game, { x: preStateInfo[2], y: preStateInfo[3] });
         }
         game.playerX = preStateInfo[0];
         game.playerY = preStateInfo[1];
@@ -59,6 +63,7 @@ export class GameEngine {
       if (game.boxJustMoved) {
         newBoxPosition.x = playerX !== newPlayerX ? (playerX < newPlayerX ? newPlayerX + 1 : newPlayerX - 1) : playerX;
         newBoxPosition.y = playerY !== newPlayerY ? (playerY < newPlayerY ? newPlayerY + 1 : newPlayerY - 1) : playerY;
+        this.boxTrapCalc(game, newBoxPosition);
       }
       game.backTrace.push([playerX, playerY, newPlayerX, newPlayerY, newBoxPosition.x, newBoxPosition.y]);
 
@@ -110,7 +115,7 @@ export class GameEngine {
       currentBoard[playerY][playerX] -= 1;
       setMoves(val => val + 1);
       return currentBoard;
-    } else if (moveToIndex === 2 || moveToIndex === 6) {
+    } else if (moveToIndex === 2 || moveToIndex === 6 || moveToIndex === 18) {
       if (this.moveBox(currentBoard, playerY, playerX - 1, "left")) {
         currentBoard[playerY][playerX - 1] += 1;
         currentBoard[playerY][playerX] -= 1;
@@ -137,7 +142,7 @@ export class GameEngine {
       currentBoard[playerY][playerX] -= 1;
       setMoves(val => val + 1);
       return currentBoard;
-    } else if (moveToIndex === 2 || moveToIndex === 6) {
+    } else if (moveToIndex === 2 || moveToIndex === 6 || moveToIndex === 18) {
       if (this.moveBox(currentBoard, playerY, playerX + 1, "right")) {
         currentBoard[playerY][playerX + 1] += 1;
         currentBoard[playerY][playerX] -= 1;
@@ -165,7 +170,7 @@ export class GameEngine {
       setMoves(val => val + 1);
 
       return currentBoard;
-    } else if (moveToIndex === 2 || moveToIndex === 6) {
+    } else if (moveToIndex === 2 || moveToIndex === 6 || moveToIndex === 18) {
       if (this.moveBox(currentBoard, playerY - 1, playerX, "up")) {
         currentBoard[playerY - 1][playerX] += 1;
         currentBoard[playerY][playerX] -= 1;
@@ -192,7 +197,7 @@ export class GameEngine {
       setMoves(val => val + 1);
 
       return currentBoard;
-    } else if (moveToIndex === 2 || moveToIndex === 6) {
+    } else if (moveToIndex === 2 || moveToIndex === 6 || moveToIndex === 18) {
       if (this.moveBox(currentBoard, playerY + 1, playerX, "down")) {
         currentBoard[playerY + 1][playerX] += 1;
         currentBoard[playerY][playerX] -= 1;
@@ -224,7 +229,7 @@ export class GameEngine {
 
   private static moveBoxDown(currentBoard: number[][], moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
-      currentBoard[boxY][boxX] -= 2;
+      currentBoard[boxY][boxX] &= ~0x12;
       currentBoard[boxY + 1][boxX] += 2;
       return true;
     }
@@ -233,7 +238,7 @@ export class GameEngine {
 
   private static moveBoxUp(currentBoard: number[][], moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
-      currentBoard[boxY][boxX] -= 2;
+      currentBoard[boxY][boxX] &= ~18;
       currentBoard[boxY - 1][boxX] += 2;
       return true;
     }
@@ -242,7 +247,7 @@ export class GameEngine {
 
   private static moveBoxLeft(currentBoard: number[][], moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
-      currentBoard[boxY][boxX] -= 2;
+      currentBoard[boxY][boxX] &= ~18;
       currentBoard[boxY][boxX - 1] += 2;
       return true;
     }
@@ -251,7 +256,7 @@ export class GameEngine {
 
   private static moveBoxRight(currentBoard: number[][], moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
-      currentBoard[boxY][boxX] -= 2;
+      currentBoard[boxY][boxX] &= ~18;
       currentBoard[boxY][boxX + 1] += 2;
       return true;
     }
@@ -279,6 +284,12 @@ export class GameEngine {
 
     return true;
   }
+  private static boxTrapCalc(game: GameState, newBoxPos: { x: number; y: number }) {
+    if (game.isTrapSquare[newBoxPos.y][newBoxPos.x]) {
+      game.board[newBoxPos.y][newBoxPos.x] += 16;
+    }
+  }
+  private static isEverMovableTo(game: GameState, pos: { x: number; y: number }) {}
 
   public static lastDirection(game: GameState): "left" | "right" | "up" | "down" {
     let dir: "left" | "right" | "up" | "down" = "right"; //default;
