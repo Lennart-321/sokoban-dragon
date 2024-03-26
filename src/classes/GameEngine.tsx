@@ -7,6 +7,7 @@ export class GameEngine {
     game: GameState,
     setMoves: Dispatch<SetStateAction<number>>,
     setPushes: Dispatch<SetStateAction<number>>,
+    setBackSteps: Dispatch<SetStateAction<number>>,
     setRunning: Dispatch<SetStateAction<boolean>>
   ) {
     let playerX = game.playerX;
@@ -46,10 +47,13 @@ export class GameEngine {
           //Resore box
           currentBoard[preStateInfo[3]][preStateInfo[2]] += 2;
           currentBoard[preStateInfo[5]][preStateInfo[4]] -= 2;
+          setPushes(p => p - 1);
           game.boxJustMoved = true;
         }
         game.playerX = preStateInfo[0];
         game.playerY = preStateInfo[1];
+        setBackSteps(++game.backSteps);
+        setMoves(game.nrOfMoves());
         return currentBoard;
     }
 

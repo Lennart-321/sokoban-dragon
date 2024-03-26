@@ -15,6 +15,7 @@ function App() {
   const [levelNbr, setLevelNbr] = useState(0);
   const [moves, setMoves] = useState(0);
   const [pushes, setPushes] = useState(0);
+  const [backSteps, setBackSteps] = useState(0);
   const [running, setRunning] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
 
@@ -23,23 +24,15 @@ function App() {
     setLevelNbr(index + 1);
     setMoves(0);
     setPushes(0);
+    setBackSteps(0);
     setRunning(true);
   }
 
   return (
     <>
       <Header />
-      <Menu
-        setLevel={setLevelIndex}
-        numberOfLevels={Levels.levels.length}
-        setShowTutorial={setShowTutorial}
-      />
-      <Information
-        levelNbr={levelNbr}
-        moves={moves}
-        pushes={pushes}
-        running={running}
-      />
+      <Menu setLevel={setLevelIndex} numberOfLevels={Levels.levels.length} setShowTutorial={setShowTutorial} />
+      <Information levelNbr={levelNbr} moves={moves} pushes={pushes} backSteps={backSteps} running={running} />
       <Tutorial showTutorial={showTutorial} setShowTutorial={setShowTutorial} />
       <section className="playground">
         <GameBoard
@@ -47,6 +40,7 @@ function App() {
           running={running}
           setMoves={setMoves}
           setPushes={setPushes}
+          setBackSteps={setBackSteps}
           setRunning={setRunning}
         />
         <GameOver running={running} levelNbr={levelNbr} />

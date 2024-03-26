@@ -10,10 +10,18 @@ interface IGameBoardProps {
   running: boolean;
   setMoves: Dispatch<SetStateAction<number>>;
   setPushes: Dispatch<SetStateAction<number>>;
+  setBackSteps: Dispatch<SetStateAction<number>>;
   setRunning: Dispatch<SetStateAction<boolean>>;
 }
 
-export function GameBoard({ game, running, setMoves, setPushes, setRunning }: IGameBoardProps): JSX.Element {
+export function GameBoard({
+  game,
+  running,
+  setMoves,
+  setPushes,
+  setBackSteps,
+  setRunning,
+}: IGameBoardProps): JSX.Element {
   const [refresh, setRefresh] = useState(0);
   const boxAudio: any = useRef();
   const stepAudio: any = useRef();
@@ -24,7 +32,7 @@ export function GameBoard({ game, running, setMoves, setPushes, setRunning }: IG
       (key === "ArrowDown" || key === "ArrowRight" || key === "ArrowLeft" || key === "ArrowUp" || key === "Backspace")
     ) {
       if (game) {
-        game.board = GameEngine.movePlayer(key, game, setMoves, setPushes, setRunning);
+        game.board = GameEngine.movePlayer(key, game, setMoves, setPushes, setBackSteps, setRunning);
         game.findPlayer();
         setRefresh(c => c + 1);
       }
