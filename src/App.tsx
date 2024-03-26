@@ -15,6 +15,7 @@ function App() {
   const [levelNbr, setLevelNbr] = useState(0);
   const [moves, setMoves] = useState(0);
   const [pushes, setPushes] = useState(0);
+  const [restart, setRestart] = useState<boolean>(false);
   const [running, setRunning] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
 
@@ -23,6 +24,9 @@ function App() {
     setLevelNbr(index + 1);
     setMoves(0);
     setPushes(0);
+    if (index + 1 === levelNbr) {  // Restart level
+      setRestart(true);
+    }
     setRunning(true);
   }
 
@@ -30,6 +34,7 @@ function App() {
     <>
       <Header />
       <Menu
+        levelNbr={levelNbr}
         setLevel={setLevelIndex}
         numberOfLevels={Levels.levels.length}
         setShowTutorial={setShowTutorial}
@@ -38,7 +43,9 @@ function App() {
         levelNbr={levelNbr}
         moves={moves}
         pushes={pushes}
+        restart={restart}
         running={running}
+        setRestart={setRestart}
       />
       <Tutorial showTutorial={showTutorial} setShowTutorial={setShowTutorial} />
       <section className="playground">
