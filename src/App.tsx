@@ -12,44 +12,22 @@ import { GameOver } from "./components/GameOver";
 
 function App() {
   const [game, setGame] = useState<GameState | null>(null);
-  const [levelNbr, setLevelNbr] = useState(0);
-  const [moves, setMoves] = useState(0);
-  const [pushes, setPushes] = useState(0);
-  const [running, setRunning] = useState(false);
+  const [gameProgressCount, setGameProgressCount] = useState(0);
   const [showTutorial, setShowTutorial] = useState(false);
 
   function setLevelIndex(index: number) {
     setGame(Levels.getGameState(index));
-    setLevelNbr(index + 1);
-    setMoves(0);
-    setPushes(0);
-    setRunning(true);
   }
 
   return (
     <>
       <Header />
-      <Menu
-        setLevel={setLevelIndex}
-        numberOfLevels={Levels.levels.length}
-        setShowTutorial={setShowTutorial}
-      />
-      <Information
-        levelNbr={levelNbr}
-        moves={moves}
-        pushes={pushes}
-        running={running}
-      />
+      <Menu setLevel={setLevelIndex} numberOfLevels={Levels.levels.length} setShowTutorial={setShowTutorial} />
+      <Information game={game} />
       <Tutorial showTutorial={showTutorial} setShowTutorial={setShowTutorial} />
       <section className="playground">
-        <GameBoard
-          game={game}
-          running={running}
-          setMoves={setMoves}
-          setPushes={setPushes}
-          setRunning={setRunning}
-        />
-        <GameOver running={running} levelNbr={levelNbr} />
+        <GameBoard game={game} setGameProgessCount={setGameProgressCount} />
+        <GameOver running={game?.isRunning() ?? false} levelNbr={game?.level ?? 0} />
       </section>
     </>
   );

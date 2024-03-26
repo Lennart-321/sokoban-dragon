@@ -96,7 +96,7 @@ export class Levels {
     for (let i = 0; i < oldBoard.length; i++) {
       newBoard.push(oldBoard[i].slice());
     }
-    let gameState = new GameState(newBoard);
+    let gameState = new GameState(newBoard, index + 1);
 
     console.log("Levels.getGameState => ", gameState);
     return gameState;

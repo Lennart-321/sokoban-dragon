@@ -6,19 +6,33 @@ export class GameState {
   boxJustMoved: boolean;
   board: number[][]; //0=empty, 1=player, 2=box, 4=target, 5=man+target, 6=box+target, 8=wall
   backTrace: number[][];
-  constructor(board: number[][], playerX?: number, playerY?: number) {
+  level: number;
+  moves: number;
+  pushes: number;
+  backSteps: number;
+  startTime: Date;
+  stopTime: Date;
+  constructor(board: number[][], level: number) {
     this.board = board;
     this.width = board[0].length;
     this.height = board.length;
-    if (!playerX || !playerY) {
-      this.playerX = this.playerY = -1;
-      this.findPlayerPosition();
-    } else {
-      this.playerX = playerX;
-      this.playerY = playerY;
-    }
+    this.playerX = this.playerY = -1;
+    this.findPlayerPosition();
+
+    this.level = level;
     this.boxJustMoved = false;
     this.backTrace = [];
+    this.moves = 0;
+    this.pushes = 0;
+    this.backSteps = 0;
+    this.stopTime = this.startTime = new Date();
+  }
+
+  public isRunning() {
+    return this.stopTime === this.startTime;
+  }
+  public stopRunning() {
+    this.stopTime = new Date();
   }
 
   private findPlayerPosition() {
@@ -35,8 +49,14 @@ export class GameState {
     );
   }
 
-  public findPlayer() {
-    this.findPlayerPosition();
+  // public findPlayer() {
+  //   this.findPlayerPosition();
+  // }
+  public incMoves() {
+    this.moves++;
+  }
+  public incPushes() {
+    this.pushes++;
   }
   public nrOfMoves() {
     return this.backTrace.length;

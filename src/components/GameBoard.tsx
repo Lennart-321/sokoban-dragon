@@ -7,26 +7,32 @@ import StartScreen from "./StartScreen";
 
 interface IGameBoardProps {
   game: GameState | null;
-  running: boolean;
-  setMoves: Dispatch<SetStateAction<number>>;
-  setPushes: Dispatch<SetStateAction<number>>;
-  setRunning: Dispatch<SetStateAction<boolean>>;
+  setGameProgessCount: Dispatch<SetStateAction<number>>;
+
+  // running: boolean;
+  // setMoves: Dispatch<SetStateAction<number>>;
+  // setPushes: Dispatch<SetStateAction<number>>;
+  // setRunning: Dispatch<SetStateAction<boolean>>;
 }
 
-export function GameBoard({ game, running, setMoves, setPushes, setRunning }: IGameBoardProps): JSX.Element {
+export function GameBoard({
+  game,
+  setGameProgessCount /*running, setMoves, setPushes, setRunning*/,
+}: IGameBoardProps): JSX.Element {
   const [refresh, setRefresh] = useState(0);
   const boxAudio: any = useRef();
   const stepAudio: any = useRef();
 
   const handleKeyDown = (key: string) => {
     if (
-      running &&
+      game?.isRunning() &&
       (key === "ArrowDown" || key === "ArrowRight" || key === "ArrowLeft" || key === "ArrowUp" || key === "Backspace")
     ) {
       if (game) {
-        game.board = GameEngine.movePlayer(key, game, setMoves, setPushes, setRunning);
-        game.findPlayer();
-        setRefresh(c => c + 1);
+        if (GameEngine.movePlayer(key, game)) {
+          setRefresh(c => c + 1);
+          setGameProgessCount(c => c + 1);
+        }
       }
     }
   };
