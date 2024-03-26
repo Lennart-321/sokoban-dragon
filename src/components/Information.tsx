@@ -31,7 +31,8 @@ export function Information({ game }: IInformationProps): JSX.Element {
   }
 
   const printTimeElapsed = (game: GameState | null, now: Date | null) => {
-    const seconds = game && now ? Math.floor((now.getTime() - game.startTime.getTime()) / 1000) : 0;
+    const time = game?.isRunning() ? now : game?.stopTime;
+    const seconds = game && time ? Math.floor((time.getTime() - game.startTime.getTime()) / 1000) : 0;
     let hours = Math.floor(seconds / 3600);
     let minutes = Math.floor((seconds - hours * 3600) / 60);
     let sec_nbr = seconds - hours * 3600 - minutes * 60;

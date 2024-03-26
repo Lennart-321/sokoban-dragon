@@ -19,7 +19,7 @@ export function GameBoard({
   game,
   setGameProgessCount /*running, setMoves, setPushes, setRunning*/,
 }: IGameBoardProps): JSX.Element {
-  const [refresh, setRefresh] = useState(0);
+  //const [refresh, setRefresh] = useState(0);
   const boxAudio: any = useRef();
   const stepAudio: any = useRef();
 
@@ -30,7 +30,7 @@ export function GameBoard({
     ) {
       if (game) {
         if (GameEngine.movePlayer(key, game)) {
-          setRefresh(c => c + 1);
+          //setRefresh(c => c + 1);
           setGameProgessCount(c => c + 1);
         }
       }
