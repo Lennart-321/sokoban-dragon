@@ -30,8 +30,8 @@ export function Information({ game }: IInformationProps): JSX.Element {
     intervalId.current = undefined;
   }
 
-  const printTimeElapsed = () => {
-    const seconds = game ? Math.floor((new Date().getTime() - game.startTime.getTime()) / 1000) : 0;
+  const printTimeElapsed = (game: GameState | null, now: Date | null) => {
+    const seconds = game && now ? Math.floor((now.getTime() - game.startTime.getTime()) / 1000) : 0;
     let hours = Math.floor(seconds / 3600);
     let minutes = Math.floor((seconds - hours * 3600) / 60);
     let sec_nbr = seconds - hours * 3600 - minutes * 60;
@@ -43,14 +43,16 @@ export function Information({ game }: IInformationProps): JSX.Element {
     return hoursString + ":" + minutesString + ":" + secondsString;
   };
 
+  const now = game?.isRunning() ? new Date() : null;
   return (
     <>
       <section className="info">
         <div>Nivå: {game?.level ?? 0}</div>
-        <div>Tid: {printTimeElapsed()}</div>
+        <div>Tid: {printTimeElapsed(game, now)}</div>
         <div>Steg: {game?.moves ?? 0}</div>
         <div>Flyttar: {game?.pushes ?? 0}</div>
         <div>Ångra: {game?.backSteps ?? 0}</div>
+        <div>Poäng: {game?.score(now) ?? 0}</div>
       </section>
     </>
   );
