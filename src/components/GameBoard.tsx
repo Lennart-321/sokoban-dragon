@@ -11,9 +11,23 @@ interface IGameBoardProps {
   setMoves: Dispatch<SetStateAction<number>>;
   setPushes: Dispatch<SetStateAction<number>>;
   setRunning: Dispatch<SetStateAction<boolean>>;
+  setLevel: (index: number) => void;
+  numberOfLevels: number;
+  showStartScreenTab: boolean;
+  setStartScreenTab: Dispatch<SetStateAction<boolean>>;
 }
 
-export function GameBoard({ game, running, setMoves, setPushes, setRunning }: IGameBoardProps): JSX.Element {
+export function GameBoard({
+  game,
+  running,
+  setMoves,
+  setPushes,
+  setRunning,
+  setLevel,
+  numberOfLevels,
+  showStartScreenTab,
+  setStartScreenTab,
+}: IGameBoardProps): JSX.Element {
   const [refresh, setRefresh] = useState(0);
   const boxAudio: any = useRef();
   const stepAudio: any = useRef();
@@ -21,12 +35,22 @@ export function GameBoard({ game, running, setMoves, setPushes, setRunning }: IG
   const handleKeyDown = (key: string) => {
     if (
       running &&
-      (key === "ArrowDown" || key === "ArrowRight" || key === "ArrowLeft" || key === "ArrowUp" || key === "Backspace")
+      (key === "ArrowDown" ||
+        key === "ArrowRight" ||
+        key === "ArrowLeft" ||
+        key === "ArrowUp" ||
+        key === "Backspace")
     ) {
       if (game) {
-        game.board = GameEngine.movePlayer(key, game, setMoves, setPushes, setRunning);
+        game.board = GameEngine.movePlayer(
+          key,
+          game,
+          setMoves,
+          setPushes,
+          setRunning
+        );
         game.findPlayer();
-        setRefresh(c => c + 1);
+        setRefresh((c) => c + 1);
       }
     }
   };
@@ -59,7 +83,9 @@ export function GameBoard({ game, running, setMoves, setPushes, setRunning }: IG
     const jsxElement: JSX.Element[] = [];
     for (let i = 0; i < game.board.length; i++) {
       for (let j = 0; j < game.board[i].length; j++) {
-        jsxElement.push(<Cell key={i * game.width + j} state={game.board[i][j]} />);
+        jsxElement.push(
+          <Cell key={i * game.width + j} state={game.board[i][j]} />
+        );
       }
     }
 
@@ -83,7 +109,12 @@ export function GameBoard({ game, running, setMoves, setPushes, setRunning }: IG
   } else {
     return (
       <>
-        <StartScreen />
+        <StartScreen
+          setLevel={setLevel}
+          numberOfLevels={numberOfLevels}
+          showStartScreenTab={showStartScreenTab}
+          setStartScreenTab={setStartScreenTab}
+        />
       </>
     );
   }

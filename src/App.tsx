@@ -17,6 +17,7 @@ function App() {
   const [pushes, setPushes] = useState(0);
   const [running, setRunning] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
+  const [showStartScreenTab, setStartScreenTab] = useState<boolean>(false);
 
   function setLevelIndex(index: number) {
     setGame(Levels.getGameState(index));
@@ -30,9 +31,8 @@ function App() {
     <>
       <Header />
       <Menu
-        setLevel={setLevelIndex}
-        numberOfLevels={Levels.levels.length}
         setShowTutorial={setShowTutorial}
+        setStartScreenTab={setStartScreenTab}
       />
       <Information
         levelNbr={levelNbr}
@@ -48,6 +48,10 @@ function App() {
           setMoves={setMoves}
           setPushes={setPushes}
           setRunning={setRunning}
+          setLevel={setLevelIndex}
+          numberOfLevels={10}
+          showStartScreenTab={showStartScreenTab}
+          setStartScreenTab={setStartScreenTab}
         />
         <GameOver running={running} levelNbr={levelNbr} />
       </section>

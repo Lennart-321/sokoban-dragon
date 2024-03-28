@@ -2,35 +2,41 @@ import { Dispatch, SetStateAction } from "react";
 import "../css/menu.css";
 
 export interface IMenuProps {
-    numberOfLevels: number;
-    setLevel: (index: number) => void;
-    setShowTutorial: Dispatch<SetStateAction<boolean>>;
+  setShowTutorial: Dispatch<SetStateAction<boolean>>;
+  setStartScreenTab: Dispatch<SetStateAction<boolean>>;
 }
 
-export function Menu({ setLevel, numberOfLevels, setShowTutorial }: IMenuProps): JSX.Element {
-    const gameButtons: JSX.Element[] = [];
-    for (let i = 0; i < numberOfLevels; i++) {
-        gameButtons.push(
-            <button key={i} className="menu-game-button" onClick={() => setLevel(i)}>
-                Nivå {i + 1}
-            </button>
-        );
+export function Menu({
+  setShowTutorial,
+  setStartScreenTab,
+}: IMenuProps): JSX.Element {
+  const handleTabPress = (tab: number) => {
+    if (tab === 1) {
+      setStartScreenTab(false);
+    } else {
+      setStartScreenTab(true);
     }
+  };
 
-    return (
-        <nav id="the-menu">
-            <div className="menu-info">Välkommen att spela SOKOBAN! </div>
-            <div className="btn-row">
-                {gameButtons}
-                <button
-                    className="menu-game-button btn-help"
-                    onClick={() => {
-                        setShowTutorial(true);
-                    }}
-                >
-                    Hjälp
-                </button>
-            </div>
-        </nav>
-    );
+  return (
+    <nav id="the-menu">
+      <div className="menu-info">Välkommen att spela SOKOBAN! </div>
+      <div className="btn-row">
+        <button className="menu-game-button" onClick={() => handleTabPress(1)}>
+          Hur man spelar
+        </button>
+        <button className="menu-game-button" onClick={() => handleTabPress(2)}>
+          Nivåer
+        </button>
+        <button
+          className="menu-game-button btn-help"
+          onClick={() => {
+            setShowTutorial(true);
+          }}
+        >
+          Hjälp
+        </button>
+      </div>
+    </nav>
+  );
 }
