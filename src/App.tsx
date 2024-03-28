@@ -31,6 +31,7 @@ function App() {
     <>
       <Header />
       <Menu
+        setGame={setGame}
         setShowTutorial={setShowTutorial}
         setStartScreenTab={setStartScreenTab}
       />
@@ -49,7 +50,7 @@ function App() {
           setPushes={setPushes}
           setRunning={setRunning}
           setLevel={setLevelIndex}
-          numberOfLevels={10}
+          numberOfLevels={Levels.levels.length}
           showStartScreenTab={showStartScreenTab}
           setStartScreenTab={setStartScreenTab}
         />

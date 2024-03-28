@@ -21,7 +21,10 @@
 }
 
 .level-container .nav-button {
-  height: 50px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .level-container .nav-button .back-btn {
@@ -35,6 +38,7 @@
   border: 4px solid #f8b81d;
   margin-left: 1cqb;
   padding-inline: 8px;
+  margin-bottom: 12px;
 }
 
 .level-container .nav-button .back-btn:hover {
@@ -42,11 +46,36 @@
   height: 50px;
   background: #676464;
   border: 4px solid #ffce2d;
+  cursor: pointer;
 }
 
 .level-container .game-buttons .menu-game-button {
+  font-family: "RetroGame";
+  font-size: 1.3rem;
+  background: #363636;
+  color: white;
   width: 200px;
   height: 60px;
-  margin: 0;
+  border-radius: 9px;
+  border: 4px solid #f8b81d;
+  margin-left: 1cqb;
+  padding-inline: 8px;
   margin-bottom: 12px;
+}
+
+.level-container .game-buttons .menu-game-button:hover {
+  /* font-size: 1.5rem; */
+  cursor: pointer;
+  background: #676464;
+  border: 4px solid #ffce2d;
+}
+
+.level-container .game-buttons .menu-game-button:disabled {
+  border-color: #7a5b11;
+}
+
+.level-container .game-buttons .menu-game-button:disabled:hover {
+  cursor: default;
+  background-color: #363636;
+  border-color: #7a5b11;
 }

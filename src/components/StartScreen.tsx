@@ -69,9 +69,24 @@ function StartScreen({
   );
 
   const gameButtons: JSX.Element[] = [];
+  let highestLevel: number;
+  const storedValue = localStorage.getItem("highestLevel");
+
+  if (storedValue !== null) {
+    highestLevel = parseInt(storedValue);
+  } else {
+    highestLevel = 0;
+  }
+
   for (let i = 0; i < numberOfLevels; i++) {
+    const isDisabled = i > highestLevel;
     gameButtons.push(
-      <button key={i} className="menu-game-button" onClick={() => setLevel(i)}>
+      <button
+        key={i}
+        className="menu-game-button"
+        onClick={() => setLevel(i)}
+        disabled={isDisabled}
+      >
         Nivå {i + 1}
       </button>
     );
