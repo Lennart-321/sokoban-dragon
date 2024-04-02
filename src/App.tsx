@@ -14,31 +14,45 @@ function App() {
   const [levelNbr, setLevelNbr] = useState(0);
   const [moves, setMoves] = useState(0);
   const [pushes, setPushes] = useState(0);
+  const [restart, setRestart] = useState<boolean>(false);
   const [running, setRunning] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
   const [showStartScreenTab, setStartScreenTab] = useState<boolean>(false);
+  const [gameStopped, setGameStopped] = useState<boolean>(false);
 
   function setLevelIndex(index: number) {
-    setGame(Levels.getGameState(index));
-    setLevelNbr(index + 1);
-    setMoves(0);
-    setPushes(0);
-    setRunning(true);
+    if (index !== 0) {
+      setGame(Levels.getGameState(index));
+      setLevelNbr(index + 1);
+      setMoves(0);
+      setPushes(0);
+      if (index + 1 === levelNbr) {
+        // Restart level
+        setRestart(true);
+      }
+      setRunning(true);
+    } else {
+      setMoves(0);
+      setPushes(0);
+      setLevelNbr(0);
+      setRunning(false);
+      setGameStopped(true);
+    }
   }
 
   return (
     <>
       <Header />
-      <Menu
-        setGame={setGame}
-        setShowTutorial={setShowTutorial}
-        setStartScreenTab={setStartScreenTab}
-      />
+      <Menu setGame={setGame} levelNbr={levelNbr} setLevel={setLevelIndex} setShowTutorial={setShowTutorial} setStartScreenTab={setStartScreenTab} />
       <Information
         levelNbr={levelNbr}
         moves={moves}
         pushes={pushes}
+        restart={restart}
         running={running}
+        setRestart={setRestart}
+        gameStopped={gameStopped}
+        setGameStopped={setGameStopped}
       />
       <Tutorial showTutorial={showTutorial} setShowTutorial={setShowTutorial} />
       <section className="playground">

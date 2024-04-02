@@ -33,22 +33,9 @@ export function GameBoard({
   const stepAudio: any = useRef();
 
   const handleKeyDown = (key: string) => {
-    if (
-      running &&
-      (key === "ArrowDown" ||
-        key === "ArrowRight" ||
-        key === "ArrowLeft" ||
-        key === "ArrowUp" ||
-        key === "Backspace")
-    ) {
+    if (running && (key === "ArrowDown" || key === "ArrowRight" || key === "ArrowLeft" || key === "ArrowUp" || key === "Backspace")) {
       if (game) {
-        game.board = GameEngine.movePlayer(
-          key,
-          game,
-          setMoves,
-          setPushes,
-          setRunning
-        );
+        game.board = GameEngine.movePlayer(key, game, setMoves, setPushes, setRunning);
         game.findPlayer();
         setRefresh((c) => c + 1);
       }
@@ -75,17 +62,12 @@ export function GameBoard({
   }, [game ? game.nrOfMoves() : 0]);
 
   if (game !== null) {
-    document.documentElement.style.setProperty(
-      "--playerImg",
-      `url("src/img/spr_player_${GameEngine.lastDirection(game)}.png")`
-    );
+    document.documentElement.style.setProperty("--playerImg", `url("src/img/spr_player_${GameEngine.lastDirection(game)}.png")`);
 
     const jsxElement: JSX.Element[] = [];
     for (let i = 0; i < game.board.length; i++) {
       for (let j = 0; j < game.board[i].length; j++) {
-        jsxElement.push(
-          <Cell key={i * game.width + j} state={game.board[i][j]} />
-        );
+        jsxElement.push(<Cell key={i * game.width + j} state={game.board[i][j]} />);
       }
     }
 
@@ -109,12 +91,7 @@ export function GameBoard({
   } else {
     return (
       <>
-        <StartScreen
-          setLevel={setLevel}
-          numberOfLevels={numberOfLevels}
-          showStartScreenTab={showStartScreenTab}
-          setStartScreenTab={setStartScreenTab}
-        />
+        <StartScreen setLevel={setLevel} numberOfLevels={numberOfLevels} showStartScreenTab={showStartScreenTab} setStartScreenTab={setStartScreenTab} />
       </>
     );
   }

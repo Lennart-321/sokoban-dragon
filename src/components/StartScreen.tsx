@@ -9,18 +9,11 @@ interface IStartScreenProps {
   setStartScreenTab: Dispatch<SetStateAction<boolean>>;
 }
 
-function StartScreen({
-  setLevel,
-  numberOfLevels,
-  showStartScreenTab,
-  setStartScreenTab,
-}: IStartScreenProps): JSX.Element {
+function StartScreen({ setLevel, numberOfLevels, showStartScreenTab, setStartScreenTab }: IStartScreenProps): JSX.Element {
   const startTutorial: JSX.Element = (
     <section className="container">
       <div className="instruction">
-        <div className="text">
-          Spelet går ut på att flytta alla lådor till målrutorna.
-        </div>
+        <div className="text">Spelet går ut på att flytta alla lådor till målrutorna.</div>
         <div className="strip">
           <img src="./src/img/spr_box.png" alt="" />
           <img className="arrow" src="./src/img/spr_arrow.png" alt="" />
@@ -30,9 +23,7 @@ function StartScreen({
         </div>
       </div>
       <div className="instruction">
-        <div className="text">
-          Lagerarbetaren hjälper dig flytta på lådorna.
-        </div>
+        <div className="text">Lagerarbetaren hjälper dig flytta på lådorna.</div>
         <div className="strip">
           <img src="./src/img/spr_player_right.png" alt="" />
           <img src="./src/img/spr_box.png" alt="" />
@@ -58,10 +49,7 @@ function StartScreen({
       </div>
       <div className="instruction">
         <div className="text">Lycka till!</div>
-        <button
-          className="menu-game-button"
-          onClick={() => setStartScreenTab(true)}
-        >
+        <button className="menu-game-button" onClick={() => setStartScreenTab(true)}>
           Spela
         </button>
       </div>
@@ -81,12 +69,7 @@ function StartScreen({
   for (let i = 0; i < numberOfLevels; i++) {
     const isDisabled = i > highestLevel;
     gameButtons.push(
-      <button
-        key={i}
-        className="menu-game-button"
-        onClick={() => setLevel(i)}
-        disabled={isDisabled}
-      >
+      <button key={i} className="menu-game-button" onClick={() => setLevel(i)} disabled={isDisabled}>
         Nivå {i + 1}
       </button>
     );

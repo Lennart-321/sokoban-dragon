@@ -50,11 +50,18 @@
   margin-left: 2rem;
 }
 
-.menu-game-button:hover {
+.menu-game-button:hover:not(:disabled) {
+  /* All buttons except disabled ones */
   /* font-size: 1.5rem; */
   height: 50px;
   background: #676464;
   border: 4px solid #ffce2d;
+  cursor: pointer;
+}
+
+.menu-game-button:disabled {
+  background-color: #676464;
+  border: 4px solid #676464;
 }
 
 @media screen and (max-width: 920px) {
