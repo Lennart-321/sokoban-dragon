@@ -28,7 +28,7 @@ export function Menu({ setLevel, numberOfLevels, setShowTutorial }: IMenuProps):
                         setShowTutorial(true);
                     }}
                 >
-                    Hjälp
+                    Information
                 </button>
             </div>
         </nav>

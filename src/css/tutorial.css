@@ -18,20 +18,53 @@
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
     font-size: larger;
-    font-weight: bold;
+    max-width: 1200px;
+    padding-top: 0.2rem;
+    padding-bottom: 1rem;
+    background-color: #363636;
+    color: white;
+    /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
 }
 
 /* The Close Button */
-.close {
+#tutorial-modal-inner .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
-    color: black;
+#tutorial-modal-inner .close:hover,
+#tutorial-modal-inner .close:focus {
+    color: white;
     text-decoration: none;
     cursor: pointer;
+}
+
+#tutorial-modal-inner .header {
+    margin-block: 0.5rem;
+    color: white;
+}
+
+#tutorial-modal-inner .creater-container {
+    padding-bottom: 1rem;
+}
+
+#tutorial-modal-inner .creater-container .creaters {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 1rem;
+    row-gap: 0.5rem;
+    justify-content: space-evenly;
+}
+
+#tutorial-modal-inner .creater-container .name {
+    width: 45%;
+}
+
+
+@media screen and (min-width: 920px) {
+    #tutorial-modal-inner .creater-container .name {
+        width: max-content;
+    }
 }

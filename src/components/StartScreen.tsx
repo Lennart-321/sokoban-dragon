@@ -3,7 +3,7 @@ import '../css/StartScreen.css'
 function StartScreen(){
     return(
         <>
-            <section className="container">
+            <section className="start-container">
                 <div className="instruction">
                     <div className="text">
                         Spelet går ut på att flytta alla lådor till målrutorna.

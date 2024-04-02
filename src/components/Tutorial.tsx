@@ -1,22 +1,35 @@
 import { Dispatch, SetStateAction } from "react";
 import "../css/tutorial.css";
+import StartScreen from "./StartScreen";
 export interface ITutorial {
     showTutorial: boolean;
-    setShowTutorial: Dispatch<SetStateAction<boolean>>; // (show: boolean) => void;
+    setShowTutorial: Dispatch<SetStateAction<boolean>>;
 }
 
 export function Tutorial({ showTutorial, setShowTutorial }: ITutorial) {
+    const stopClosing = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        event.stopPropagation();
+    }
+
     return showTutorial ? (
         <>
             <div id="tutorial-modal-outer" onClick={() => setShowTutorial(false)}>
-                <div id="tutorial-modal-inner">
-                    <span className="close">&times;</span>
-                    <p>Spelet går ut på att flytta alla lådor till målrutorna.</p>
-                    <p>Flytta på lådorna genom att putta på dom med den lille mannen.</p>
-                    <p>Flytta den lille mannen med pil-tangenterna.</p>
-                    <p>Det går bara att flytta en låda åt gången.</p>
-                    <p>Lycka till!</p>
+                <span className="close">&times;</span>
+                <div id="tutorial-modal-inner" onClick={ (e) => stopClosing(e) }>
+                    <span className="close" onClick={() => setShowTutorial(false)}>&times;</span>
+                    <h3 className="header">Instruktioner</h3>
+                    <StartScreen />
+                    <div className="creater-container">
+                        <h3>Spelet skapades av:</h3>
+                        <div className="creaters">
+                            <div className="name">Anders Stenhammar</div>
+                            <div className="name">Göran Olson</div>
+                            <div className="name">Johan Edvardsson</div>
+                            <div className="name">Lennart Skagerling</div>
+                        </div>
+                    </div>
                 </div>
+                
             </div>
         </>
     ) : (
