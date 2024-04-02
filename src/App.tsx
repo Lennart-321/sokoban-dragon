@@ -7,7 +7,6 @@ import { Menu } from "./components/Menu";
 import { Tutorial } from "./components/Tutorial";
 import { Levels } from "./classes/Levels";
 import Header from "./components/Header";
-import StartScreen from "./components/StartScreen";
 import { GameOver } from "./components/GameOver";
 
 function App() {
