@@ -20,46 +20,22 @@ export class GameEngine {
       case "ArrowLeft":
         nextPlayerPos.x--;
         game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
-        modifiedBoard = this.movePlayerLeft(
-          playerY,
-          playerX,
-          currentBoard,
-          setMoves,
-          setPushes
-        );
+        modifiedBoard = this.movePlayerLeft(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "ArrowRight":
         nextPlayerPos.x++;
         game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
-        modifiedBoard = this.movePlayerRight(
-          playerY,
-          playerX,
-          currentBoard,
-          setMoves,
-          setPushes
-        );
+        modifiedBoard = this.movePlayerRight(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "ArrowUp":
         nextPlayerPos.y--;
         game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
-        modifiedBoard = this.movePlayerUp(
-          playerY,
-          playerX,
-          currentBoard,
-          setMoves,
-          setPushes
-        );
+        modifiedBoard = this.movePlayerUp(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "ArrowDown":
         nextPlayerPos.y++;
         game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
-        modifiedBoard = this.movePlayerDown(
-          playerY,
-          playerX,
-          currentBoard,
-          setMoves,
-          setPushes
-        );
+        modifiedBoard = this.movePlayerDown(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "Backspace":
         if (game.backTrace.length === 0) return currentBoard;
@@ -81,27 +57,10 @@ export class GameEngine {
     if (newPlayerX !== playerX || newPlayerY !== playerY) {
       let newBoxPosition = { x: -1, y: -1 };
       if (game.boxJustMoved) {
-        newBoxPosition.x =
-          playerX !== newPlayerX
-            ? playerX < newPlayerX
-              ? newPlayerX + 1
-              : newPlayerX - 1
-            : playerX;
-        newBoxPosition.y =
-          playerY !== newPlayerY
-            ? playerY < newPlayerY
-              ? newPlayerY + 1
-              : newPlayerY - 1
-            : playerY;
+        newBoxPosition.x = playerX !== newPlayerX ? (playerX < newPlayerX ? newPlayerX + 1 : newPlayerX - 1) : playerX;
+        newBoxPosition.y = playerY !== newPlayerY ? (playerY < newPlayerY ? newPlayerY + 1 : newPlayerY - 1) : playerY;
       }
-      game.backTrace.push([
-        playerX,
-        playerY,
-        newPlayerX,
-        newPlayerY,
-        newBoxPosition.x,
-        newBoxPosition.y,
-      ]);
+      game.backTrace.push([playerX, playerY, newPlayerX, newPlayerY, newBoxPosition.x, newBoxPosition.y]);
 
       game.playerX = newPlayerX;
       game.playerY = newPlayerY;
@@ -112,11 +71,7 @@ export class GameEngine {
     return currentBoard;
   }
 
-  private static gameOver(
-    board: number[][],
-    setRunning: Dispatch<SetStateAction<boolean>>,
-    levelNbr: number
-  ) {
+  private static gameOver(board: number[][], setRunning: Dispatch<SetStateAction<boolean>>, levelNbr: number) {
     let emptyTarget = false;
 
     for (let y = 0; y < board.length; y++) {
@@ -137,13 +92,7 @@ export class GameEngine {
   }
 
   private static isBoxOnPos(board: number[][], pos: { x: number; y: number }) {
-    return (
-      0 <= pos.x &&
-      pos.x < board[0].length &&
-      0 <= pos.y &&
-      pos.y < board.length &&
-      (board[pos.y][pos.x] & 2) != 0
-    );
+    return 0 <= pos.x && pos.x < board[0].length && 0 <= pos.y && pos.y < board.length && (board[pos.y][pos.x] & 2) != 0;
   }
 
   private static movePlayerLeft(
@@ -256,12 +205,7 @@ export class GameEngine {
     return currentBoard;
   }
 
-  private static moveBox(
-    currentBoard: number[][],
-    boxY: number,
-    boxX: number,
-    direction: string
-  ) {
+  private static moveBox(currentBoard: number[][], boxY: number, boxX: number, direction: string) {
     if (direction === "right") {
       let moveToIndex = currentBoard[boxY][boxX + 1];
       return this.moveBoxRight(currentBoard, moveToIndex, boxY, boxX);
@@ -277,12 +221,7 @@ export class GameEngine {
     }
   }
 
-  private static moveBoxDown(
-    currentBoard: number[][],
-    moveToIndex: number,
-    boxY: number,
-    boxX: number
-  ): boolean {
+  private static moveBoxDown(currentBoard: number[][], moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[boxY][boxX] -= 2;
       currentBoard[boxY + 1][boxX] += 2;
@@ -291,12 +230,7 @@ export class GameEngine {
     return false;
   }
 
-  private static moveBoxUp(
-    currentBoard: number[][],
-    moveToIndex: number,
-    boxY: number,
-    boxX: number
-  ): boolean {
+  private static moveBoxUp(currentBoard: number[][], moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[boxY][boxX] -= 2;
       currentBoard[boxY - 1][boxX] += 2;
@@ -305,12 +239,7 @@ export class GameEngine {
     return false;
   }
 
-  private static moveBoxLeft(
-    currentBoard: number[][],
-    moveToIndex: number,
-    boxY: number,
-    boxX: number
-  ): boolean {
+  private static moveBoxLeft(currentBoard: number[][], moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[boxY][boxX] -= 2;
       currentBoard[boxY][boxX - 1] += 2;
@@ -319,12 +248,7 @@ export class GameEngine {
     return false;
   }
 
-  private static moveBoxRight(
-    currentBoard: number[][],
-    moveToIndex: number,
-    boxY: number,
-    boxX: number
-  ): boolean {
+  private static moveBoxRight(currentBoard: number[][], moveToIndex: number, boxY: number, boxX: number): boolean {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[boxY][boxX] -= 2;
       currentBoard[boxY][boxX + 1] += 2;
@@ -344,34 +268,11 @@ export class GameEngine {
     return [];
   }
 
-  private static compareMatrix(
-    matrix1: number[][],
-    matrix2: number[][]
-  ): boolean {
-    if (matrix1.length !== matrix2.length) return false;
-    for (let i = 0; i < matrix1.length; i++) {
-      for (let j = 0; j < matrix1[i].length; j++) {
-        if (matrix1[i][j] !== matrix2[i][j]) return false;
-      }
-    }
-
-    return true;
-  }
-
-  public static lastDirection(
-    game: GameState
-  ): "left" | "right" | "up" | "down" {
+  public static lastDirection(game: GameState): "left" | "right" | "up" | "down" {
     let dir: "left" | "right" | "up" | "down" = "right"; //default;
     if (game?.backTrace.length) {
       const s = game.backTrace[game.backTrace.length - 1];
-      dir =
-        s[0] !== s[2]
-          ? s[0] > s[2]
-            ? "left"
-            : "right"
-          : s[1] > s[3]
-          ? "up"
-          : "down";
+      dir = s[0] !== s[2] ? (s[0] > s[2] ? "left" : "right") : s[1] > s[3] ? "up" : "down";
     }
     return dir;
   }
