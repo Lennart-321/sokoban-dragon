@@ -21,7 +21,7 @@ function App() {
   const [gameStopped, setGameStopped] = useState<boolean>(false);
 
   function setLevelIndex(index: number) {
-    if (index !== 0) {
+    if (index !== -1) {
       setGame(Levels.getGameState(index));
       setLevelNbr(index + 1);
       setMoves(0);
@@ -34,7 +34,7 @@ function App() {
     } else {
       setMoves(0);
       setPushes(0);
-      setLevelNbr(0);
+      setLevelNbr(-1);
       setRunning(false);
       setGameStopped(true);
     }

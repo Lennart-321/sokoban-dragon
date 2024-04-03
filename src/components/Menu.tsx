@@ -14,7 +14,7 @@ export function Menu({ setGame, setShowTutorial, setStartScreenTab, levelNbr, se
   const restartDisabled = levelNbr > 0 ? false : true; // Disable Restart if no level
   const handleTabPress = (tab: number) => {
     setGame(null);
-    if (levelNbr > 0) setLevel(0);
+    if (levelNbr >= 0) setLevel(-1);
     if (tab === 1) {
       setStartScreenTab(false);
     } else {

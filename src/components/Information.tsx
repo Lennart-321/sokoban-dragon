@@ -68,6 +68,8 @@ export function Information({ levelNbr, moves, pushes, restart, running, setRest
     return hoursString + ":" + minutesString + ":" + secondsString;
   };
 
+  if (levelNbr === -1) levelNbr = 0;
+
   return (
     <>
       <section className="info">
