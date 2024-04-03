@@ -5,8 +5,8 @@ interface ICellProps {
 }
 
 export function Cell({ state }: ICellProps): JSX.Element {
-  let bgClassName: string = "";
-  let className: string = "";
+  let bgClassName: string = state >= 16 ? (state >= 32 ? "immovable" : "stuck") : "";
+  let className: string = state >= 16 ? (state >= 32 ? "immovable" : "stuck") : "";
   switch (state) {
     case 1:
       className = "player";
@@ -24,7 +24,10 @@ export function Cell({ state }: ICellProps): JSX.Element {
       className = "player";
       bgClassName = "target";
       break;
-    case 6:
+    case 2 + 4:
+    case 2 + 4 + 16:
+    case 2 + 4 + 32:
+    case 2 + 4 + 16 + 32:
       className = "box-ok";
       bgClassName = "empty";
       break;
