@@ -14,27 +14,27 @@ export class GameEngine {
     let currentBoard = game.board;
     const nextPlayerPos = { x: playerX, y: playerY };
     let modifiedBoard: number[][] = [[]];
-    game.boxJustMoved = false;
+    let boxJustMoved = false;
 
     switch (direction) {
       case "ArrowLeft":
         nextPlayerPos.x--;
-        game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
+        boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
         modifiedBoard = this.movePlayerLeft(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "ArrowRight":
         nextPlayerPos.x++;
-        game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
+        boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
         modifiedBoard = this.movePlayerRight(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "ArrowUp":
         nextPlayerPos.y--;
-        game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
+        boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
         modifiedBoard = this.movePlayerUp(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "ArrowDown":
         nextPlayerPos.y++;
-        game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
+        boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
         modifiedBoard = this.movePlayerDown(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "Backspace":
@@ -46,26 +46,34 @@ export class GameEngine {
           //Resore box
           currentBoard[preStateInfo[3]][preStateInfo[2]] += 2;
           currentBoard[preStateInfo[5]][preStateInfo[4]] -= 2;
-          game.boxJustMoved = true;
+          //game.boxJustMoved = true;
         }
         game.playerX = preStateInfo[0];
         game.playerY = preStateInfo[1];
+        game.lastEvent = "UNDO";
         return currentBoard;
     }
 
     let [newPlayerY, newPlayerX] = this.findPlayer(modifiedBoard);
     if (newPlayerX !== playerX || newPlayerY !== playerY) {
       let newBoxPosition = { x: -1, y: -1 };
-      if (game.boxJustMoved) {
+      if (boxJustMoved) {
         newBoxPosition.x = playerX !== newPlayerX ? (playerX < newPlayerX ? newPlayerX + 1 : newPlayerX - 1) : playerX;
         newBoxPosition.y = playerY !== newPlayerY ? (playerY < newPlayerY ? newPlayerY + 1 : newPlayerY - 1) : playerY;
+        game.lastEvent =
+          (game.board[newBoxPosition.y][newBoxPosition.x] & 4) === 4 ? "BOX_MOVED_TO_TARGET" : "BOX_MOVED";
+      } else {
+        game.lastEvent = "PLAYER_MOVED";
       }
       game.backTrace.push([playerX, playerY, newPlayerX, newPlayerY, newBoxPosition.x, newBoxPosition.y]);
 
       game.playerX = newPlayerX;
       game.playerY = newPlayerY;
 
-      this.gameOver(currentBoard, setRunning); // Check for game over
+      if (this.gameOver(currentBoard, setRunning)) {
+        // Check for game over
+        game.lastEvent = "GAME_SOLVED";
+      }
     }
 
     return currentBoard;
@@ -88,6 +96,7 @@ export class GameEngine {
       // No empty target => game over
       setRunning(false);
     }
+    return !emptyTarget;
   }
 
   private static isBoxOnPos(board: number[][], pos: { x: number; y: number }) {
