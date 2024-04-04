@@ -6,6 +6,7 @@ export interface IInformationProps {
   moves: number;
   pushes: number;
   backSteps: number;
+  boxesOnTargets: number;
   restart: boolean;
   running: boolean;
   setRestart: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,6 +19,7 @@ export function Information({
   moves,
   pushes,
   backSteps,
+  boxesOnTargets,
   restart,
   running,
   setRestart,
@@ -78,6 +80,9 @@ export function Information({
 
     return hoursString + ":" + minutesString + ":" + secondsString;
   };
+  const score = () => {
+    return 1000 * boxesOnTargets - 5 * pushes - moves - seconds - 30 * backSteps;
+  };
 
   if (levelNbr === -1) levelNbr = 0;
 
@@ -89,6 +94,7 @@ export function Information({
         <div>Steg: {moves}</div>
         <div>Flyttar: {pushes}</div>
         <div>Ångra: {backSteps}</div>
+        <div>Poäng: {score()}</div>
       </section>
     </>
   );

@@ -45,4 +45,10 @@ export class GameState {
   public nrOfMoves() {
     return this.backTrace.length;
   }
+  public getNrBoxesOnTarget() {
+    return this.board.reduce(
+      (nrBox, row) => nrBox + row.reduce((nrRowBox, state) => nrRowBox + (state === 6 ? 1 : 0), 0),
+      0
+    );
+  }
 }

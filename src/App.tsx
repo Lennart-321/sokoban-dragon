@@ -58,6 +58,7 @@ function App() {
         moves={moves}
         pushes={pushes}
         backSteps={backSteps}
+        boxesOnTargets={game?.getNrBoxesOnTarget() ?? 0}
         restart={restart}
         running={running}
         setRestart={setRestart}
