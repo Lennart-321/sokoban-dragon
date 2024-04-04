@@ -8,7 +8,6 @@ import { Tutorial } from "./components/Tutorial";
 import { Levels } from "./classes/Levels";
 import Header from "./components/Header";
 import { GameOver } from "./components/GameOver";
-import WinScreen from "./components/WinScreen";
 
 function App() {
   const [game, setGame] = useState<GameState | null>(null);
@@ -47,13 +46,7 @@ function App() {
   return (
     <>
       <Header />
-      <Menu
-        setGame={setGame}
-        levelNbr={levelNbr}
-        setLevel={setLevelIndex}
-        setShowTutorial={setShowTutorial}
-        setStartScreenTab={setStartScreenTab}
-      />
+      <Menu setGame={setGame} levelNbr={levelNbr} setLevel={setLevelIndex} setShowTutorial={setShowTutorial} setStartScreenTab={setStartScreenTab} />
       <Information
         levelNbr={levelNbr}
         moves={moves}
@@ -66,7 +59,13 @@ function App() {
         gameStopped={gameStopped}
         setGameStopped={setGameStopped}
       />
-      <Tutorial showTutorial={showTutorial} setShowTutorial={setShowTutorial} />
+      <Tutorial
+        numberOfLevels={levelNbr}
+        setLevel={setLevelIndex}
+        setShowTutorial={setShowTutorial}
+        showStartScreenTab={showStartScreenTab}
+        showTutorial={showTutorial}
+      />
       <section className="playground">
         <GameBoard
           game={game}
@@ -78,7 +77,6 @@ function App() {
           setLevel={setLevelIndex}
           numberOfLevels={Levels.levels.length}
           showStartScreenTab={showStartScreenTab}
-          setStartScreenTab={setStartScreenTab}
         />
         <GameOver running={running} levelNbr={levelNbr} />
       </section>

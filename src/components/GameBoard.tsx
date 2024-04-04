@@ -15,7 +15,6 @@ interface IGameBoardProps {
   setLevel: (index: number) => void;
   numberOfLevels: number;
   showStartScreenTab: boolean;
-  setStartScreenTab: Dispatch<SetStateAction<boolean>>;
 }
 
 export function GameBoard({
@@ -28,7 +27,6 @@ export function GameBoard({
   setLevel,
   numberOfLevels,
   showStartScreenTab,
-  setStartScreenTab,
 }: IGameBoardProps): JSX.Element {
   const [refresh, setRefresh] = useState(0);
   const boxStepAudio: any = useRef();
@@ -40,14 +38,11 @@ export function GameBoard({
   const backgroundAudioStatus: MutableRefObject<"PLAYING" | "NOT_STARTED" | "STOPPED"> = useRef("NOT_STARTED");
 
   const handleKeyDown = (key: string) => {
-    if (
-      running &&
-      (key === "ArrowDown" || key === "ArrowRight" || key === "ArrowLeft" || key === "ArrowUp" || key === "Backspace")
-    ) {
+    if (running && (key === "ArrowDown" || key === "ArrowRight" || key === "ArrowLeft" || key === "ArrowUp" || key === "Backspace")) {
       if (game) {
         game.board = GameEngine.movePlayer(key, game, setMoves, setPushes, setBackSteps, setRunning);
         game.findPlayer();
-        setRefresh(c => c + 1);
+        setRefresh((c) => c + 1);
       }
     }
   };
@@ -105,10 +100,7 @@ export function GameBoard({
   });
 
   if (game !== null) {
-    document.documentElement.style.setProperty(
-      "--playerImg",
-      `url("src/img/spr_player_${GameEngine.lastDirection(game)}.png")`
-    );
+    document.documentElement.style.setProperty("--playerImg", `url("src/img/spr_player_${GameEngine.lastDirection(game)}.png")`);
 
     const jsxElement: JSX.Element[] = [];
     for (let i = 0; i < game.board.length; i++) {
@@ -148,17 +140,7 @@ export function GameBoard({
         <audio ref={musicAudio} src={"./src/assets/sokoban.mp3"}></audio>
         <audio ref={undoAudio} src={"./src/assets/undo.wav"}></audio>
         <audio ref={winAudio} src={"./src/assets/win1.mp3"}></audio>
-        <StartScreen
-          setLevel={setLevel}
-          numberOfLevels={numberOfLevels}
-          showStartScreenTab={showStartScreenTab}
-          setStartScreenTab={setStartScreenTab}
-        />
-        <div className="game-board-button-section">
-          <button className="menu-game-button" onClick={() => setStartScreenTab(true)}>
-            Spela
-          </button>
-        </div>
+        <StartScreen setLevel={setLevel} numberOfLevels={numberOfLevels} showStartScreenTab={showStartScreenTab} />
       </>
     );
   }
