@@ -10,6 +10,7 @@ interface IGameBoardProps {
   running: boolean;
   setMoves: Dispatch<SetStateAction<number>>;
   setPushes: Dispatch<SetStateAction<number>>;
+  setBackSteps: Dispatch<SetStateAction<number>>;
   setRunning: Dispatch<SetStateAction<boolean>>;
   setLevel: (index: number) => void;
   numberOfLevels: number;
@@ -22,6 +23,7 @@ export function GameBoard({
   running,
   setMoves,
   setPushes,
+  setBackSteps,
   setRunning,
   setLevel,
   numberOfLevels,
@@ -29,31 +31,23 @@ export function GameBoard({
   setStartScreenTab,
 }: IGameBoardProps): JSX.Element {
   const [refresh, setRefresh] = useState(0);
-//<<<<<<< HEAD
   const boxStepAudio: any = useRef();
   const stepAudio: any = useRef();
-  const boxPlaceAudio:any = useRef();
-  const musicAudio:any = useRef();
-  const undoAudio:any = useRef();
-  const winAudio:any = useRef();
-//=======
-/*
-  const stepAudio: any = useRef();
-  const boxAudio: any = useRef();
-  const targetAudio: any = useRef();
+  const boxPlaceAudio: any = useRef();
+  const musicAudio: any = useRef();
   const undoAudio: any = useRef();
-  const successAudio: any = useRef();
-  const backgroundAudio: any = useRef();
-  */
+  const winAudio: any = useRef();
   const backgroundAudioStatus: MutableRefObject<"PLAYING" | "NOT_STARTED" | "STOPPED"> = useRef("NOT_STARTED");
-//>>>>>>> main
 
   const handleKeyDown = (key: string) => {
-    if (running && (key === "ArrowDown" || key === "ArrowRight" || key === "ArrowLeft" || key === "ArrowUp" || key === "Backspace")) {
+    if (
+      running &&
+      (key === "ArrowDown" || key === "ArrowRight" || key === "ArrowLeft" || key === "ArrowUp" || key === "Backspace")
+    ) {
       if (game) {
-        game.board = GameEngine.movePlayer(key, game, setMoves, setPushes, setRunning);
+        game.board = GameEngine.movePlayer(key, game, setMoves, setPushes, setBackSteps, setRunning);
         game.findPlayer();
-        setRefresh((c) => c + 1);
+        setRefresh(c => c + 1);
       }
     }
   };
@@ -72,7 +66,6 @@ export function GameBoard({
 
   useEffect(() => {
     if (game?.nrOfMoves()) {
-
       switch (game.lastEvent) {
         case "PLAYER_MOVED":
           stepAudio.current.play();
@@ -112,7 +105,10 @@ export function GameBoard({
   });
 
   if (game !== null) {
-    document.documentElement.style.setProperty("--playerImg", `url("src/img/spr_player_${GameEngine.lastDirection(game)}.png")`);
+    document.documentElement.style.setProperty(
+      "--playerImg",
+      `url("src/img/spr_player_${GameEngine.lastDirection(game)}.png")`
+    );
 
     const jsxElement: JSX.Element[] = [];
     for (let i = 0; i < game.board.length; i++) {
@@ -152,7 +148,12 @@ export function GameBoard({
         <audio ref={musicAudio} src={"./src/assets/sokoban.mp3"}></audio>
         <audio ref={undoAudio} src={"./src/assets/undo.wav"}></audio>
         <audio ref={winAudio} src={"./src/assets/win1.mp3"}></audio>
-        <StartScreen setLevel={setLevel} numberOfLevels={numberOfLevels} showStartScreenTab={showStartScreenTab} setStartScreenTab={setStartScreenTab} />
+        <StartScreen
+          setLevel={setLevel}
+          numberOfLevels={numberOfLevels}
+          showStartScreenTab={showStartScreenTab}
+          setStartScreenTab={setStartScreenTab}
+        />
         <div className="game-board-button-section">
           <button className="menu-game-button" onClick={() => setStartScreenTab(true)}>
             Spela

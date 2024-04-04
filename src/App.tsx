@@ -15,6 +15,7 @@ function App() {
   const [levelNbr, setLevelNbr] = useState(0);
   const [moves, setMoves] = useState(0);
   const [pushes, setPushes] = useState(0);
+  const [backSteps, setBackSteps] = useState(0);
   const [restart, setRestart] = useState<boolean>(false);
   const [running, setRunning] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
@@ -27,6 +28,7 @@ function App() {
       setLevelNbr(index + 1);
       setMoves(0);
       setPushes(0);
+      setBackSteps(0);
       if (index + 1 === levelNbr) {
         // Restart level
         setRestart(true);
@@ -35,6 +37,7 @@ function App() {
     } else {
       setMoves(0);
       setPushes(0);
+      setBackSteps(0);
       setLevelNbr(-1);
       setRunning(false);
       setGameStopped(true);
@@ -44,11 +47,19 @@ function App() {
   return (
     <>
       <Header />
-      <Menu setGame={setGame} levelNbr={levelNbr} setLevel={setLevelIndex} setShowTutorial={setShowTutorial} setStartScreenTab={setStartScreenTab} />
+      <Menu
+        setGame={setGame}
+        levelNbr={levelNbr}
+        setLevel={setLevelIndex}
+        setShowTutorial={setShowTutorial}
+        setStartScreenTab={setStartScreenTab}
+      />
       <Information
         levelNbr={levelNbr}
         moves={moves}
         pushes={pushes}
+        backSteps={backSteps}
+        boxesOnTargets={game?.getNrBoxesOnTarget() ?? 0}
         restart={restart}
         running={running}
         setRestart={setRestart}
@@ -62,6 +73,7 @@ function App() {
           running={running}
           setMoves={setMoves}
           setPushes={setPushes}
+          setBackSteps={setBackSteps}
           setRunning={setRunning}
           setLevel={setLevelIndex}
           numberOfLevels={Levels.levels.length}

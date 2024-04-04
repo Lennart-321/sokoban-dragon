@@ -6,13 +6,9 @@ export class GameState {
   lastEvent: "NONE" | "PLAYER_MOVED" | "BOX_MOVED" | "BOX_MOVED_TO_TARGET" | "UNDO" | "GAME_SOLVED";
   board: number[][]; //0=empty, 1=player, 2=box, 4=target, 5=man+target, 6=box+target, 8=wall, 9=offside
   backTrace: number[][];
+  backSteps: number;
   levelNbr: number;
-  constructor(
-    board: number[][],
-    levelNbr: number,
-    playerX?: number,
-    playerY?: number
-  ) {
+  constructor(board: number[][], levelNbr: number, playerX?: number, playerY?: number) {
     this.board = board;
     this.width = board[0].length;
     this.height = board.length;
@@ -26,6 +22,7 @@ export class GameState {
     }
     this.lastEvent = "NONE";
     this.backTrace = [];
+    this.backSteps = 0;
   }
 
   private findPlayerPosition() {
@@ -47,5 +44,11 @@ export class GameState {
   }
   public nrOfMoves() {
     return this.backTrace.length;
+  }
+  public getNrBoxesOnTarget() {
+    return this.board.reduce(
+      (nrBox, row) => nrBox + row.reduce((nrRowBox, state) => nrRowBox + (state === 6 ? 1 : 0), 0),
+      0
+    );
   }
 }

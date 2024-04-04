@@ -5,6 +5,8 @@ export interface IInformationProps {
   levelNbr: number;
   moves: number;
   pushes: number;
+  backSteps: number;
+  boxesOnTargets: number;
   restart: boolean;
   running: boolean;
   setRestart: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,7 +14,18 @@ export interface IInformationProps {
   setGameStopped: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function Information({ levelNbr, moves, pushes, restart, running, setRestart, gameStopped, setGameStopped }: IInformationProps): JSX.Element {
+export function Information({
+  levelNbr,
+  moves,
+  pushes,
+  backSteps,
+  boxesOnTargets,
+  restart,
+  running,
+  setRestart,
+  gameStopped,
+  setGameStopped,
+}: IInformationProps): JSX.Element {
   const [intervalId, setIntervalId] = useState(0); // Set interval id
   const [seconds, setSeconds] = useState(0); // Seconds elapsed
   const previousLevel = useRef(levelNbr); // Store runlevel to capture changes
@@ -20,7 +33,7 @@ export function Information({ levelNbr, moves, pushes, restart, running, setRest
   useEffect(() => {
     // Restart game
     if (restart === true) {
-      setSeconds((s) => s * 0);
+      setSeconds(s => s * 0);
       setRestart(false);
     }
   }, [restart]);
@@ -28,7 +41,7 @@ export function Information({ levelNbr, moves, pushes, restart, running, setRest
   useEffect(() => {
     //set timer zero
     if (gameStopped) {
-      setSeconds((s) => s * 0);
+      setSeconds(s => s * 0);
       setGameStopped(false);
     }
   }, [gameStopped]);
@@ -36,7 +49,7 @@ export function Information({ levelNbr, moves, pushes, restart, running, setRest
   useEffect(() => {
     // Change level
     if (levelNbr !== previousLevel.current && levelNbr > 0) {
-      setSeconds((s) => s * 0); // Set seconds to '0' without rerendering
+      setSeconds(s => s * 0); // Set seconds to '0' without rerendering
       previousLevel.current = levelNbr; // Store new level number
       clearInterval(intervalId);
     }
@@ -50,7 +63,7 @@ export function Information({ levelNbr, moves, pushes, restart, running, setRest
 
     // Increase seconds
     const newIntervalId = setInterval(() => {
-      setSeconds((s) => s + 1);
+      setSeconds(s => s + 1);
     }, 1000);
 
     setIntervalId(newIntervalId);
@@ -67,6 +80,7 @@ export function Information({ levelNbr, moves, pushes, restart, running, setRest
 
     return hoursString + ":" + minutesString + ":" + secondsString;
   };
+  const score = 1000 * boxesOnTargets - 5 * pushes - moves - seconds - 30 * backSteps;
 
   if (levelNbr === -1) levelNbr = 0;
 
@@ -77,6 +91,8 @@ export function Information({ levelNbr, moves, pushes, restart, running, setRest
         <div>Tid: {printTimeElapsed()}</div>
         <div>Steg: {moves}</div>
         <div>Flyttar: {pushes}</div>
+        <div>Ångra: {backSteps}</div>
+        <div>Poäng: {score < 0 ? 0 : score}</div>
       </section>
     </>
   );
