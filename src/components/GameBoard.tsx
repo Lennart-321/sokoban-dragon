@@ -134,6 +134,11 @@ export function GameBoard({
     return (
       <>
         <StartScreen setLevel={setLevel} numberOfLevels={numberOfLevels} showStartScreenTab={showStartScreenTab} setStartScreenTab={setStartScreenTab} />
+        <div className="game-board-button-section">
+          <button className="menu-game-button" onClick={() => setStartScreenTab(true)}>
+            Spela
+          </button>
+        </div>
       </>
     );
   }
