@@ -7,7 +7,6 @@ import { Menu } from "./components/Menu";
 import { Tutorial } from "./components/Tutorial";
 import { Levels } from "./classes/Levels";
 import Header from "./components/Header";
-import StartScreen from "./components/StartScreen";
 import { GameOver } from "./components/GameOver";
 
 function App() {
@@ -16,23 +15,55 @@ function App() {
   const [moves, setMoves] = useState(0);
   const [pushes, setPushes] = useState(0);
   const [backSteps, setBackSteps] = useState(0);
+  const [restart, setRestart] = useState<boolean>(false);
   const [running, setRunning] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
+  const [showStartScreenTab, setStartScreenTab] = useState<boolean>(false);
+  const [gameStopped, setGameStopped] = useState<boolean>(false);
 
   function setLevelIndex(index: number) {
-    setGame(Levels.getGameState(index));
-    setLevelNbr(index + 1);
-    setMoves(0);
-    setPushes(0);
-    setBackSteps(0);
-    setRunning(true);
+    if (index !== -1) {
+      setGame(Levels.getGameState(index));
+      setLevelNbr(index + 1);
+      setMoves(0);
+      setPushes(0);
+      setBackSteps(0);
+      if (index + 1 === levelNbr) {
+        // Restart level
+        setRestart(true);
+      }
+      setRunning(true);
+    } else {
+      setMoves(0);
+      setPushes(0);
+      setBackSteps(0);
+      setLevelNbr(-1);
+      setRunning(false);
+      setGameStopped(true);
+    }
   }
 
   return (
     <>
       <Header />
-      <Menu setLevel={setLevelIndex} numberOfLevels={Levels.levels.length} setShowTutorial={setShowTutorial} />
-      <Information levelNbr={levelNbr} moves={moves} pushes={pushes} backSteps={backSteps} running={running} />
+      <Menu
+        setGame={setGame}
+        levelNbr={levelNbr}
+        setLevel={setLevelIndex}
+        setShowTutorial={setShowTutorial}
+        setStartScreenTab={setStartScreenTab}
+      />
+      <Information
+        levelNbr={levelNbr}
+        moves={moves}
+        pushes={pushes}
+        backSteps={backSteps}
+        restart={restart}
+        running={running}
+        setRestart={setRestart}
+        gameStopped={gameStopped}
+        setGameStopped={setGameStopped}
+      />
       <Tutorial showTutorial={showTutorial} setShowTutorial={setShowTutorial} />
       <section className="playground">
         <GameBoard
@@ -42,6 +73,10 @@ function App() {
           setPushes={setPushes}
           setBackSteps={setBackSteps}
           setRunning={setRunning}
+          setLevel={setLevelIndex}
+          numberOfLevels={Levels.levels.length}
+          showStartScreenTab={showStartScreenTab}
+          setStartScreenTab={setStartScreenTab}
         />
         <GameOver running={running} levelNbr={levelNbr} />
       </section>

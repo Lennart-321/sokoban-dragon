@@ -15,27 +15,27 @@ export class GameEngine {
     let currentBoard = game.board;
     const nextPlayerPos = { x: playerX, y: playerY };
     let modifiedBoard: number[][] = [[]];
-    game.boxJustMoved = false;
+    let boxJustMoved = false;
 
     switch (direction) {
       case "ArrowLeft":
         nextPlayerPos.x--;
-        game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
+        boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
         modifiedBoard = this.movePlayerLeft(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "ArrowRight":
         nextPlayerPos.x++;
-        game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
+        boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
         modifiedBoard = this.movePlayerRight(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "ArrowUp":
         nextPlayerPos.y--;
-        game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
+        boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
         modifiedBoard = this.movePlayerUp(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "ArrowDown":
         nextPlayerPos.y++;
-        game.boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
+        boxJustMoved = this.isBoxOnPos(currentBoard, nextPlayerPos);
         modifiedBoard = this.movePlayerDown(playerY, playerX, currentBoard, setMoves, setPushes);
         break;
       case "Backspace":
@@ -48,34 +48,42 @@ export class GameEngine {
           currentBoard[preStateInfo[3]][preStateInfo[2]] += 2;
           currentBoard[preStateInfo[5]][preStateInfo[4]] -= 2;
           setPushes(p => p - 1);
-          game.boxJustMoved = true;
+          //boxJustMoved = true;
         }
         game.playerX = preStateInfo[0];
         game.playerY = preStateInfo[1];
         setBackSteps(++game.backSteps);
         setMoves(game.nrOfMoves());
+        game.lastEvent = "UNDO";
         return currentBoard;
     }
 
     let [newPlayerY, newPlayerX] = this.findPlayer(modifiedBoard);
     if (newPlayerX !== playerX || newPlayerY !== playerY) {
       let newBoxPosition = { x: -1, y: -1 };
-      if (game.boxJustMoved) {
+      if (boxJustMoved) {
         newBoxPosition.x = playerX !== newPlayerX ? (playerX < newPlayerX ? newPlayerX + 1 : newPlayerX - 1) : playerX;
         newBoxPosition.y = playerY !== newPlayerY ? (playerY < newPlayerY ? newPlayerY + 1 : newPlayerY - 1) : playerY;
+        game.lastEvent =
+          (game.board[newBoxPosition.y][newBoxPosition.x] & 4) === 4 ? "BOX_MOVED_TO_TARGET" : "BOX_MOVED";
+      } else {
+        game.lastEvent = "PLAYER_MOVED";
       }
       game.backTrace.push([playerX, playerY, newPlayerX, newPlayerY, newBoxPosition.x, newBoxPosition.y]);
 
       game.playerX = newPlayerX;
       game.playerY = newPlayerY;
 
-      this.gameOver(currentBoard, setRunning); // Check for game over
+      if (this.gameOver(currentBoard, setRunning, game.levelNbr)) {
+        // Check for game over
+        game.lastEvent = "GAME_SOLVED";
+      }
     }
 
     return currentBoard;
   }
 
-  private static gameOver(board: number[][], setRunning: Dispatch<SetStateAction<boolean>>) {
+  private static gameOver(board: number[][], setRunning: Dispatch<SetStateAction<boolean>>, levelNbr: number) {
     let emptyTarget = false;
 
     for (let y = 0; y < board.length; y++) {
@@ -91,7 +99,9 @@ export class GameEngine {
     if (!emptyTarget) {
       // No empty target => game over
       setRunning(false);
+      localStorage.setItem("highestLevel", (levelNbr + 1).toString());
     }
+    return !emptyTarget;
   }
 
   private static isBoxOnPos(board: number[][], pos: { x: number; y: number }) {
@@ -271,17 +281,6 @@ export class GameEngine {
       }
     }
     return [];
-  }
-
-  private static compareMatrix(matrix1: number[][], matrix2: number[][]): boolean {
-    if (matrix1.length !== matrix2.length) return false;
-    for (let i = 0; i < matrix1.length; i++) {
-      for (let j = 0; j < matrix1[i].length; j++) {
-        if (matrix1[i][j] !== matrix2[i][j]) return false;
-      }
-    }
-
-    return true;
   }
 
   public static lastDirection(game: GameState): "left" | "right" | "up" | "down" {

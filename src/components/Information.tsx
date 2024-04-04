@@ -6,31 +6,60 @@ export interface IInformationProps {
   moves: number;
   pushes: number;
   backSteps: number;
+  restart: boolean;
   running: boolean;
+  setRestart: React.Dispatch<React.SetStateAction<boolean>>;
+  gameStopped: boolean;
+  setGameStopped: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-// BUG - Information.tsx can't restart the same index again without gameover before!
-// And it can't handle click on 'Help' button!
-
-export function Information({ levelNbr, moves, pushes, backSteps, running }: IInformationProps): JSX.Element {
+export function Information({
+  levelNbr,
+  moves,
+  pushes,
+  backSteps,
+  restart,
+  running,
+  setRestart,
+  gameStopped,
+  setGameStopped,
+}: IInformationProps): JSX.Element {
   const [intervalId, setIntervalId] = useState(0); // Set interval id
   const [seconds, setSeconds] = useState(0); // Seconds elapsed
-  const previousLevel = useRef(levelNbr); // Storage of runlevel to capture changes
+  const previousLevel = useRef(levelNbr); // Store runlevel to capture changes
 
   useEffect(() => {
-    if (levelNbr !== previousLevel.current) {
-      setSeconds(s => s - seconds); // Set seconds to '0' without rerendering
-      previousLevel.current = levelNbr; // Update level storage
+    // Restart game
+    if (restart === true) {
+      setSeconds(s => s * 0);
+      setRestart(false);
+    }
+  }, [restart]);
+
+  useEffect(() => {
+    //set timer zero
+    if (gameStopped) {
+      setSeconds(s => s * 0);
+      setGameStopped(false);
+    }
+  }, [gameStopped]);
+
+  useEffect(() => {
+    // Change level
+    if (levelNbr !== previousLevel.current && levelNbr > 0) {
+      setSeconds(s => s * 0); // Set seconds to '0' without rerendering
+      previousLevel.current = levelNbr; // Store new level number
       clearInterval(intervalId);
     }
 
+    // Game over
     if (!running) {
-      // No game started or game over
       clearInterval(intervalId);
-      previousLevel.current = 0;
+      previousLevel.current = 0; // Set to 0 to catch level changes
       return;
     }
 
+    // Increase seconds
     const newIntervalId = setInterval(() => {
       setSeconds(s => s + 1);
     }, 1000);
@@ -49,6 +78,8 @@ export function Information({ levelNbr, moves, pushes, backSteps, running }: IIn
 
     return hoursString + ":" + minutesString + ":" + secondsString;
   };
+
+  if (levelNbr === -1) levelNbr = 0;
 
   return (
     <>

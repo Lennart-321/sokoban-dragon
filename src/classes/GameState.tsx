@@ -3,14 +3,16 @@ export class GameState {
   height: number;
   playerX: number;
   playerY: number;
-  boxJustMoved: boolean;
-  board: number[][]; //0=empty, 1=player, 2=box, 4=target, 5=man+target, 6=box+target, 8=wall
+  lastEvent: "NONE" | "PLAYER_MOVED" | "BOX_MOVED" | "BOX_MOVED_TO_TARGET" | "UNDO" | "GAME_SOLVED";
+  board: number[][]; //0=empty, 1=player, 2=box, 4=target, 5=man+target, 6=box+target, 8=wall, 9=offside
   backTrace: number[][];
   backSteps: number;
-  constructor(board: number[][], playerX?: number, playerY?: number) {
+  levelNbr: number;
+  constructor(board: number[][], levelNbr: number, playerX?: number, playerY?: number) {
     this.board = board;
     this.width = board[0].length;
     this.height = board.length;
+    this.levelNbr = levelNbr;
     if (!playerX || !playerY) {
       this.playerX = this.playerY = -1;
       this.findPlayerPosition();
@@ -18,7 +20,7 @@ export class GameState {
       this.playerX = playerX;
       this.playerY = playerY;
     }
-    this.boxJustMoved = false;
+    this.lastEvent = "NONE";
     this.backTrace = [];
     this.backSteps = 0;
   }
