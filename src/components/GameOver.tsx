@@ -14,7 +14,7 @@ export function GameOver({running, levelNbr}: IGameOverProps) {
             <div className="win-screen">
                 <div className="win-text">
                     <h1>BRA JOBBAT!</h1>
-                    <h2>Du klarade nivå 1!</h2>
+                    <h2>Du klarade nivå {levelNbr}!</h2>
                 </div>
                 <div className="player-box">
                     <img src="./src/img/spr_player_right.png" alt="" />
