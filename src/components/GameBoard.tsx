@@ -127,7 +127,7 @@ export function GameBoard({
         <audio ref={boxStepAudio} src={"./src/assets/box_step.mp3"}></audio>
         <audio ref={boxPlaceAudio} src={"./src/assets/box_place.mp3"}></audio>
         <audio ref={musicAudio} src={"./src/assets/sokoban.mp3"}></audio>
-        <audio ref={undoAudio} src={"./rsc/assets/undo.wav"}></audio>
+        <audio ref={undoAudio} src={"./src/assets/undo.wav"}></audio>
         <audio ref={winAudio} src={"./src/assets/win1.mp3"}></audio>
 
         <div
@@ -150,7 +150,7 @@ export function GameBoard({
         <audio ref={boxStepAudio} src={"./src/assets/box_step.mp3"}></audio>
         <audio ref={boxPlaceAudio} src={"./src/assets/box_place.mp3"}></audio>
         <audio ref={musicAudio} src={"./src/assets/sokoban.mp3"}></audio>
-        <audio ref={undoAudio} src={"./rsc/assets/undo.wav"}></audio>
+        <audio ref={undoAudio} src={"./src/assets/undo.wav"}></audio>
         <audio ref={winAudio} src={"./src/assets/win1.mp3"}></audio>
         <StartScreen setLevel={setLevel} numberOfLevels={numberOfLevels} showStartScreenTab={showStartScreenTab} setStartScreenTab={setStartScreenTab} />
       </>

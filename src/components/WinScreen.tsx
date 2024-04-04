@@ -1,4 +1,3 @@
-import '../css/WinScreen.css'
 
 function WinScreen(){
     return(
