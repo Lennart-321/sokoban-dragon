@@ -3,11 +3,15 @@ import "../css/tutorial.css";
 import StartScreen from "./StartScreen";
 
 export interface ITutorial {
-    showTutorial: boolean;
+    numberOfLevels: number;
+    setLevel: () => void;
     setShowTutorial: Dispatch<SetStateAction<boolean>>;
+    setStartScreenTab: Dispatch<SetStateAction<boolean>>;
+    showStartScreenTab: boolean;
+    showTutorial: boolean;
 }
 
-export function Tutorial({ showTutorial, setShowTutorial }: ITutorial) {
+export function Tutorial({numberOfLevels, setLevel, showStartScreenTab, setStartScreenTab, showTutorial, setShowTutorial }: ITutorial) {
     // Hinder modal closing if click on the modal
     const stopClosing = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.stopPropagation();
@@ -21,7 +25,7 @@ export function Tutorial({ showTutorial, setShowTutorial }: ITutorial) {
                         Instruktioner
                         <span className="close" onClick={() => setShowTutorial(false)}>&times;</span>
                     </h3>
-                    <StartScreen />
+                    <StartScreen setLevel={setLevel} numberOfLevels={numberOfLevels} showStartScreenTab={showStartScreenTab} setStartScreenTab={setStartScreenTab} />
                 </div>
             </div>
         </>
