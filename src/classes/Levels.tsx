@@ -153,7 +153,6 @@ export class Levels {
     }
     let gameState = new GameState(newBoard, index);
 
-    console.log("Levels.getGameState => ", gameState);
     return gameState;
   }
 }
