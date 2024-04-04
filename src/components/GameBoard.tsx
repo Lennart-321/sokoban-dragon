@@ -153,6 +153,11 @@ export function GameBoard({
         <audio ref={undoAudio} src={"./src/assets/undo.wav"}></audio>
         <audio ref={winAudio} src={"./src/assets/win1.mp3"}></audio>
         <StartScreen setLevel={setLevel} numberOfLevels={numberOfLevels} showStartScreenTab={showStartScreenTab} setStartScreenTab={setStartScreenTab} />
+        <div className="game-board-button-section">
+          <button className="menu-game-button" onClick={() => setStartScreenTab(true)}>
+            Spela
+          </button>
+        </div>
       </>
     );
   }

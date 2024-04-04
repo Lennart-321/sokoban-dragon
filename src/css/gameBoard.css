@@ -12,3 +12,10 @@
   height: 100%;
   width: 100%;
 }
+
+.game-board-button-section {
+  width: 100%;
+  padding-block: 10px 20px;
+  margin-inline: auto;
+  background-color: #363636;
+}
