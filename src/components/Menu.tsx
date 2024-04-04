@@ -39,7 +39,7 @@ export function Menu({ setGame, setShowTutorial, setStartScreenTab, levelNbr, se
             setStartScreenTab(false);
           }}
         >
-          Hjälp
+          Instruktioner
         </button>
         <button className="menu-game-button" disabled={restartDisabled} onClick={() => setLevel(levelNbr - 1)}>
           Starta om
