@@ -97,7 +97,7 @@ export function GameBoard({
         backgroundAudioStatus.current = "STOPPED";
       }
     }
-  });
+  }, [running]);
 
   if (game !== null) {
     document.documentElement.style.setProperty("--playerImg", `url("src/img/spr_player_${GameEngine.lastDirection(game)}.png")`);
