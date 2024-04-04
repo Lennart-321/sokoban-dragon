@@ -147,6 +147,11 @@ export function GameBoard({
           showStartScreenTab={showStartScreenTab}
           setStartScreenTab={setStartScreenTab}
         />
+        <div className="game-board-button-section">
+          <button className="menu-game-button" onClick={() => setStartScreenTab(true)}>
+            Spela
+          </button>
+        </div>
       </>
     );
   }
