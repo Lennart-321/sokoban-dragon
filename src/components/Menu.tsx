@@ -22,33 +22,6 @@ export function Menu({ setGame, setShowTutorial, setStartScreenTab, levelNbr, se
     }
   };
 
-
-/*
-    const restartDisabled = levelNbr > 0 ? false : true;  // Disable Restart if no level
-
-    return (
-        <nav id="the-menu">
-            <div className="menu-info">Välkommen att spela SOKOBAN! </div>
-            <div className="btn-row">
-                <button
-                    className="menu-game-button"
-                    disabled={restartDisabled}
-                    onClick={() => setLevel(levelNbr - 1)}
-                >Starta om</button>
-                {gameButtons}
-                <button
-                    className="menu-game-button btn-help"
-                    onClick={() => {
-                        setShowTutorial(true);
-                    }}
-                >
-                    Instruktioner
-                </button>
-            </div>
-        </nav>
-    );
-*/
-
   return (
     <nav id="the-menu">
       <div className="menu-info">Välkommen att spela SOKOBAN! </div>
@@ -63,9 +36,10 @@ export function Menu({ setGame, setShowTutorial, setStartScreenTab, levelNbr, se
           className="menu-game-button btn-help"
           onClick={() => {
             setShowTutorial(true);
+            setStartScreenTab(false);
           }}
         >
-          Hjälp
+          Instruktioner
         </button>
         <button className="menu-game-button" disabled={restartDisabled} onClick={() => setLevel(levelNbr - 1)}>
           Starta om
@@ -73,5 +47,4 @@ export function Menu({ setGame, setShowTutorial, setStartScreenTab, levelNbr, se
       </div>
     </nav>
   );
-
 }
