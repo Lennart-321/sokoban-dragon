@@ -70,7 +70,7 @@ export class GameEngine {
       game.playerX = newPlayerX;
       game.playerY = newPlayerY;
 
-      if (this.gameOver(currentBoard, setRunning)) {
+      if (this.gameOver(currentBoard, setRunning, game.levelNbr)) {
         // Check for game over
         game.lastEvent = "GAME_SOLVED";
       }
@@ -79,7 +79,7 @@ export class GameEngine {
     return currentBoard;
   }
 
-  private static gameOver(board: number[][], setRunning: Dispatch<SetStateAction<boolean>>) {
+  private static gameOver(board: number[][], setRunning: Dispatch<SetStateAction<boolean>>, levelNbr: number) {
     let emptyTarget = false;
 
     for (let y = 0; y < board.length; y++) {
@@ -95,14 +95,13 @@ export class GameEngine {
     if (!emptyTarget) {
       // No empty target => game over
       setRunning(false);
+      localStorage.setItem("highestLevel", (levelNbr + 1).toString());
     }
     return !emptyTarget;
   }
 
   private static isBoxOnPos(board: number[][], pos: { x: number; y: number }) {
-    return (
-      0 <= pos.x && pos.x < board[0].length && 0 <= pos.y && pos.y < board.length && (board[pos.y][pos.x] & 2) != 0
-    );
+    return 0 <= pos.x && pos.x < board[0].length && 0 <= pos.y && pos.y < board.length && (board[pos.y][pos.x] & 2) != 0;
   }
 
   private static movePlayerLeft(
@@ -117,14 +116,14 @@ export class GameEngine {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY][playerX - 1] += 1;
       currentBoard[playerY][playerX] -= 1;
-      setMoves(val => val + 1);
+      setMoves((val) => val + 1);
       return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
       if (this.moveBox(currentBoard, playerY, playerX - 1, "left")) {
         currentBoard[playerY][playerX - 1] += 1;
         currentBoard[playerY][playerX] -= 1;
-        setMoves(val => val + 1);
-        setPushes(val => val + 1);
+        setMoves((val) => val + 1);
+        setPushes((val) => val + 1);
         return currentBoard;
       }
     }
@@ -144,14 +143,14 @@ export class GameEngine {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY][playerX + 1] += 1;
       currentBoard[playerY][playerX] -= 1;
-      setMoves(val => val + 1);
+      setMoves((val) => val + 1);
       return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
       if (this.moveBox(currentBoard, playerY, playerX + 1, "right")) {
         currentBoard[playerY][playerX + 1] += 1;
         currentBoard[playerY][playerX] -= 1;
-        setMoves(val => val + 1);
-        setPushes(val => val + 1);
+        setMoves((val) => val + 1);
+        setPushes((val) => val + 1);
         return currentBoard;
       }
     }
@@ -171,15 +170,15 @@ export class GameEngine {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY - 1][playerX] += 1;
       currentBoard[playerY][playerX] -= 1;
-      setMoves(val => val + 1);
+      setMoves((val) => val + 1);
 
       return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
       if (this.moveBox(currentBoard, playerY - 1, playerX, "up")) {
         currentBoard[playerY - 1][playerX] += 1;
         currentBoard[playerY][playerX] -= 1;
-        setMoves(val => val + 1);
-        setPushes(val => val + 1);
+        setMoves((val) => val + 1);
+        setPushes((val) => val + 1);
         return currentBoard;
       }
     }
@@ -198,7 +197,7 @@ export class GameEngine {
     if (moveToIndex === 0 || moveToIndex === 4) {
       currentBoard[playerY + 1][playerX] += 1;
       currentBoard[playerY][playerX] -= 1;
-      setMoves(val => val + 1);
+      setMoves((val) => val + 1);
 
       return currentBoard;
     } else if (moveToIndex === 2 || moveToIndex === 6) {
@@ -206,8 +205,8 @@ export class GameEngine {
         currentBoard[playerY + 1][playerX] += 1;
         currentBoard[playerY][playerX] -= 1;
 
-        setMoves(val => val + 1);
-        setPushes(val => val + 1);
+        setMoves((val) => val + 1);
+        setPushes((val) => val + 1);
         return currentBoard;
       }
     }
@@ -276,17 +275,6 @@ export class GameEngine {
       }
     }
     return [];
-  }
-
-  private static compareMatrix(matrix1: number[][], matrix2: number[][]): boolean {
-    if (matrix1.length !== matrix2.length) return false;
-    for (let i = 0; i < matrix1.length; i++) {
-      for (let j = 0; j < matrix1[i].length; j++) {
-        if (matrix1[i][j] !== matrix2[i][j]) return false;
-      }
-    }
-
-    return true;
   }
 
   public static lastDirection(game: GameState): "left" | "right" | "up" | "down" {
