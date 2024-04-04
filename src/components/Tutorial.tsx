@@ -22,15 +22,6 @@ export function Tutorial({ showTutorial, setShowTutorial }: ITutorial) {
                         <span className="close" onClick={() => setShowTutorial(false)}>&times;</span>
                     </h3>
                     <StartScreen />
-                    <div className="creater-container">
-                        <h3 className="header">Spelet skapades 2024 vid ett grupparbete i React av:</h3>
-                        <div className="creaters">
-                            <div className="name">Anders Stenhammar</div>
-                            <div className="name">Göran Olson</div>
-                            <div className="name">Johan Edvardsson</div>
-                            <div className="name">Lennart Skagerling</div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </>

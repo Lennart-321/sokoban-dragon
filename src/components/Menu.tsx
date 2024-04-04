@@ -36,7 +36,7 @@ export function Menu({ levelNbr, setLevel, numberOfLevels, setShowTutorial }: IM
                         setShowTutorial(true);
                     }}
                 >
-                    Information
+                    Instruktioner
                 </button>
             </div>
         </nav>
