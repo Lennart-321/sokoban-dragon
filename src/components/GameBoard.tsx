@@ -15,8 +15,12 @@ interface IGameBoardProps {
 
 export function GameBoard({ game, running, setMoves, setPushes, setRunning }: IGameBoardProps): JSX.Element {
   const [refresh, setRefresh] = useState(0);
-  const boxAudio: any = useRef();
+  const boxStepAudio: any = useRef();
   const stepAudio: any = useRef();
+  const boxPlaceAudio:any = useRef();
+  const musicAudio:any = useRef();
+  const undoAudio:any = useRef();
+  const winAudio:any = useRef();
 
   const handleKeyDown = (key: string) => {
     if (
@@ -45,7 +49,7 @@ export function GameBoard({ game, running, setMoves, setPushes, setRunning }: IG
 
   useEffect(() => {
     if (game?.nrOfMoves()) {
-      if (game.boxJustMoved) boxAudio.current.play();
+      if (game.boxJustMoved) boxStepAudio.current.play();
       else stepAudio.current.play();
     }
   }, [game ? game.nrOfMoves() : 0]);
@@ -65,8 +69,12 @@ export function GameBoard({ game, running, setMoves, setPushes, setRunning }: IG
 
     return (
       <>
-        <audio ref={stepAudio} src={"./src/assets/step.wav"}></audio>
-        <audio ref={boxAudio} src={"./src/assets/pushbox.wav"}></audio>
+        <audio ref={stepAudio} src={"./src/assets/step.mp3"}></audio>
+        <audio ref={boxStepAudio} src={"./src/assets/box_step.mp3"}></audio>
+        <audio ref={boxPlaceAudio} src={"./src/assets/box_place.mp3"}></audio>
+        <audio ref={musicAudio} src={"./src/assets/sokoban.mp3"}></audio>
+        <audio ref={undoAudio} src={"./rsc/assets/undo.wav"}></audio>
+        <audio ref={winAudio} src={"./src/assets/win1.mp3"}></audio>
         <div
           className="game-board"
           style={{

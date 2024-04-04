@@ -9,6 +9,7 @@ import { Levels } from "./classes/Levels";
 import Header from "./components/Header";
 import StartScreen from "./components/StartScreen";
 import { GameOver } from "./components/GameOver";
+import WinScreen from "./components/WinScreen";
 
 function App() {
   const [game, setGame] = useState<GameState | null>(null);
@@ -58,6 +59,7 @@ function App() {
         />
         <GameOver running={running} levelNbr={levelNbr} />
       </section>
+      <WinScreen />
     </>
   );
 }
