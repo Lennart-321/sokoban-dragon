@@ -8,6 +8,7 @@ import { Tutorial } from "./components/Tutorial";
 import { Levels } from "./classes/Levels";
 import Header from "./components/Header";
 import { GameOver } from "./components/GameOver";
+import WinScreen from "./components/WinScreen";
 
 function App() {
   const [game, setGame] = useState<GameState | null>(null);

@@ -1,20 +1,11 @@
-import '../css/gameOver.css'
 
-export interface IGameOverProps {
-    running: boolean;
-    levelNbr: number;
-}
-
-
-export function GameOver({running, levelNbr}: IGameOverProps) {
-    // console.log('GameOver - running: ' + running);
-
-    return  !running && levelNbr > 0 ? (
+function WinScreen(){
+    return(
         <>
             <div className="win-screen">
                 <div className="win-text">
                     <h1>BRA JOBBAT!</h1>
-                    <h2>Du klarade nivå {levelNbr}!</h2>
+                    <h2>Du klarade nivå 1!</h2>
                 </div>
                 <div className="player-box">
                     <img src="./src/img/spr_player_right.png" alt="" />
@@ -22,7 +13,7 @@ export function GameOver({running, levelNbr}: IGameOverProps) {
                 </div>
             </div>
         </>
-    ) : (
-    <></>
-    )
+    );
 }
+
+export default WinScreen;

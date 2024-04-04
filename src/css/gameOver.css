@@ -1,18 +1,24 @@
-.bg-game-over {
+.win-screen {
+    width: 600px;
+    height: 500px;
+    font-family: 'RetroGame';
+    color: gold;
+    /* font-weight: bold; */
+    text-shadow: 5px 5px 10px yellow;
+    text-shadow: 0px 1px 30px yellow;
+    background-image: url('/src/img/fireworks.gif');
+    background-size: cover;
     position: absolute;
-    top: 0;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+    /*transform: translate(320px, 150px);*/
+    transform: translateY(50px);
+    box-shadow: 5px 5px 10px whitesmoke;
+    box-shadow: 0px 1px 30px whitesmoke;
 }
 
-.game-over-msg {
-    font-family: 'RetroGame';
-    color: yellow;
+.win-screen h1 {
     font-size: 60px;
-    /* font-weight: bold; */
-    text-shadow: 5px 5px 10px black;
-    text-shadow: 0px 1px 30px blac
+}
+
+.win-screen h2 {
+    font-size: 40px;
 }

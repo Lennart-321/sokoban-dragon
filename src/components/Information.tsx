@@ -80,9 +80,7 @@ export function Information({
 
     return hoursString + ":" + minutesString + ":" + secondsString;
   };
-  const score = () => {
-    return 1000 * boxesOnTargets - 5 * pushes - moves - seconds - 30 * backSteps;
-  };
+  const score = 1000 * boxesOnTargets - 5 * pushes - moves - seconds - 30 * backSteps;
 
   if (levelNbr === -1) levelNbr = 0;
 
@@ -94,7 +92,7 @@ export function Information({
         <div>Steg: {moves}</div>
         <div>Flyttar: {pushes}</div>
         <div>Ångra: {backSteps}</div>
-        <div>Poäng: {score()}</div>
+        <div>Poäng: {score < 0 ? 0 : score}</div>
       </section>
     </>
   );
