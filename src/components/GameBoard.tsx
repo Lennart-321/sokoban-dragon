@@ -29,13 +29,24 @@ export function GameBoard({
   setStartScreenTab,
 }: IGameBoardProps): JSX.Element {
   const [refresh, setRefresh] = useState(0);
+//<<<<<<< HEAD
+  const boxStepAudio: any = useRef();
+  const stepAudio: any = useRef();
+  const boxPlaceAudio:any = useRef();
+  const musicAudio:any = useRef();
+  const undoAudio:any = useRef();
+  const winAudio:any = useRef();
+//=======
+/*
   const stepAudio: any = useRef();
   const boxAudio: any = useRef();
   const targetAudio: any = useRef();
   const undoAudio: any = useRef();
   const successAudio: any = useRef();
   const backgroundAudio: any = useRef();
+  */
   const backgroundAudioStatus: MutableRefObject<"PLAYING" | "NOT_STARTED" | "STOPPED"> = useRef("NOT_STARTED");
+//>>>>>>> main
 
   const handleKeyDown = (key: string) => {
     if (running && (key === "ArrowDown" || key === "ArrowRight" || key === "ArrowLeft" || key === "ArrowUp" || key === "Backspace")) {
@@ -61,21 +72,22 @@ export function GameBoard({
 
   useEffect(() => {
     if (game?.nrOfMoves()) {
+
       switch (game.lastEvent) {
         case "PLAYER_MOVED":
           stepAudio.current.play();
           break;
         case "BOX_MOVED":
-          boxAudio.current.play();
+          boxStepAudio.current.play();
           break;
         case "BOX_MOVED_TO_TARGET":
-          targetAudio.current.play();
+          boxPlaceAudio.current.play();
           break;
         case "UNDO":
           undoAudio.current.play();
           break;
         case "GAME_SOLVED":
-          successAudio.current.play();
+          winAudio.current.play();
           break;
       }
     }
@@ -84,16 +96,16 @@ export function GameBoard({
   useEffect(() => {
     if (running) {
       if (backgroundAudioStatus.current !== "PLAYING") {
-        backgroundAudio.current.loop = true;
-        backgroundAudio.current.volume = 0.3;
+        musicAudio.current.loop = true;
+        musicAudio.current.volume = 0.3;
         //backgroundAudio.current.playbackRate = 0.3;
 
-        backgroundAudio.current.play();
+        musicAudio.current.play();
         backgroundAudioStatus.current = "PLAYING";
       }
     } else {
       if (backgroundAudioStatus.current === "PLAYING") {
-        backgroundAudio.current.pause();
+        musicAudio.current.pause();
         backgroundAudioStatus.current = "STOPPED";
       }
     }
@@ -111,12 +123,13 @@ export function GameBoard({
 
     return (
       <>
-        <audio ref={stepAudio} src={"./src/assets/step.wav"}></audio>
-        <audio ref={boxAudio} src={"./src/assets/pushbox.wav"}></audio>
-        <audio ref={targetAudio} src={"./src/assets/pushbox.wav"}></audio>
-        <audio ref={undoAudio} src={"./src/assets/step.wav"}></audio>
-        <audio ref={successAudio} src={"./src/assets/pushbox.wav"}></audio>
-        <audio ref={backgroundAudio} src={"./src/assets/pushbox.wav"}></audio>
+        <audio ref={stepAudio} src={"./src/assets/step.mp3"}></audio>
+        <audio ref={boxStepAudio} src={"./src/assets/box_step.mp3"}></audio>
+        <audio ref={boxPlaceAudio} src={"./src/assets/box_place.mp3"}></audio>
+        <audio ref={musicAudio} src={"./src/assets/sokoban.mp3"}></audio>
+        <audio ref={undoAudio} src={"./src/assets/undo.wav"}></audio>
+        <audio ref={winAudio} src={"./src/assets/win1.mp3"}></audio>
+
         <div
           className="game-board"
           style={{
@@ -133,6 +146,12 @@ export function GameBoard({
   } else {
     return (
       <>
+        <audio ref={stepAudio} src={"./src/assets/step.mp3"}></audio>
+        <audio ref={boxStepAudio} src={"./src/assets/box_step.mp3"}></audio>
+        <audio ref={boxPlaceAudio} src={"./src/assets/box_place.mp3"}></audio>
+        <audio ref={musicAudio} src={"./src/assets/sokoban.mp3"}></audio>
+        <audio ref={undoAudio} src={"./src/assets/undo.wav"}></audio>
+        <audio ref={winAudio} src={"./src/assets/win1.mp3"}></audio>
         <StartScreen setLevel={setLevel} numberOfLevels={numberOfLevels} showStartScreenTab={showStartScreenTab} setStartScreenTab={setStartScreenTab} />
         <div className="game-board-button-section">
           <button className="menu-game-button" onClick={() => setStartScreenTab(true)}>
